@@ -62,7 +62,6 @@ jobs:
             'lib/core/theme/app_colors.dart' \
             'lib/core/theme/app_theme.dart' \
             'lib/core/theme/custom_text_type.dart' \
-            'lib/core/theme/theme_cubit/*' \
             'lib/main.dart' \
             --ignore-errors unused \
             -o coverage/lcov_filtered.info
