@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ScreenWithNavbar extends StatelessWidget {
-  const ScreenWithNavbar({required this.navigationShell});
+  const ScreenWithNavbar({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
