@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_eyes/core/constants/app_strings.dart';
+import 'package:my_eyes/core/router/app_router.dart';
+import 'package:my_eyes/core/theme/app_theme.dart';
+import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final themeCubit = ThemeCubit(prefs);
+  await themeCubit.loadTheme();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [BlocProvider.value(value: themeCubit)],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -9,18 +26,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return Builder(
+      builder: (context) {
+        final themeState = context.watch<ThemeCubit>().state;
+
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: AppStrings.appName,
+          themeMode: themeState.themeMode,
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          routerConfig: AppRouter.router,
+        );
+      },
     );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text('Home Page')));
   }
 }
