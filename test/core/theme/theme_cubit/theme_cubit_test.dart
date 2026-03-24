@@ -58,8 +58,9 @@ void main() {
     blocTest<ThemeCubit, ThemeState>(
       'emits nothing and does not throw when prefs throws',
       build: () {
-        when(() => prefs.getString(AppKeys.themeModeKey))
-            .thenThrow(Exception('disk error'));
+        when(
+          () => prefs.getString(AppKeys.themeModeKey),
+        ).thenThrow(Exception('disk error'));
         return buildCubit();
       },
       act: (cubit) => cubit.loadTheme(),
@@ -73,8 +74,9 @@ void main() {
       'emits ThemeMode.light and persists to prefs',
       build: () {
         when(() => prefs.getString(any())).thenReturn(null);
-        when(() => prefs.setString(AppKeys.themeModeKey, 'light'))
-            .thenAnswer((_) async => true);
+        when(
+          () => prefs.setString(AppKeys.themeModeKey, 'light'),
+        ).thenAnswer((_) async => true);
         return buildCubit();
       },
       act: (cubit) => cubit.setLightTheme(),
@@ -90,8 +92,9 @@ void main() {
       'emits ThemeMode.dark and persists to prefs',
       build: () {
         when(() => prefs.getString(any())).thenReturn(null);
-        when(() => prefs.setString(AppKeys.themeModeKey, 'dark'))
-            .thenAnswer((_) async => true);
+        when(
+          () => prefs.setString(AppKeys.themeModeKey, 'dark'),
+        ).thenAnswer((_) async => true);
         return buildCubit();
       },
       act: (cubit) => cubit.setDarkTheme(),
@@ -107,8 +110,9 @@ void main() {
       'emits ThemeMode.system and persists to prefs',
       build: () {
         when(() => prefs.getString(any())).thenReturn(null);
-        when(() => prefs.setString(AppKeys.themeModeKey, 'system'))
-            .thenAnswer((_) async => true);
+        when(
+          () => prefs.setString(AppKeys.themeModeKey, 'system'),
+        ).thenAnswer((_) async => true);
         return buildCubit();
       },
       act: (cubit) => cubit.setSystemTheme(),
@@ -124,8 +128,9 @@ void main() {
       'still emits state even when prefs.setString throws',
       build: () {
         when(() => prefs.getString(any())).thenReturn(null);
-        when(() => prefs.setString(any(), any()))
-            .thenThrow(Exception('write error'));
+        when(
+          () => prefs.setString(any(), any()),
+        ).thenThrow(Exception('write error'));
         return buildCubit();
       },
       act: (cubit) => cubit.setDarkTheme(),

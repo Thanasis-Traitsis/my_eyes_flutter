@@ -47,14 +47,14 @@ class AppPages {
   );
 
   static final eyewearDetail = PageInfo(
-    path: ':id',                 
+    path: ':id',
     name: 'eyewearDetail',
     title: 'Eyewear Detail',
     builder: (_) => const Placeholder(),
   );
 
   static final eyewearNew = PageInfo(
-    path: 'new',                 
+    path: 'new',
     name: 'eyewearNew',
     title: 'Add Eyewear',
     builder: (_) => const Placeholder(),
