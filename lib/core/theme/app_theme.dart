@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
+import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/constants/app_text_sizes.dart';
 import 'package:my_eyes/core/theme/app_colors.dart';
@@ -99,27 +100,44 @@ class AppTheme {
         ),
       ),
 
-      // Elevated Button
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colors.primary,
-          foregroundColor: colors.white,
-          textStyle: const TextStyle(
+      // Divider
+      dividerTheme: DividerThemeData(
+        color: colors.divider,
+        thickness: AppBorders.smallBorderWidth,
+      ),
+
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colors.textPrimary,
+          backgroundColor: colors.surface,
+          textStyle: TextStyle(
             fontFamily: appFont,
             fontSize: AppTextSizes.textSizeS,
             fontWeight: FontWeight.bold,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: AppBorders.mediumBorderRadius,
+            borderRadius: AppBorders.largeBorderRadius,
           ),
-          minimumSize: const Size(double.infinity, 52),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.spacingL,
+            vertical: AppSpacing.spacingM,
+          ),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ),
 
-      // Divider
-      dividerTheme: DividerThemeData(
-        color: colors.divider,
-        thickness: AppBorders.smallBorderWidth,
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: AppBorders.mediumBorderRadius,
+              side: BorderSide(color: colors.textPrimary),
+            ),
+          ),
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          iconColor: WidgetStatePropertyAll(colors.textPrimary),
+        ),
       ),
     );
   }

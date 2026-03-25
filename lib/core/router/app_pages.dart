@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/presentation/home/screens/home_screen.dart';
 
 class PageInfo {
   final String path;
@@ -22,7 +23,7 @@ class AppPages {
     path: AppRoutes.home,
     name: 'home',
     title: 'Home',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const HomeScreen(),
   );
 
   static final eyeTest = PageInfo(
