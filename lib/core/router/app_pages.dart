@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
+import 'package:my_eyes/presentation/notifications/screens/notifications_screen.dart';
+import 'package:my_eyes/presentation/settings/screens/settings_screen.dart';
 
 class PageInfo {
   final String path;
@@ -65,14 +67,14 @@ class AppPages {
     path: AppRoutes.notifications,
     name: 'notifications',
     title: 'Notifications',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const NotificationsScreen(),
   );
 
   static final settings = PageInfo(
     path: AppRoutes.settings,
     name: 'settings',
     title: 'Settings',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const SettingsScreen(),
   );
 
   static final lensNew = PageInfo(

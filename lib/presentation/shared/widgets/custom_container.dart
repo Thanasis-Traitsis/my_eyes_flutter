@@ -53,7 +53,7 @@ class CustomContainer extends StatelessWidget {
               crossAxisAlignment: .start,
               children: [
                 Row(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: .center,
                   mainAxisSize: .max,
                   children: [
                     Expanded(
