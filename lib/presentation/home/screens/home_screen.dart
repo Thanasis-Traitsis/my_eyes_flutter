@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
+import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScreen.withBottomNavbar(
-      regularTitle: "Good Morning",
+      regularTitle: AppStrings.greetingMorning,
       subtitle: "Thanasis",
       suffixButtons: [
         IconButton(
@@ -46,21 +47,25 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           CustomContainer(
-            buttonText: "edit",
+            buttonText: AppStrings.homeButtonEdit,
             onButtonPressed: () {},
-            containerTitle: "Current prescription",
+            containerTitle: AppStrings.homeSectionPrescription,
             containerChild: Column(
               crossAxisAlignment: .start,
               children: [
-                CustomText(text: "OD (Right): -2,50 -0.75 x 180"),
-                CustomText(text: "OS (Left): -2,25 -0.50 x 170"),
+                CustomText(
+                  text: "${AppStrings.prescriptionOdRight}: -2,50 -0.75 x 180",
+                ),
+                CustomText(
+                  text: "${AppStrings.prescriptionOsLeft}: -2,25 -0.50 x 170",
+                ),
               ],
             ),
           ),
           CustomContainer(
-            buttonText: "view all",
+            buttonText: AppStrings.homeButtonViewAll,
             onButtonPressed: () {},
-            containerTitle: "my eyewear collection",
+            containerTitle: AppStrings.homeSectionEyewear,
             containerChild: CustomCarousel(
               children: [
                 Container(
@@ -92,20 +97,24 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            footerTitle: "details",
+            footerTitle: AppStrings.homeSectionDetails,
             footerContent: Column(
               crossAxisAlignment: .start,
               children: [
-                CustomText(text: "OD (Right): -2,50 -0.75 x 180"),
-                CustomText(text: "OS (Left): -2,25 -0.50 x 170"),
+                CustomText(
+                  text: "${AppStrings.prescriptionOdRight}: -2,50 -0.75 x 180",
+                ),
+                CustomText(
+                  text: "${AppStrings.prescriptionOsLeft}: -2,25 -0.50 x 170",
+                ),
               ],
             ),
           ),
           CustomContainer(
             icon: Icons.calendar_month,
-            buttonText: "add new",
+            buttonText: AppStrings.homeButtonAddNew,
             onButtonPressed: () {},
-            containerTitle: "upcoming",
+            containerTitle: AppStrings.homeSectionUpcoming,
             containerChild: Stack(
               children: [
                 Positioned(
@@ -129,11 +138,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           ShortcutCard(
-            cardTitle: "add new prescription",
+            cardTitle: AppStrings.shortcutAddPrescription,
             icon: Icons.fiber_new_outlined,
           ),
           ShortcutCard(
-            cardTitle: "add new lenses",
+            cardTitle: AppStrings.shortcutAddLenses,
             icon: Icons.fiber_new_outlined,
           ),
         ],

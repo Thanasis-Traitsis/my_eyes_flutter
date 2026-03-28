@@ -7,4 +7,6 @@ class AppSizes {
   static const double pageIndicatorHeight = 12.0;
   static const double pageIndicatorWidth = 20.0;
   static const double pageIndicatorActiveWidth = 36.0;
+
+  static const double profileAvatarSize = 60.0;
 }
