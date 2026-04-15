@@ -5,28 +5,32 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/presentation/profile/widgets/prescription_single_eye_card.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class ProfileSummary extends StatelessWidget {
-  const ProfileSummary({super.key});
+  const ProfileSummary({super.key, required this.username, this.prescription});
+
+  final String username;
+  final Prescription? prescription;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: .all(AppSpacing.spacingL),
+      padding: const EdgeInsets.all(AppSpacing.spacingL),
       decoration: BoxDecoration(
         color: context.colors.divider,
         borderRadius: AppBorders.largeBorderRadius,
       ),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         spacing: AppSpacing.spacingXL,
         children: [
           IntrinsicHeight(
             child: Row(
               spacing: AppSpacing.spacingM,
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: AppSizes.profileAvatarSize,
@@ -39,21 +43,21 @@ class ProfileSummary extends StatelessWidget {
                 Expanded(
                   child: Row(
                     spacing: AppSpacing.spacingM,
-                    mainAxisAlignment: .spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: Align(
-                          alignment: AlignmentGeometry.bottomLeft,
+                          alignment: Alignment.bottomLeft,
                           child: Column(
-                            crossAxisAlignment: .start,
-                            mainAxisAlignment: .end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               CustomText(
-                                text: "${AppStrings.profileLabelNickname}:"
+                                text: '${AppStrings.profileLabelNickname}:'
                                     .toUpperCase(),
                               ),
                               CustomText(
-                                text: 'Thanasis'.toUpperCase(),
+                                text: username.toUpperCase(),
                                 textType: CustomTextType.smallHeading,
                               ),
                             ],
@@ -61,7 +65,7 @@ class ProfileSummary extends StatelessWidget {
                         ),
                       ),
                       Align(
-                        alignment: AlignmentGeometry.topRight,
+                        alignment: Alignment.topRight,
                         child: OutlinedButton.icon(
                           iconAlignment: IconAlignment.end,
                           icon: const Icon(
@@ -80,35 +84,41 @@ class ProfileSummary extends StatelessWidget {
               ],
             ),
           ),
-          Column(
-            crossAxisAlignment: .start,
-            spacing: AppSpacing.spacingM,
+          if (prescription != null) _buildPrescriptionSection(prescription!),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPrescriptionSection(Prescription p) {
+    String formatEye(eye) => '${eye.sphere} ${eye.cylinder} x ${eye.axis}';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: AppSpacing.spacingM,
+      children: [
+        CustomText(
+          text: AppStrings.profileSectionPrescription.toUpperCase(),
+          textType: CustomTextType.smallHeading,
+        ),
+        IntrinsicHeight(
+          child: Row(
+            spacing: AppSpacing.spacingS,
             children: [
-              CustomText(
-                text: AppStrings.profileSectionPrescription.toUpperCase(),
-                textType: CustomTextType.smallHeading,
+              Expanded(
+                child: PrescriptionSingleEyeCard.isLeft(
+                  prescription: formatEye(p.leftEye),
+                ),
               ),
-              IntrinsicHeight(
-                child: Row(
-                  spacing: AppSpacing.spacingS,
-                  children: [
-                    Expanded(
-                      child: PrescriptionSingleEyeCard.isLeft(
-                        prescription: "-2,25 -0.50 x 170",
-                      ),
-                    ),
-                    Expanded(
-                      child: PrescriptionSingleEyeCard.isRight(
-                        prescription: "-2,50 -0.75 x 180",
-                      ),
-                    ),
-                  ],
+              Expanded(
+                child: PrescriptionSingleEyeCard.isRight(
+                  prescription: formatEye(p.rightEye),
                 ),
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
