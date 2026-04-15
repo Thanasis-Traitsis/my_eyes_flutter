@@ -69,7 +69,12 @@ class AppRouter {
           ),
         ],
       ),
-
+      GoRoute(
+        parentNavigatorKey: AppKeys.rootNavigatorKey,
+        path: AppRoutes.editProfile,
+        name: AppPages.editProfile.name,
+        builder: (context, state) => AppPages.editProfile.builder(context),
+      ),
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
         path: AppRoutes.notifications,

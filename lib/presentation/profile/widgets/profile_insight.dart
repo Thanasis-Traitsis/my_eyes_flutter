@@ -9,12 +9,12 @@ import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class ProfileInsight extends StatelessWidget {
-  const ProfileInsight({super.key});
+  const ProfileInsight({super.key, this.withLenses = true});
+
+  final bool withLenses;
 
   @override
   Widget build(BuildContext context) {
-    final bool withLenses = true;
-
     return CustomContainer(
       icon: Icons.data_saver_off_rounded,
       containerTitle: AppStrings.profileSectionInsight,

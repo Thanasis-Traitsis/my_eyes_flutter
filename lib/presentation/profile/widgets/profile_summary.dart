@@ -3,6 +3,8 @@ import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_sizes.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
+import 'package:my_eyes/core/router/app_pages.dart';
+import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
@@ -75,7 +77,9 @@ class ProfileSummary extends StatelessWidget {
                           label: Text(
                             AppStrings.profileButtonEdit.toUpperCase(),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            NavigationService.push(AppPages.editProfile.path);
+                          },
                         ),
                       ),
                     ],

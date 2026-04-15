@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
@@ -19,7 +18,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> loadProfile() async {
     emit(const ProfileLoading());
-    debugPrint("here");
     try {
       final profile = await _profileRepository.getProfile();
       if (profile == null) {

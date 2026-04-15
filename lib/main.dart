@@ -11,7 +11,6 @@ import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 import 'package:my_eyes/injection.dart';
-import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
