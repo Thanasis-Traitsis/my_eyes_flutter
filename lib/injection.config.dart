@@ -82,7 +82,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i645.ConnectivityCubit>(
       () => _i645.ConnectivityCubit(gh<_i586.ConnectivityService>()),
     );
-    gh.factory<_i281.ProfileCubit>(
+    gh.singleton<_i281.ProfileCubit>(
       () => _i281.ProfileCubit(
         gh<_i622.ProfileRepository>(),
         gh<_i852.PrescriptionRepository>(),

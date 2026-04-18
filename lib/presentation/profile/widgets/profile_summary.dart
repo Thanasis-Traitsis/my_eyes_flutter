@@ -6,6 +6,7 @@ import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
+import 'package:my_eyes/core/utils/prescription_extensions.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/presentation/profile/widgets/prescription_single_eye_card.dart';
@@ -95,8 +96,6 @@ class ProfileSummary extends StatelessWidget {
   }
 
   Widget _buildPrescriptionSection(Prescription p) {
-    String formatEye(eye) => '${eye.sphere} ${eye.cylinder} x ${eye.axis}';
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.spacingM,
@@ -111,12 +110,12 @@ class ProfileSummary extends StatelessWidget {
             children: [
               Expanded(
                 child: PrescriptionSingleEyeCard.isLeft(
-                  prescription: formatEye(p.leftEye),
+                  prescription: p.formattedLeft,
                 ),
               ),
               Expanded(
                 child: PrescriptionSingleEyeCard.isRight(
-                  prescription: formatEye(p.rightEye),
+                  prescription: p.formattedRight,
                 ),
               ),
             ],

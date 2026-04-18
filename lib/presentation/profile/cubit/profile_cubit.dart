@@ -8,7 +8,7 @@ import 'package:my_eyes/domain/repositories/profile_repository.dart';
 
 part 'profile_state.dart';
 
-@injectable
+@singleton
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this._profileRepository, this._prescriptionRepository)
     : super(const ProfileInitial());
