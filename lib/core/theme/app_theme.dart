@@ -4,6 +4,7 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/constants/app_text_sizes.dart';
 import 'package:my_eyes/core/theme/app_colors.dart';
+import 'package:my_eyes/core/theme/custom_text_type.dart';
 
 class AppTheme {
   static const String appFont = AppStrings.appFont;
@@ -78,6 +79,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colors.surface,
+        isDense: true,
         hintStyle: TextStyle(color: colors.textHint, fontFamily: appFont),
         border: OutlineInputBorder(
           borderRadius: AppBorders.mediumBorderRadius,
@@ -94,6 +96,12 @@ class AppTheme {
             width: AppBorders.mediumBorderWidth,
           ),
         ),
+        errorStyle: TextStyle(
+          fontFamily: appFont,
+          fontSize: AppTextSizes.textSizeXS,
+          height: 1.2,
+          color: colors.error,
+        ),
         errorBorder: OutlineInputBorder(
           borderRadius: AppBorders.mediumBorderRadius,
           borderSide: BorderSide(color: colors.error),
@@ -106,13 +114,34 @@ class AppTheme {
         thickness: AppBorders.smallBorderWidth,
       ),
 
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          foregroundColor: colors.white,
+          backgroundColor: colors.primary,
+          textStyle: TextStyle(
+            fontFamily: appFont,
+            fontSize: CustomTextType.bigButtonText.fontSize,
+            fontWeight: FontWeight.bold,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: AppBorders.smallBorderRadius,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.spacingL,
+            vertical: AppSpacing.spacingM,
+          ),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
+
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: colors.textPrimary,
           backgroundColor: colors.surface,
           textStyle: TextStyle(
             fontFamily: appFont,
-            fontSize: AppTextSizes.textSizeS,
+            fontSize: CustomTextType.regularButtonText.fontSize,
             fontWeight: FontWeight.bold,
           ),
           shape: RoundedRectangleBorder(

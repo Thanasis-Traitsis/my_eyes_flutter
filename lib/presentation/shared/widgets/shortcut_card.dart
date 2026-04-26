@@ -7,9 +7,15 @@ import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class ShortcutCard extends StatelessWidget {
-  const ShortcutCard({super.key, required this.cardTitle, required this.icon});
+  const ShortcutCard({
+    super.key,
+    required this.cardTitle,
+    this.cardSubtitle,
+    required this.icon,
+  });
 
   final String cardTitle;
+  final String? cardSubtitle;
   final IconData icon;
 
   @override
@@ -35,9 +41,16 @@ class ShortcutCard extends StatelessWidget {
                 child: Icon(icon, size: AppSizes.iconSizeL),
               ),
               Expanded(
-                child: CustomText(
-                  text: cardTitle.toUpperCase(),
-                  textType: CustomTextType.smallHeading,
+                child: Column(
+                  spacing: AppSpacing.spacingS,
+                  crossAxisAlignment: .start,
+                  children: [
+                    CustomText(
+                      text: cardTitle.toUpperCase(),
+                      textType: CustomTextType.smallHeading,
+                    ),
+                    if (cardSubtitle != null) CustomText(text: cardSubtitle!),
+                  ],
                 ),
               ),
               Icon(Icons.arrow_forward, size: AppSizes.iconSizeL),

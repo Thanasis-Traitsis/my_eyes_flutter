@@ -12,6 +12,7 @@ class AppRoutes {
   static const String eyewearNew = '/eyewear/new';
 
   static const String profile = '/profile';
+  static const String editProfile = '/edit';
 
   static const String notifications = '/notifications';
   static const String settings = '/settings';

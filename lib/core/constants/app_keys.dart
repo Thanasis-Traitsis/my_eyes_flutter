@@ -7,4 +7,9 @@ class AppKeys {
 
   static final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
+
+  static const String hiveBoxPrescriptions = 'prescriptions';
+  static const String hiveBoxProfile = 'profile';
+
+  static const String hiveProfileRecordKey = 'profile';
 }

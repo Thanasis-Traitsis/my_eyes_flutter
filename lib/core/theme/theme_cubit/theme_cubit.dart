@@ -1,12 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:my_eyes/core/constants/app_keys.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'theme_state.dart';
 
+@singleton
 class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit(this._prefs) : super(const ThemeState());
 

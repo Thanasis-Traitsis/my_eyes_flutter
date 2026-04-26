@@ -3,4 +3,5 @@ class AppTextSizes {
   static const double textSizeL = 24.0;
   static const double textSizeM = 20.0;
   static const double textSizeS = 16.0;
+  static const double textSizeXS = 14.0;
 }

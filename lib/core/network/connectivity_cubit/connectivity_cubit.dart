@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:my_eyes/core/network/connectivity_service.dart';
 
 part 'connectivity_state.dart';
 
+@singleton
 class ConnectivityCubit extends Cubit<ConnectivityState> {
   ConnectivityCubit(this._service) : super(const ConnectivityState()) {
     _init();

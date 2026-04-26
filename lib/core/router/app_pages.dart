@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
 import 'package:my_eyes/presentation/notifications/screens/notifications_screen.dart';
+import 'package:my_eyes/presentation/profile/screens/edit_profile_screen.dart';
+import 'package:my_eyes/presentation/profile/screens/profile_screen.dart';
 import 'package:my_eyes/presentation/settings/screens/settings_screen.dart';
 
 class PageInfo {
@@ -46,7 +48,14 @@ class AppPages {
     path: AppRoutes.profile,
     name: 'profile',
     title: 'Profile',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const ProfileScreen(),
+  );
+
+  static final editProfile = PageInfo(
+    path: AppRoutes.editProfile,
+    name: 'editProfile',
+    title: 'Edit Profile',
+    builder: (_) => const EditProfileScreen(),
   );
 
   static final eyewearDetail = PageInfo(
