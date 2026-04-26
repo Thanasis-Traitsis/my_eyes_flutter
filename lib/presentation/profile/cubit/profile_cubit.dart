@@ -34,24 +34,34 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateUsername(String username) async {
+  Future<void> saveProfile({
+    required String username,
+    required String email,
+    Prescription? updatedPrescription,
+  }) async {
     final current = state;
     if (current is! ProfileLoaded) return;
 
+    final updatedProfile = current.profile.copyWith(
+      username: username,
+      email: email,
+      updatedAt: DateTime.now(),
+    );
+
     try {
-      final updated = current.profile.copyWith(
-        username: username,
-        updatedAt: DateTime.now(),
-      );
-      await _profileRepository.updateProfile(updated);
+      await _profileRepository.updateProfile(updatedProfile);
+      if (updatedPrescription != null) {
+        await _prescriptionRepository.updatePrescription(updatedPrescription);
+      }
+
       emit(
         ProfileLoaded(
-          profile: updated,
-          latestPrescription: current.latestPrescription,
+          profile: updatedProfile,
+          latestPrescription: updatedPrescription ?? current.latestPrescription,
         ),
       );
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      emit(current.copyWith(saveError: e.toString()));
     }
   }
 }

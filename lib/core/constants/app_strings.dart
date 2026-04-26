@@ -42,6 +42,31 @@ class AppStrings {
   static const String profileStatTests = 'Tests';
   static const String profileStatGlasses = 'Glasses';
   static const String profileButtonEdit = 'Edit';
+  static const String profileButtonSave = 'Save';
+  static const String profileLabelEmail = 'Email';
+  static const String profileButtonEditImage = 'edit image';
+  static const String profileEditSectionPersonalDetails = 'Personal Details';
+  static const String profileEditSectionCurrentPrescription =
+      'Current Prescription';
+
+  static const String validatorInvalidUsernameEmpty =
+      'Nickname cannot be empty';
+  static String validatorInvalidUsernameShort(int minLength) =>
+      'Nickname must be at least $minLength characters';
+  static String validatorInvalidUsernameLong(int maxLength) =>
+      'Nickname cannot exceed $maxLength characters';
+  static const String validatorInvalidEmailEmpty = 'Email cannot be empty';
+  static const String validatorInvalidEmailValue =
+      'Enter a valid email address';
+  static const String validatorInvalidPrescriptionOnlyNum = 'Must be a number';
+  static const String validatorInvalidPrescriptionSphereValue =
+      'Sphere must be between -30 and +30';
+  static const String validatorInvalidPrescriptionCylinderValue =
+      'Cylinder must be between -10 and +10';
+  static const String validatorInvalidPrescriptionOnlyWholeNum =
+      'Must be a whole number';
+  static const String validatorInvalidPrescriptionAxisValue =
+      'Axis must be between 0 and 180';
 
   static const String prescriptionOdRight = 'OD (Right)';
   static const String prescriptionOsLeft = 'OS (Left)';

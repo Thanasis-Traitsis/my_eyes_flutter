@@ -26,6 +26,7 @@ void main() {
   final tProfile = UserProfile(
     id: 'u1',
     username: 'Thanasis',
+    email: 'test@email.com',
     updatedAt: tDate,
   );
 
@@ -57,7 +58,7 @@ void main() {
 
   ProfileCubit buildCubit() => ProfileCubit(profileRepo, prescriptionRepo);
 
-  group('loadProfile', () {
+  group('User loads profile', () {
     blocTest<ProfileCubit, ProfileState>(
       'emits loading then loaded with profile and prescription',
       build: () {
@@ -116,29 +117,29 @@ void main() {
     );
   });
 
-  group('updateUsername', () {
+  group('User updates profile', () {
     blocTest<ProfileCubit, ProfileState>(
-      'emits updated loaded state with new username',
+      'emits updated loaded state with new username and new email',
       build: () {
         when(() => profileRepo.updateProfile(any())).thenAnswer((_) async {});
         return buildCubit()..emit(
           ProfileLoaded(profile: tProfile, latestPrescription: tPrescription),
         );
       },
-      act: (cubit) => cubit.updateUsername('NewName'),
+      act: (cubit) =>
+          cubit.saveProfile(username: 'NewName', email: 'newemail@mail.com'),
       expect: () => [
-        isA<ProfileLoaded>().having(
-          (s) => s.profile.username,
-          'username',
-          'NewName',
-        ),
+        isA<ProfileLoaded>()
+            .having((s) => s.profile.username, 'username', 'NewName')
+            .having((s) => s.profile.email, 'email', 'newemail@mail.com'),
       ],
     );
 
     blocTest<ProfileCubit, ProfileState>(
       'does nothing when state is not loaded',
       build: () => buildCubit(),
-      act: (cubit) => cubit.updateUsername('NewName'),
+      act: (cubit) =>
+          cubit.saveProfile(username: 'NewName', email: 'newemail@mail.com'),
       expect: () => [],
     );
   });

@@ -52,7 +52,9 @@ class HomeLoadedScreen extends StatelessWidget {
           ),
           CustomContainer(
             buttonText: AppStrings.homeButtonEdit,
-            onButtonPressed: () {},
+            onButtonPressed: () {
+              NavigationService.push(AppPages.editProfile.path);
+            },
             containerTitle: AppStrings.homeSectionPrescription,
             containerChild: state.latestPrescription != null
                 ? Column(
