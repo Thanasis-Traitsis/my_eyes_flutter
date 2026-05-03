@@ -4,12 +4,14 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:my_eyes/data/models/eye_measurement_model.dart';
+import 'package:my_eyes/data/models/eyewear_item_model.dart';
 import 'package:my_eyes/data/models/prescription_model.dart';
 import 'package:my_eyes/data/models/user_profile_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(EyeMeasurementModelAdapter());
+    registerAdapter(EyewearItemModelAdapter());
     registerAdapter(PrescriptionModelAdapter());
     registerAdapter(UserProfileModelAdapter());
   }
@@ -18,6 +20,7 @@ extension HiveRegistrar on HiveInterface {
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(EyeMeasurementModelAdapter());
+    registerAdapter(EyewearItemModelAdapter());
     registerAdapter(PrescriptionModelAdapter());
     registerAdapter(UserProfileModelAdapter());
   }

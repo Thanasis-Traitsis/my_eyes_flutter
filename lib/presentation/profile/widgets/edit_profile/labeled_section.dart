@@ -26,7 +26,7 @@ class LabeledSection extends StatelessWidget {
       children: [
         CustomText(
           text: isRequired ? "${title.toUpperCase()} *" : title.toUpperCase(),
-          textType: CustomTextType.smallHeading,
+          textType: CustomTextType.regularBody,
         ),
         child,
       ],

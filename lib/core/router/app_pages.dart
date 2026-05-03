@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/presentation/eyewear/screens/eyewear_screen.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
 import 'package:my_eyes/presentation/notifications/screens/notifications_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/edit_profile_screen.dart';
@@ -41,7 +42,7 @@ class AppPages {
     path: AppRoutes.eyewear,
     name: 'eyewear',
     title: 'Eyewear',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const EyewearScreen(),
   );
 
   static final profile = PageInfo(

@@ -28,57 +28,60 @@ class EyeFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: .start,
-      spacing: AppSpacing.spacingS,
-      children: [
-        CustomText(text: "$label *", textType: CustomTextType.regularBody),
-        Row(
-          spacing: AppSpacing.spacingM,
-          children: [
-            Expanded(
-              child: ValidatedTextField(
-                controller: sphereController,
-                validator: const SphereValidator(),
-                hintText: 'Sphere',
-                keyboardType: const TextInputType.numberWithOptions(
-                  signed: true,
-                  decimal: true,
+    return Container(
+      margin: .only(top: AppSpacing.spacingM),
+      child: Column(
+        crossAxisAlignment: .start,
+        spacing: AppSpacing.spacingS,
+        children: [
+          CustomText(text: "$label *", textType: CustomTextType.regularBody),
+          Row(
+            spacing: AppSpacing.spacingM,
+            children: [
+              Expanded(
+                child: ValidatedTextField(
+                  controller: sphereController,
+                  validator: const SphereValidator(),
+                  hintText: 'Sphere',
+                  keyboardType: const TextInputType.numberWithOptions(
+                    signed: true,
+                    decimal: true,
+                  ),
+                  onValidationChanged: (isValid) =>
+                      onValidationChanged(sphereController, isValid),
                 ),
-                onValidationChanged: (isValid) =>
-                    onValidationChanged(sphereController, isValid),
               ),
-            ),
-            Expanded(
-              child: ValidatedTextField(
-                controller: cylinderController,
-                validator: const CylinderValidator(),
-                hintText: 'Cylinder',
-                keyboardType: const TextInputType.numberWithOptions(
-                  signed: true,
-                  decimal: true,
+              Expanded(
+                child: ValidatedTextField(
+                  controller: cylinderController,
+                  validator: const CylinderValidator(),
+                  hintText: 'Cylinder',
+                  keyboardType: const TextInputType.numberWithOptions(
+                    signed: true,
+                    decimal: true,
+                  ),
+                  onValidationChanged: (isValid) =>
+                      onValidationChanged(cylinderController, isValid),
                 ),
-                onValidationChanged: (isValid) =>
-                    onValidationChanged(cylinderController, isValid),
               ),
-            ),
-            Expanded(
-              child: ValidatedTextField(
-                controller: axisController,
-                validator: const AxisValidator(),
-                hintText: 'Axis',
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: const TextInputType.numberWithOptions(
-                  signed: true,
-                  decimal: true,
+              Expanded(
+                child: ValidatedTextField(
+                  controller: axisController,
+                  validator: const AxisValidator(),
+                  hintText: 'Axis',
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: const TextInputType.numberWithOptions(
+                    signed: true,
+                    decimal: true,
+                  ),
+                  onValidationChanged: (isValid) =>
+                      onValidationChanged(axisController, isValid),
                 ),
-                onValidationChanged: (isValid) =>
-                    onValidationChanged(axisController, isValid),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

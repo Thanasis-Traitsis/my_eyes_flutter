@@ -76,36 +76,39 @@ class HomeLoadedScreen extends StatelessWidget {
             buttonText: AppStrings.homeButtonViewAll,
             onButtonPressed: () {},
             containerTitle: AppStrings.homeSectionEyewear,
-            containerChild: CustomCarousel(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  padding: .all(AppSpacing.spacingXL),
-                  color: context.colors.white,
-                  child: CustomText(
-                    text: "Page 1",
-                    textType: CustomTextType.regularHeading,
+            containerChild: Container(
+              margin: .only(top: AppSpacing.spacingM),
+              child: CustomCarousel(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    padding: .all(AppSpacing.spacingXL),
+                    color: context.colors.white,
+                    child: CustomText(
+                      text: "Page 1",
+                      textType: CustomTextType.regularHeading,
+                    ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: .all(AppSpacing.spacingXL),
-                  color: context.colors.white,
-                  child: CustomText(
-                    text: "Page 2",
-                    textType: CustomTextType.regularHeading,
+                  Container(
+                    alignment: Alignment.center,
+                    padding: .all(AppSpacing.spacingXL),
+                    color: context.colors.white,
+                    child: CustomText(
+                      text: "Page 2",
+                      textType: CustomTextType.regularHeading,
+                    ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: .all(AppSpacing.spacingXL),
-                  color: context.colors.white,
-                  child: CustomText(
-                    text: "Page 3",
-                    textType: CustomTextType.regularHeading,
+                  Container(
+                    alignment: Alignment.center,
+                    padding: .all(AppSpacing.spacingXL),
+                    color: context.colors.white,
+                    child: CustomText(
+                      text: "Page 3",
+                      textType: CustomTextType.regularHeading,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             footerTitle: AppStrings.homeSectionDetails,
             footerContent: Column(
