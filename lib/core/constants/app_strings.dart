@@ -34,6 +34,7 @@ class AppStrings {
 
   static const String eyewearCarouselCardButtonEdit = 'edit';
   static const String eyewearCarouselCardDetails = 'details';
+  static const String eyewearFloatingButtonText = 'add new';
 
   static const String profileSectionInsight = 'Profile Insight';
   static const String profileSectionPrescription = 'Current Prescription';

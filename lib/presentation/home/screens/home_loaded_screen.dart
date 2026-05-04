@@ -74,7 +74,9 @@ class HomeLoadedScreen extends StatelessWidget {
           ),
           CustomContainer(
             buttonText: AppStrings.homeButtonViewAll,
-            onButtonPressed: () {},
+            onButtonPressed: () {
+              NavigationService.go(AppPages.eyewear.path);
+            },
             containerTitle: AppStrings.homeSectionEyewear,
             containerChild: Container(
               margin: .only(top: AppSpacing.spacingM),
