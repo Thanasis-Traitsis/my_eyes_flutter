@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_screen.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
 import 'package:my_eyes/presentation/notifications/screens/notifications_screen.dart';
@@ -59,20 +60,6 @@ class AppPages {
     builder: (_) => const EditProfileScreen(),
   );
 
-  static final eyewearDetail = PageInfo(
-    path: ':id',
-    name: 'eyewearDetail',
-    title: 'Eyewear Detail',
-    builder: (_) => const Placeholder(),
-  );
-
-  static final eyewearNew = PageInfo(
-    path: 'new',
-    name: 'eyewearNew',
-    title: 'Add Eyewear',
-    builder: (_) => const Placeholder(),
-  );
-
   static final notifications = PageInfo(
     path: AppRoutes.notifications,
     name: 'notifications',
@@ -85,6 +72,20 @@ class AppPages {
     name: 'settings',
     title: 'Settings',
     builder: (_) => const SettingsScreen(),
+  );
+
+  static final eyewearNew = PageInfo(
+    path: AppRoutes.eyewearNew,
+    name: 'eyewearNew',
+    title: 'Add Eyewear',
+    builder: (_) => const AddEyewearScreen(),
+  );
+
+  static final eyewearDetail = PageInfo(
+    path: ':id',
+    name: 'eyewearDetail',
+    title: 'Eyewear Detail',
+    builder: (_) => const Placeholder(),
   );
 
   static final lensNew = PageInfo(

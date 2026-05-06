@@ -16,16 +16,18 @@ class EyewearCubit extends Cubit<EyewearState> {
     emit(const EyewearLoading());
     try {
       final items = await _repository.getAll();
-      emit(EyewearLoaded(items: items, selectedIndex: 0));
+      emit(EyewearLoaded(items: items));
     } catch (e) {
       emit(EyewearError(e.toString()));
     }
   }
 
-  void selectItem(int index) {
-    final current = state;
-    if (current is! EyewearLoaded) return;
-    if (index < 0 || index >= current.items.length) return;
-    emit(current.copyWith(selectedIndex: index));
+  Future<void> addItem(EyewearItem item) async {
+    try {
+      await _repository.save(item);
+      await loadEyewear();
+    } catch (e) {
+      emit(EyewearError(e.toString()));
+    }
   }
 }

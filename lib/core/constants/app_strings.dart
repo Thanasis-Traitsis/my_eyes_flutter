@@ -34,7 +34,17 @@ class AppStrings {
 
   static const String eyewearCarouselCardButtonEdit = 'edit';
   static const String eyewearCarouselCardDetails = 'details';
+
+  static const String eyewearAddSectionDetails = 'Eyewear Details';
+  static const String eyewearAddSectionPrescription = 'Prescription';
+  static const String eyewearFieldName = 'Name';
+  static const String eyewearFieldNameHint = 'e.g. Daily Frames';
+  static const String eyewearFieldCategory = 'Category';
+  static const String eyewearButtonSave = 'Save';
+  static const String eyewearPrescriptionOptionalNote =
+      'Optional — leave blank if this eyewear has no prescription.';
   static const String eyewearFloatingButtonText = 'add new';
+  static const String prescriptionNoData = 'No data provided';
 
   static const String profileSectionInsight = 'Profile Insight';
   static const String profileSectionPrescription = 'Current Prescription';
@@ -74,6 +84,11 @@ class AppStrings {
 
   static const String prescriptionOdRight = 'OD (Right)';
   static const String prescriptionOsLeft = 'OS (Left)';
+  static const String prescriptionSphere = 'Sphere';
+  static const String prescriptionCylinder = 'Cylinder';
+  static const String prescriptionAxis = 'Axis';
+  static const String eyewearVisualSelectorHint =
+      'Pick the frame style that best matches your eyewear';
 
   static const String eyeLeft = 'left';
   static const String eyeRight = 'right';

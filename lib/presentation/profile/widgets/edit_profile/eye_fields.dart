@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
-import 'package:my_eyes/core/validators/prescription_validator.dart';
 import 'package:my_eyes/presentation/profile/controller/edit_profile_form_controller.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
-import 'package:my_eyes/presentation/shared/widgets/validated_text_field.dart';
+import 'package:my_eyes/presentation/shared/widgets/prescription_eye_field.dart';
 
 class EyeFields extends StatelessWidget {
   const EyeFields({
@@ -38,45 +36,23 @@ class EyeFields extends StatelessWidget {
           Row(
             spacing: AppSpacing.spacingM,
             children: [
-              Expanded(
-                child: ValidatedTextField(
-                  controller: sphereController,
-                  validator: const SphereValidator(),
-                  hintText: 'Sphere',
-                  keyboardType: const TextInputType.numberWithOptions(
-                    signed: true,
-                    decimal: true,
-                  ),
-                  onValidationChanged: (isValid) =>
-                      onValidationChanged(sphereController, isValid),
-                ),
+              PrescriptionField(
+                field: PrescriptionEyeField.sphere,
+                controller: sphereController,
+                isOptional: false,
+                onValidationChanged: onValidationChanged,
               ),
-              Expanded(
-                child: ValidatedTextField(
-                  controller: cylinderController,
-                  validator: const CylinderValidator(),
-                  hintText: 'Cylinder',
-                  keyboardType: const TextInputType.numberWithOptions(
-                    signed: true,
-                    decimal: true,
-                  ),
-                  onValidationChanged: (isValid) =>
-                      onValidationChanged(cylinderController, isValid),
-                ),
+              PrescriptionField(
+                field: PrescriptionEyeField.cylinder,
+                controller: cylinderController,
+                isOptional: false,
+                onValidationChanged: onValidationChanged,
               ),
-              Expanded(
-                child: ValidatedTextField(
-                  controller: axisController,
-                  validator: const AxisValidator(),
-                  hintText: 'Axis',
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  keyboardType: const TextInputType.numberWithOptions(
-                    signed: true,
-                    decimal: true,
-                  ),
-                  onValidationChanged: (isValid) =>
-                      onValidationChanged(axisController, isValid),
-                ),
+              PrescriptionField(
+                field: PrescriptionEyeField.axis,
+                controller: axisController,
+                isOptional: false,
+                onValidationChanged: onValidationChanged,
               ),
             ],
           ),

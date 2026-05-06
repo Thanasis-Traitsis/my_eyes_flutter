@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
+import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_empty_view.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_loaded_view.dart';
@@ -24,19 +25,16 @@ class EyewearScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 ),
                 EyewearError(:final message) => Center(child: Text(message)),
-                EyewearLoaded(:final items, :final selectedIndex) =>
+                EyewearLoaded(:final items) =>
                   items.isEmpty
                       ? const EmptyEyewearView()
-                      : EyewearLoadedView(
-                          items: items,
-                          selectedIndex: selectedIndex,
-                        ),
+                      : EyewearLoadedView(items: items),
               },
             ),
             FloatingButtonSection(
               buttonText: AppStrings.eyewearFloatingButtonText,
               buttonIcon: Icons.add,
-              onTap: () {},
+              onTap: () => NavigationService.push(AppPages.eyewearNew.path),
             ),
           ],
         );

@@ -16,23 +16,16 @@ class EyewearLoading extends EyewearState {
 }
 
 final class EyewearLoaded extends EyewearState {
-  const EyewearLoaded({required this.items, required this.selectedIndex});
+  const EyewearLoaded({required this.items});
 
   final List<EyewearItem> items;
-  final int selectedIndex;
-
-  EyewearItem? get selectedItem =>
-      items.isNotEmpty ? items[selectedIndex] : null;
 
   EyewearLoaded copyWith({List<EyewearItem>? items, int? selectedIndex}) {
-    return EyewearLoaded(
-      items: items ?? this.items,
-      selectedIndex: selectedIndex ?? this.selectedIndex,
-    );
+    return EyewearLoaded(items: items ?? this.items);
   }
 
   @override
-  List<Object?> get props => [items, selectedIndex];
+  List<Object?> get props => [items];
 }
 
 class EyewearError extends EyewearState {

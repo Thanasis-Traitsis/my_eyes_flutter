@@ -9,7 +9,7 @@ class AppRoutes {
 
   static const String eyewear = '/eyewear';
   static const String eyewearDetail = '/eyewear/:id';
-  static const String eyewearNew = '/eyewear/new';
+  static const String eyewearNew = '/new-eyewear';
 
   static const String profile = '/profile';
   static const String editProfile = '/edit';

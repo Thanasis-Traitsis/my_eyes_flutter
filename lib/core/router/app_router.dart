@@ -41,20 +41,6 @@ class AppRouter {
                 path: AppRoutes.eyewear,
                 name: AppPages.eyewear.name,
                 builder: (context, state) => AppPages.eyewear.builder(context),
-                routes: [
-                  GoRoute(
-                    path: AppPages.eyewearNew.path,
-                    name: AppPages.eyewearNew.name,
-                    builder: (context, state) =>
-                        AppPages.eyewearNew.builder(context),
-                  ),
-                  GoRoute(
-                    path: AppPages.eyewearDetail.path,
-                    name: AppPages.eyewearDetail.name,
-                    builder: (context, state) =>
-                        AppPages.eyewearDetail.builder(context),
-                  ),
-                ],
               ),
             ],
           ),
@@ -89,10 +75,11 @@ class AppRouter {
       ),
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
-        path: AppRoutes.lensNew,
-        name: AppPages.lensNew.name,
-        builder: (context, state) => AppPages.lensNew.builder(context),
+        path: AppRoutes.eyewearNew,
+        name: AppPages.eyewearNew.name,
+        builder: (context, state) => AppPages.eyewearNew.builder(context),
       ),
+      // ============================
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
         path: AppRoutes.lensDetail,

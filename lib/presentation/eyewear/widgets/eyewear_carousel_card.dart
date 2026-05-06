@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
-import 'package:my_eyes/core/utils/prescription_extensions.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
-import 'package:my_eyes/domain/enums/eyewear_category.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eye_side_toggle.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
+import 'package:my_eyes/presentation/shared/widgets/prescription_footer_details.dart';
 
 class EyewearCarouselCard extends StatefulWidget {
   const EyewearCarouselCard({
@@ -91,24 +90,8 @@ class _EyewearCarouselCardState extends State<EyewearCarouselCard> {
           ),
         ],
       ),
-      footerTitle: prescription != null
-          ? AppStrings.eyewearCarouselCardDetails
-          : null,
-      footerContent: prescription != null
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text:
-                      '${AppStrings.prescriptionOdRight}: ${prescription.formattedRight}',
-                ),
-                CustomText(
-                  text:
-                      '${AppStrings.prescriptionOsLeft}: ${prescription.formattedLeft}',
-                ),
-              ],
-            )
-          : null,
+      footerTitle: AppStrings.eyewearCarouselCardDetails,
+      footerContent: PrescriptionFooterDetails(prescription: prescription),
     );
   }
 }
