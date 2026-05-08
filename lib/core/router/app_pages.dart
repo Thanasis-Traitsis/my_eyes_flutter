@@ -81,6 +81,13 @@ class AppPages {
     builder: (_) => const AddEyewearScreen(),
   );
 
+  static final eyewearEdit = PageInfo(
+    path: AppRoutes.eyewearEdit,
+    name: 'eyewearEdit',
+    title: 'Edit Eyewear',
+    builder: (_) => const AddEyewearScreen(),
+  );
+
   static final eyewearDetail = PageInfo(
     path: ':id',
     name: 'eyewearDetail',

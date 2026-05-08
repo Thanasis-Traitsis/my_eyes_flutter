@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
+import 'package:my_eyes/core/router/app_pages.dart';
+import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eye_side_toggle.dart';
@@ -10,14 +12,9 @@ import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 import 'package:my_eyes/presentation/shared/widgets/prescription_footer_details.dart';
 
 class EyewearCarouselCard extends StatefulWidget {
-  const EyewearCarouselCard({
-    super.key,
-    required this.item,
-    required this.onEditPressed,
-  });
+  const EyewearCarouselCard({super.key, required this.item});
 
   final EyewearItem item;
-  final VoidCallback onEditPressed;
 
   @override
   State<EyewearCarouselCard> createState() => _EyewearCarouselCardState();
@@ -38,7 +35,10 @@ class _EyewearCarouselCardState extends State<EyewearCarouselCard> {
 
     return CustomContainer(
       buttonText: AppStrings.eyewearCarouselCardButtonEdit,
-      onButtonPressed: widget.onEditPressed,
+      onButtonPressed: () => NavigationService.pushNamed(
+        AppPages.eyewearEdit.name,
+        extra: widget.item,
+      ),
       containerTitle: widget.item.category.label,
       containerChild: Column(
         children: [

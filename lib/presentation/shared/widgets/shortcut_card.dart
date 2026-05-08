@@ -12,11 +12,13 @@ class ShortcutCard extends StatelessWidget {
     required this.cardTitle,
     this.cardSubtitle,
     required this.icon,
+    required this.onTap,
   });
 
   final String cardTitle;
   final String? cardSubtitle;
   final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class ShortcutCard extends StatelessWidget {
       color: context.colors.divider,
       borderRadius: AppBorders.largeBorderRadius,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         borderRadius: AppBorders.largeBorderRadius,
         child: Padding(
           padding: .all(AppSpacing.spacingL),

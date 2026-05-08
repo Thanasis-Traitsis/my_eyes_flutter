@@ -5,6 +5,7 @@ import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/core/validators/username_validator.dart';
+import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/presentation/eyewear/controller/add_eyewear_form_controller.dart';
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_category_dropdown.dart';
@@ -19,7 +20,10 @@ import 'package:my_eyes/presentation/shared/widgets/validated_text_field.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 
 class AddEyewearScreen extends StatefulWidget {
-  const AddEyewearScreen({super.key});
+  const AddEyewearScreen({super.key, this.eyewearItem, this.category});
+
+  final EyewearItem? eyewearItem;
+  final EyewearCategory? category;
 
   @override
   State<AddEyewearScreen> createState() => _AddEyewearScreenState();
@@ -30,12 +34,17 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
   bool _hasInput = false;
   int _selectedOptionIndex = 0;
 
+  bool get _isEditing => widget.eyewearItem != null;
   bool get _canSave => _hasInput && _form.isFormValid;
 
   @override
   void initState() {
     super.initState();
-    _form = AddEyewearFormController();
+    _form = _isEditing
+        ? AddEyewearFormController.fromItem(widget.eyewearItem!)
+        : AddEyewearFormController(widget.category);
+    _hasInput = _form.name.text.trim().isNotEmpty;
+    _selectedOptionIndex = _form.selectedOptionIndex;
     for (final c in _form.allControllers) {
       c.addListener(_onFieldChanged);
     }
@@ -56,15 +65,24 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
   }
 
   void _save() {
-    context.read<EyewearCubit>().addItem(_form.buildItem());
+    final item = _form.buildItem(existing: widget.eyewearItem);
+    if (_isEditing) {
+      context.read<EyewearCubit>().updateItem(item);
+    } else {
+      context.read<EyewearCubit>().addItem(item);
+    }
     NavigationService.pop();
   }
 
   void _onCategoryChanged(EyewearCategory category) {
-    setState(() {
-      _form.selectedCategory = category;
-      _selectedOptionIndex = 0;
-    });
+    final isRestoringOriginal = category == widget.eyewearItem?.category;
+    final restoredIndex = isRestoringOriginal
+        ? widget.eyewearItem!.selectedOptionIndex
+        : 0;
+
+    _form.selectedCategory = category;
+    _form.selectedOptionIndex = restoredIndex;
+    setState(() => _selectedOptionIndex = restoredIndex);
   }
 
   @override
@@ -73,7 +91,9 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
       child: Stack(
         children: [
           FullScreenWithTitle(
-            currentPage: AppPages.eyewearNew,
+            currentPage: _isEditing
+                ? AppPages.eyewearEdit
+                : AppPages.eyewearNew,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: AppSpacing.spacingM,
@@ -117,8 +137,10 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
                   containerChild: EyewearVisualSelector(
                     category: _form.selectedCategory,
                     selectedIndex: _selectedOptionIndex,
-                    onSelected: (index) =>
-                        setState(() => _selectedOptionIndex = index),
+                    onSelected: (index) => setState(() {
+                      _selectedOptionIndex = index;
+                      _form.selectedOptionIndex = index;
+                    }),
                   ),
                 ),
                 CustomContainer(

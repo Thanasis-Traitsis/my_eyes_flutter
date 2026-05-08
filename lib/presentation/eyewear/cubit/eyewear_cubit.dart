@@ -30,4 +30,13 @@ class EyewearCubit extends Cubit<EyewearState> {
       emit(EyewearError(e.toString()));
     }
   }
+
+  Future<void> updateItem(EyewearItem item) async {
+    try {
+      await _repository.update(item);
+      await loadEyewear();
+    } catch (e) {
+      emit(EyewearError(e.toString()));
+    }
+  }
 }

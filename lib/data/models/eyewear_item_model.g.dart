@@ -21,6 +21,7 @@ class EyewearItemModelAdapter extends TypeAdapter<EyewearItemModel> {
       name: fields[1] as String,
       categoryIndex: (fields[2] as num).toInt(),
       updatedAt: fields[3] as DateTime,
+      selectedOptionIndex: fields[6] == null ? 0 : (fields[6] as num).toInt(),
       prescription: fields[4] as PrescriptionModel?,
       pendingSync: fields[5] == null ? true : fields[5] as bool,
     );
@@ -29,7 +30,7 @@ class EyewearItemModelAdapter extends TypeAdapter<EyewearItemModel> {
   @override
   void write(BinaryWriter writer, EyewearItemModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class EyewearItemModelAdapter extends TypeAdapter<EyewearItemModel> {
       ..writeByte(4)
       ..write(obj.prescription)
       ..writeByte(5)
-      ..write(obj.pendingSync);
+      ..write(obj.pendingSync)
+      ..writeByte(6)
+      ..write(obj.selectedOptionIndex);
   }
 
   @override

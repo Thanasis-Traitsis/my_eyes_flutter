@@ -12,6 +12,7 @@ class EyewearItemModel extends HiveObject {
     required this.name,
     required this.categoryIndex,
     required this.updatedAt,
+    this.selectedOptionIndex = 0,
     this.prescription,
     this.pendingSync = true,
   });
@@ -22,6 +23,7 @@ class EyewearItemModel extends HiveObject {
   @HiveField(1)
   String name;
 
+  /// Stored as the enum index for Hive compatibility.
   @HiveField(2)
   int categoryIndex;
 
@@ -34,11 +36,15 @@ class EyewearItemModel extends HiveObject {
   @HiveField(5)
   bool pendingSync;
 
+  @HiveField(6)
+  int selectedOptionIndex;
+
   EyewearItem toEntity() => EyewearItem(
     id: id,
     name: name,
     category: EyewearCategory.values[categoryIndex],
     updatedAt: updatedAt,
+    selectedOptionIndex: selectedOptionIndex,
     prescription: prescription?.toEntity(),
   );
 
@@ -47,6 +53,7 @@ class EyewearItemModel extends HiveObject {
     name: item.name,
     categoryIndex: item.category.index,
     updatedAt: item.updatedAt,
+    selectedOptionIndex: item.selectedOptionIndex,
     prescription: item.prescription != null
         ? PrescriptionModel.fromEntity(item.prescription!)
         : null,

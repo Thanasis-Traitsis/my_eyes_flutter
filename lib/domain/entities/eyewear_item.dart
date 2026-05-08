@@ -8,6 +8,7 @@ class EyewearItem extends Equatable {
     required this.name,
     required this.category,
     required this.updatedAt,
+    this.selectedOptionIndex = 0,
     this.prescription,
   });
 
@@ -15,6 +16,7 @@ class EyewearItem extends Equatable {
   final String name;
   final EyewearCategory category;
   final DateTime updatedAt;
+  final int selectedOptionIndex;
   final Prescription? prescription;
 
   EyewearItem copyWith({
@@ -22,6 +24,7 @@ class EyewearItem extends Equatable {
     String? name,
     EyewearCategory? category,
     DateTime? updatedAt,
+    int? selectedOptionIndex,
     Prescription? prescription,
   }) {
     return EyewearItem(
@@ -29,10 +32,18 @@ class EyewearItem extends Equatable {
       name: name ?? this.name,
       category: category ?? this.category,
       updatedAt: updatedAt ?? this.updatedAt,
+      selectedOptionIndex: selectedOptionIndex ?? this.selectedOptionIndex,
       prescription: prescription ?? this.prescription,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, category, updatedAt, prescription];
+  List<Object?> get props => [
+    id,
+    name,
+    category,
+    updatedAt,
+    selectedOptionIndex,
+    prescription,
+  ];
 }

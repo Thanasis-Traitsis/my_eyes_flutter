@@ -16,7 +16,7 @@ class EyewearLoadedView extends StatefulWidget {
 }
 
 class _EyewearLoadedViewState extends State<EyewearLoadedView> {
-  int _selectedIndex = 0;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +24,14 @@ class _EyewearLoadedViewState extends State<EyewearLoadedView> {
       spacing: AppSpacing.spacingM,
       children: [
         CustomCarousel(
-          onPageChanged: (index) => setState(() => _selectedIndex = index),
+          onPageChanged: (index) => setState(() => _currentIndex = index),
           children: [
-            for (final item in widget.items)
-              EyewearCarouselCard(
-                item: item,
-                onEditPressed: () {
-                  debugPrint("$_selectedIndex");
-                },
-              ),
+            for (final item in widget.items) EyewearCarouselCard(item: item),
           ],
         ),
         CustomContainer(
           icon: Icons.history,
-          containerTitle: 'test history',
+          containerTitle: 'test history — ${widget.items[_currentIndex].name}',
           containerChild: Column(
             spacing: AppSpacing.spacingM,
             children: const [

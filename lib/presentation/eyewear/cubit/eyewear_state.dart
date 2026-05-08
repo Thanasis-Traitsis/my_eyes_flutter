@@ -20,7 +20,7 @@ final class EyewearLoaded extends EyewearState {
 
   final List<EyewearItem> items;
 
-  EyewearLoaded copyWith({List<EyewearItem>? items, int? selectedIndex}) {
+  EyewearLoaded copyWith({List<EyewearItem>? items}) {
     return EyewearLoaded(items: items ?? this.items);
   }
 

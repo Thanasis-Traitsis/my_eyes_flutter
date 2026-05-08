@@ -5,7 +5,7 @@ import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 
 class AddEyewearFormController {
-  AddEyewearFormController() {
+  AddEyewearFormController([EyewearCategory? category]) {
     name = TextEditingController();
     sphereRight = TextEditingController();
     cylinderRight = TextEditingController();
@@ -13,6 +13,29 @@ class AddEyewearFormController {
     sphereLeft = TextEditingController();
     cylinderLeft = TextEditingController();
     axisLeft = TextEditingController();
+    selectedCategory = category ?? EyewearCategory.nearSightedGlasses;
+    selectedOptionIndex = 0;
+  }
+
+  AddEyewearFormController.fromItem(EyewearItem item) {
+    final rx = item.prescription;
+    name = TextEditingController(text: item.name);
+    sphereRight = TextEditingController(
+      text: rx?.rightEye.sphere.toString() ?? '',
+    );
+    cylinderRight = TextEditingController(
+      text: rx?.rightEye.cylinder.toString() ?? '',
+    );
+    axisRight = TextEditingController(text: rx?.rightEye.axis.toString() ?? '');
+    sphereLeft = TextEditingController(
+      text: rx?.leftEye.sphere.toString() ?? '',
+    );
+    cylinderLeft = TextEditingController(
+      text: rx?.leftEye.cylinder.toString() ?? '',
+    );
+    axisLeft = TextEditingController(text: rx?.leftEye.axis.toString() ?? '');
+    selectedCategory = item.category;
+    selectedOptionIndex = item.selectedOptionIndex;
   }
 
   late final TextEditingController name;
@@ -23,7 +46,8 @@ class AddEyewearFormController {
   late final TextEditingController cylinderLeft;
   late final TextEditingController axisLeft;
 
-  EyewearCategory selectedCategory = EyewearCategory.nearSightedGlasses;
+  late EyewearCategory selectedCategory;
+  late int selectedOptionIndex;
 
   final Map<TextEditingController, bool> _validityMap = {};
 
@@ -55,38 +79,41 @@ class AddEyewearFormController {
   bool get hasPrescriptionData =>
       prescriptionControllers.any((c) => c.text.trim().isNotEmpty);
 
-  EyewearItem buildItem() {
+  /// Builds the [EyewearItem] from the current form state.
+  /// Pass [existing] when editing so the original [id] is preserved.
+  EyewearItem buildItem({EyewearItem? existing}) {
     final now = DateTime.now();
 
     Prescription? prescription;
     if (hasPrescriptionData) {
       prescription = Prescription(
-        id: 'rx-${now.millisecondsSinceEpoch}',
+        id: existing?.prescription?.id ?? 'rx-${now.millisecondsSinceEpoch}',
         label: name.text.trim(),
-        issueDate: now,
+        issueDate: existing?.prescription?.issueDate ?? now,
         rightEye: EyeMeasurement(
           sphere: double.tryParse(sphereRight.text) ?? 0,
           cylinder: double.tryParse(cylinderRight.text) ?? 0,
           axis: int.tryParse(axisRight.text) ?? 0,
-          addition: 0,
-          pd: 0,
+          addition: existing?.prescription?.rightEye.addition ?? 0,
+          pd: existing?.prescription?.rightEye.pd ?? 0,
         ),
         leftEye: EyeMeasurement(
           sphere: double.tryParse(sphereLeft.text) ?? 0,
           cylinder: double.tryParse(cylinderLeft.text) ?? 0,
           axis: int.tryParse(axisLeft.text) ?? 0,
-          addition: 0,
-          pd: 0,
+          addition: existing?.prescription?.leftEye.addition ?? 0,
+          pd: existing?.prescription?.leftEye.pd ?? 0,
         ),
         updatedAt: now,
       );
     }
 
     return EyewearItem(
-      id: 'eyewear-${now.millisecondsSinceEpoch}',
+      id: existing?.id ?? 'eyewear-${now.millisecondsSinceEpoch}',
       name: name.text.trim(),
       category: selectedCategory,
       updatedAt: now,
+      selectedOptionIndex: selectedOptionIndex,
       prescription: prescription,
     );
   }

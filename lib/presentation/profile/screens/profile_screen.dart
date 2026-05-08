@@ -33,10 +33,12 @@ class ProfileScreen extends StatelessWidget {
                 cardTitle: AppStrings.shortcutCalendarEvents,
                 cardSubtitle: '3 upcoming events',
                 icon: Icons.calendar_month_outlined,
+                onTap: () {},
               ),
               ShortcutCard(
                 cardTitle: AppStrings.shortcutPrescriptionHistory,
                 icon: Icons.history_outlined,
+                onTap: () {},
               ),
             ],
           ),
