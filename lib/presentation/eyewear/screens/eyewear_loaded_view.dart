@@ -26,7 +26,6 @@ class _EyewearLoadedViewState extends State<EyewearLoadedView> {
         0,
         double.maxFinite.toInt(),
       );
-      print(_currentIndex);
     }
   }
 
