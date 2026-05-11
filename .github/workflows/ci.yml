@@ -63,6 +63,15 @@ jobs:
             'lib/core/theme/app_theme.dart' \
             'lib/core/theme/custom_text_type.dart' \
             'lib/main.dart' \
+            'lib/injection.dart' \
+            'lib/injection.config.dart' \
+            'lib/hive_registrar.g.dart' \
+            'lib/data/models/*.g.dart' \
+            'lib/data/models/*.dart' \
+            'lib/domain/entities/*.dart' \
+            'lib/domain/enums/*.dart' \
+            'lib/core/storage/hive_setup.dart' \
+            'lib/core/dev/dev_seeder.dart' \
             --ignore-errors unused \
             -o coverage/lcov_filtered.info
 

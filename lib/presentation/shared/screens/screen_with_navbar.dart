@@ -11,16 +11,18 @@ class ScreenWithNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          navigationShell,
-          Positioned(
-            left: AppSpacing.spacingL,
-            right: AppSpacing.spacingL,
-            bottom: AppSpacing.spacingL + MediaQuery.of(context).padding.bottom,
-            child: BottomNavbar(navigationShell: navigationShell),
-          ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            navigationShell,
+            Positioned(
+              left: AppSpacing.spacingL,
+              right: AppSpacing.spacingL,
+              bottom: AppSpacing.spacingM,
+              child: BottomNavbar(navigationShell: navigationShell),
+            ),
+          ],
+        ),
       ),
     );
   }

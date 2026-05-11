@@ -114,6 +114,34 @@ class AppTheme {
         thickness: AppBorders.smallBorderWidth,
       ),
 
+      dialogTheme: DialogThemeData(
+        insetPadding: .all(AppSpacing.spacingXL),
+        shape: RoundedRectangleBorder(
+          borderRadius: AppBorders.largeBorderRadius,
+        ),
+      ),
+
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: colors.primary,
+          backgroundColor: colors.white,
+          textStyle: TextStyle(
+            fontFamily: appFont,
+            fontSize: CustomTextType.bigButtonText.fontSize,
+            fontWeight: FontWeight.bold,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: AppBorders.smallBorderRadius,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.spacingL,
+            vertical: AppSpacing.spacingM,
+          ),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
+
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           foregroundColor: colors.white,

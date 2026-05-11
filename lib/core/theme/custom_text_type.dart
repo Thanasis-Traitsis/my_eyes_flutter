@@ -7,7 +7,9 @@ enum CustomTextType {
   bigHeading,
   regularHeading,
   smallHeading,
+  extraSmallHeading,
   regularBody,
+  smallBody,
   bigButtonText,
   regularButtonText,
 }
@@ -19,13 +21,15 @@ extension CustomFontSize on CustomTextType {
     CustomTextType.bigButtonText => AppTextSizes.textSizeL,
     CustomTextType.smallHeading => AppTextSizes.textSizeM,
     CustomTextType.regularBody ||
+    CustomTextType.extraSmallHeading ||
     CustomTextType.regularButtonText => AppTextSizes.textSizeS,
+    CustomTextType.smallBody => AppTextSizes.textSizeXS,
   };
 }
 
 extension CustomFontWeight on CustomTextType {
   FontWeight get fontWeight => switch (this) {
-    CustomTextType.regularBody => FontWeight.normal,
+    CustomTextType.regularBody || CustomTextType.smallBody => FontWeight.normal,
     _ => FontWeight.bold,
   };
 }
@@ -35,7 +39,7 @@ extension CustomFontFamily on CustomTextType {
 }
 
 extension CustomTextStyle on CustomTextType {
-  TextStyle getTextStyle(BuildContext context, {bool isItalic = false}) {
+  TextStyle getTextStyle(BuildContext context, bool isItalic, {Color? color}) {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     return TextStyle(
@@ -43,7 +47,7 @@ extension CustomTextStyle on CustomTextType {
       fontSize: fontSize,
       fontWeight: fontWeight,
       fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
-      color: appColors.textPrimary,
+      color: color ?? appColors.textPrimary,
       height: 1.2,
       leadingDistribution: TextLeadingDistribution.even,
       fontFeatures: const [FontFeature.tabularFigures()],

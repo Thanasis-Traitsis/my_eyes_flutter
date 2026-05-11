@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
-import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/core/validators/email_validator.dart';
 import 'package:my_eyes/core/validators/username_validator.dart';
 import 'package:my_eyes/presentation/profile/controller/edit_profile_form_controller.dart';
@@ -16,6 +14,7 @@ import 'package:my_eyes/presentation/profile/widgets/edit_profile/prescription_s
 import 'package:my_eyes/presentation/shared/screens/dismiss_keyboard.dart';
 import 'package:my_eyes/presentation/shared/screens/full_screen_with_title.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
+import 'package:my_eyes/presentation/shared/widgets/sticky_bottom_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/validated_text_field.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -161,13 +160,10 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                   ),
                 Opacity(
                   opacity: 0,
-                  child: Container(
-                    color: context.colors.background,
-                    padding: .symmetric(vertical: AppSpacing.spacingL),
-                    child: FilledButton(
-                      onPressed: _canSave ? _save : null,
-                      child: Text(AppStrings.profileButtonSave.toUpperCase()),
-                    ),
+                  child: StickyBottomButton(
+                    buttonText: AppStrings.profileButtonSave,
+                    isEnabled: _canSave,
+                    onTap: _save,
                   ),
                 ),
               ],
@@ -177,24 +173,10 @@ class _EditProfileContentState extends State<_EditProfileContent> {
             left: 0,
             right: 0,
             bottom: MediaQuery.of(context).padding.bottom,
-            child: Container(
-              padding: .symmetric(
-                horizontal: AppSpacing.spacingM,
-                vertical: AppSpacing.spacingL,
-              ),
-              decoration: BoxDecoration(
-                color: context.colors.background,
-                border: Border(
-                  top: BorderSide(
-                    width: AppBorders.smallBorderWidth,
-                    color: context.colors.black.withValues(alpha: 0.4),
-                  ),
-                ),
-              ),
-              child: FilledButton(
-                onPressed: _canSave ? _save : null,
-                child: Text(AppStrings.profileButtonSave.toUpperCase()),
-              ),
+            child: StickyBottomButton(
+              buttonText: AppStrings.profileButtonSave,
+              isEnabled: _canSave,
+              onTap: _save,
             ),
           ),
         ],

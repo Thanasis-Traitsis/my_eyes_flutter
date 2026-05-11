@@ -5,8 +5,9 @@ import 'package:my_eyes/presentation/shared/widgets/carousel/carousel_page_indic
 
 class CustomCarousel extends StatefulWidget {
   final List<Widget> children;
+  final ValueChanged<int>? onPageChanged;
 
-  const CustomCarousel({super.key, required this.children});
+  const CustomCarousel({super.key, required this.children, this.onPageChanged});
 
   @override
   State<CustomCarousel> createState() => _CustomCarouselState();
@@ -26,6 +27,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
                 .round();
         if (page != _currentPage) {
           setState(() => _currentPage = page);
+          widget.onPageChanged?.call(page);
         }
       }
     });
@@ -44,7 +46,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
       spacing: AppSpacing.spacingS,
       children: [
         Container(
-          margin: .symmetric(vertical: AppSpacing.spacingM),
+          margin: .only(bottom: AppSpacing.spacingM),
           child: LayoutBuilder(
             builder: (context, constraints) {
               return SingleChildScrollView(

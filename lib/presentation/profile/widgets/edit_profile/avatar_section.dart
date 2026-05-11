@@ -20,7 +20,6 @@ class AvatarSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.colors.white,
             borderRadius: AppBorders.mediumBorderRadius,
-            border: Border.all(width: AppBorders.smallBorderWidth),
           ),
         ),
         OutlinedButton.icon(

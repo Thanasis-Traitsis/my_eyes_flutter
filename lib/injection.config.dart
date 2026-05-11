@@ -17,20 +17,27 @@ import 'package:my_eyes/core/network/connectivity_cubit/connectivity_cubit.dart'
     as _i645;
 import 'package:my_eyes/core/network/connectivity_service.dart' as _i586;
 import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart' as _i1000;
+import 'package:my_eyes/data/datasources/eyewear_local_datasource.dart'
+    as _i356;
 import 'package:my_eyes/data/datasources/prescription_local_datasource.dart'
     as _i844;
 import 'package:my_eyes/data/datasources/profile_local_datasource.dart'
     as _i776;
+import 'package:my_eyes/data/models/eyewear_item_model.dart' as _i232;
 import 'package:my_eyes/data/models/prescription_model.dart' as _i369;
 import 'package:my_eyes/data/models/user_profile_model.dart' as _i534;
+import 'package:my_eyes/data/repositories/eyewear_repository_impl.dart'
+    as _i361;
 import 'package:my_eyes/data/repositories/prescription_repository_impl.dart'
     as _i683;
 import 'package:my_eyes/data/repositories/profile_repository_impl.dart'
     as _i183;
+import 'package:my_eyes/domain/repositories/eyewear_repository.dart' as _i179;
 import 'package:my_eyes/domain/repositories/prescription_repository.dart'
     as _i852;
 import 'package:my_eyes/domain/repositories/profile_repository.dart' as _i622;
 import 'package:my_eyes/injection.dart' as _i122;
+import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart' as _i760;
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart' as _i281;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
@@ -55,6 +62,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.profileBox,
       preResolve: true,
     );
+    await gh.singletonAsync<_i738.Box<_i232.EyewearItemModel>>(
+      () => registerModule.eyewearBox,
+      preResolve: true,
+    );
     gh.lazySingleton<_i844.PrescriptionLocalDataSource>(
       () => _i844.HivePrescriptionLocalDataSource(
         gh<_i738.Box<_i369.PrescriptionModel>>(),
@@ -62,6 +73,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i586.ConnectivityService>(
       () => _i586.ConnectivityService(gh<_i895.Connectivity>()),
+    );
+    gh.lazySingleton<_i356.EyewearLocalDataSource>(
+      () => _i356.HiveEyewearLocalDataSource(
+        gh<_i738.Box<_i232.EyewearItemModel>>(),
+      ),
     );
     gh.lazySingleton<_i776.ProfileLocalDataSource>(
       () => _i776.HiveProfileLocalDataSource(
@@ -75,6 +91,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i683.PrescriptionRepositoryImpl(
         gh<_i844.PrescriptionLocalDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i179.EyewearRepository>(
+      () => _i361.EyewearRepositoryImpl(gh<_i356.EyewearLocalDataSource>()),
+    );
+    gh.singleton<_i760.EyewearCubit>(
+      () => _i760.EyewearCubit(gh<_i179.EyewearRepository>()),
     );
     gh.lazySingleton<_i622.ProfileRepository>(
       () => _i183.ProfileRepositoryImpl(gh<_i776.ProfileLocalDataSource>()),

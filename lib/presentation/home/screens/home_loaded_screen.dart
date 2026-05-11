@@ -3,15 +3,14 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
-import 'package:my_eyes/core/theme/custom_text_type.dart';
-import 'package:my_eyes/core/utils/prescription_extensions.dart';
-import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/domain/enums/eyewear_category.dart';
+import 'package:my_eyes/presentation/home/widgets/home_current_prescription.dart';
+import 'package:my_eyes/presentation/home/widgets/home_eyewear_collection.dart';
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
 import 'package:my_eyes/presentation/shared/screens/custom_screen.dart';
 import 'package:my_eyes/presentation/shared/widgets/calendar/date_and_event.dart';
 import 'package:my_eyes/presentation/shared/widgets/calendar/dotted_line_painter.dart';
 import 'package:my_eyes/presentation/shared/widgets/calendar/month_tag.dart';
-import 'package:my_eyes/presentation/shared/widgets/carousel/custom_carousel.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 import 'package:my_eyes/presentation/shared/widgets/shortcut_card.dart';
@@ -50,76 +49,8 @@ class HomeLoadedScreen extends StatelessWidget {
               text: "Random notification description text",
             ),
           ),
-          CustomContainer(
-            buttonText: AppStrings.homeButtonEdit,
-            onButtonPressed: () {
-              NavigationService.push(AppPages.editProfile.path);
-            },
-            containerTitle: AppStrings.homeSectionPrescription,
-            containerChild: state.latestPrescription != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text:
-                            "${AppStrings.prescriptionOdRight}: ${state.latestPrescription?.formattedRight}",
-                      ),
-                      CustomText(
-                        text:
-                            "${AppStrings.prescriptionOsLeft}: ${state.latestPrescription?.formattedLeft}",
-                      ),
-                    ],
-                  )
-                : const Center(child: Text("No prescription data found")),
-          ),
-          CustomContainer(
-            buttonText: AppStrings.homeButtonViewAll,
-            onButtonPressed: () {},
-            containerTitle: AppStrings.homeSectionEyewear,
-            containerChild: CustomCarousel(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  padding: .all(AppSpacing.spacingXL),
-                  color: context.colors.white,
-                  child: CustomText(
-                    text: "Page 1",
-                    textType: CustomTextType.regularHeading,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: .all(AppSpacing.spacingXL),
-                  color: context.colors.white,
-                  child: CustomText(
-                    text: "Page 2",
-                    textType: CustomTextType.regularHeading,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: .all(AppSpacing.spacingXL),
-                  color: context.colors.white,
-                  child: CustomText(
-                    text: "Page 3",
-                    textType: CustomTextType.regularHeading,
-                  ),
-                ),
-              ],
-            ),
-            footerTitle: AppStrings.homeSectionDetails,
-            footerContent: Column(
-              crossAxisAlignment: .start,
-              children: [
-                CustomText(
-                  text: "${AppStrings.prescriptionOdRight}: -2,50 -0.75 x 180",
-                ),
-                CustomText(
-                  text: "${AppStrings.prescriptionOsLeft}: -2,25 -0.50 x 170",
-                ),
-              ],
-            ),
-          ),
+          HomeCurrentPrescription(latestPrescription: state.latestPrescription),
+          const HomeEyewearCollection(),
           CustomContainer(
             icon: Icons.calendar_month,
             buttonText: AppStrings.homeButtonAddNew,
@@ -150,10 +81,17 @@ class HomeLoadedScreen extends StatelessWidget {
           ShortcutCard(
             cardTitle: AppStrings.shortcutAddPrescription,
             icon: Icons.fiber_new_outlined,
+            onTap: () {},
           ),
           ShortcutCard(
             cardTitle: AppStrings.shortcutAddLenses,
             icon: Icons.fiber_new_outlined,
+            onTap: () {
+              NavigationService.push(
+                AppPages.eyewearNew.path,
+                extra: EyewearCategory.contactLenses,
+              );
+            },
           ),
         ],
       ),

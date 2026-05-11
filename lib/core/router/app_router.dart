@@ -2,6 +2,9 @@ import 'package:go_router/go_router.dart';
 import 'package:my_eyes/core/constants/app_keys.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/domain/entities/eyewear_item.dart';
+import 'package:my_eyes/domain/enums/eyewear_category.dart';
+import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/shared/screens/screen_with_navbar.dart';
 
 class AppRouter {
@@ -41,20 +44,6 @@ class AppRouter {
                 path: AppRoutes.eyewear,
                 name: AppPages.eyewear.name,
                 builder: (context, state) => AppPages.eyewear.builder(context),
-                routes: [
-                  GoRoute(
-                    path: AppPages.eyewearNew.path,
-                    name: AppPages.eyewearNew.name,
-                    builder: (context, state) =>
-                        AppPages.eyewearNew.builder(context),
-                  ),
-                  GoRoute(
-                    path: AppPages.eyewearDetail.path,
-                    name: AppPages.eyewearDetail.name,
-                    builder: (context, state) =>
-                        AppPages.eyewearDetail.builder(context),
-                  ),
-                ],
               ),
             ],
           ),
@@ -89,10 +78,19 @@ class AppRouter {
       ),
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
-        path: AppRoutes.lensNew,
-        name: AppPages.lensNew.name,
-        builder: (context, state) => AppPages.lensNew.builder(context),
+        path: AppRoutes.eyewearNew,
+        name: AppPages.eyewearNew.name,
+        builder: (context, state) =>
+            AddEyewearScreen(category: state.extra as EyewearCategory?),
       ),
+      GoRoute(
+        parentNavigatorKey: AppKeys.rootNavigatorKey,
+        path: AppRoutes.eyewearEdit,
+        name: AppPages.eyewearEdit.name,
+        builder: (context, state) =>
+            AddEyewearScreen(eyewearItem: state.extra as EyewearItem?),
+      ),
+      // ============================
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
         path: AppRoutes.lensDetail,
