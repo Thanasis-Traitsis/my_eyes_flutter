@@ -22,11 +22,16 @@ class HomeEyewearCollection extends StatefulWidget {
 class _HomeEyewearCollectionState extends State<HomeEyewearCollection> {
   int _selectedIndex = 0;
 
+  int _safeIndex(int length) =>
+      _selectedIndex.clamp(0, (length - 1).clamp(0, double.maxFinite.toInt()));
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EyewearCubit, EyewearState>(
       builder: (context, state) {
         if (state is! EyewearLoaded) return const SizedBox.shrink();
+
+        final safeIndex = _safeIndex(state.items.length);
 
         return CustomContainer(
           buttonText: AppStrings.homeButtonViewAll,
@@ -57,7 +62,7 @@ class _HomeEyewearCollectionState extends State<HomeEyewearCollection> {
             crossAxisAlignment: .start,
             children: [
               PrescriptionFooterDetails(
-                prescription: state.items[_selectedIndex].prescription,
+                prescription: state.items[safeIndex].prescription,
               ),
             ],
           ),

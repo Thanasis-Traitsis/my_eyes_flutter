@@ -19,6 +19,18 @@ class _EyewearLoadedViewState extends State<EyewearLoadedView> {
   int _currentIndex = 0;
 
   @override
+  void didUpdateWidget(EyewearLoadedView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_currentIndex >= widget.items.length) {
+      _currentIndex = (widget.items.length - 1).clamp(
+        0,
+        double.maxFinite.toInt(),
+      );
+      print(_currentIndex);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       spacing: AppSpacing.spacingM,

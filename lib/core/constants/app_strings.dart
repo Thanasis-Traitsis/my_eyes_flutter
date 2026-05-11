@@ -44,6 +44,12 @@ class AppStrings {
   static const String eyewearPrescriptionOptionalNote =
       'Optional — leave blank if this eyewear has no prescription.';
   static const String eyewearFloatingButtonText = 'add new';
+
+  static const String eyewearDeleteDialogTitle = 'Delete Eyewear';
+  static String eyewearDeleteDialogBody(String name) =>
+      'Are you sure you want to delete "$name"? This action cannot be undone.';
+  static const String eyewearDeleteDialogConfirm = 'Delete';
+  static const String eyewearDeleteDialogCancel = 'Cancel';
   static const String prescriptionNoData = 'No data provided';
 
   static const String profileSectionInsight = 'Profile Insight';

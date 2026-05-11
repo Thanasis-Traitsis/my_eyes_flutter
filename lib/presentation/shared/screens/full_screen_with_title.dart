@@ -7,12 +7,14 @@ class FullScreenWithTitle extends StatelessWidget {
   final PageInfo currentPage;
   final bool withBackButton;
   final Widget child;
+  final List<IconButton> suffixButtons;
 
   const FullScreenWithTitle({
     super.key,
     required this.currentPage,
     this.withBackButton = true,
     required this.child,
+    this.suffixButtons = const [],
   });
 
   @override
@@ -28,6 +30,7 @@ class FullScreenWithTitle extends StatelessWidget {
             },
           ),
       ],
+      suffixButtons: suffixButtons,
       child: child,
     );
   }

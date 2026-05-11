@@ -15,6 +15,8 @@ import 'package:my_eyes/presentation/profile/widgets/edit_profile/labeled_sectio
 import 'package:my_eyes/presentation/shared/screens/dismiss_keyboard.dart';
 import 'package:my_eyes/presentation/shared/screens/full_screen_with_title.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
+import 'package:my_eyes/presentation/shared/widgets/custom_dialog.dart';
+import 'package:my_eyes/presentation/shared/widgets/delete_icon_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/sticky_bottom_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/validated_text_field.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
@@ -74,6 +76,29 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
     NavigationService.pop();
   }
 
+  Future<void> _confirmDelete() async {
+    final item = widget.eyewearItem;
+    if (item == null) return;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => CustomDialog(
+        dialogIcon: Icons.delete,
+        dialogTitle: AppStrings.eyewearDeleteDialogTitle,
+        dialogDescription: AppStrings.eyewearDeleteDialogBody(item.name),
+        primaryBtnText: AppStrings.eyewearDeleteDialogCancel,
+        primaryBtnAction: () => Navigator.of(dialogContext).pop(false),
+        secondaryBtnText: AppStrings.eyewearDeleteDialogConfirm,
+        secondaryBtnAction: () => Navigator.of(dialogContext).pop(true),
+      ),
+    );
+
+    if (confirmed == true && mounted) {
+      context.read<EyewearCubit>().deleteItem(item);
+      NavigationService.pop();
+    }
+  }
+
   void _onCategoryChanged(EyewearCategory category) {
     final isRestoringOriginal = category == widget.eyewearItem?.category;
     final restoredIndex = isRestoringOriginal
@@ -87,10 +112,20 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final existingItem = widget.eyewearItem;
+
     return DismissKeyboard(
       child: Stack(
         children: [
           FullScreenWithTitle(
+            suffixButtons: existingItem != null
+                ? [
+                    deleteIconButton(
+                      onPressed: _confirmDelete,
+                      context: context,
+                    ),
+                  ]
+                : [],
             currentPage: _isEditing
                 ? AppPages.eyewearEdit
                 : AppPages.eyewearNew,

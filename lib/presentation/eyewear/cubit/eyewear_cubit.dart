@@ -39,4 +39,13 @@ class EyewearCubit extends Cubit<EyewearState> {
       emit(EyewearError(e.toString()));
     }
   }
+
+  Future<void> deleteItem(EyewearItem item) async {
+    try {
+      await _repository.delete(item.id);
+      await loadEyewear();
+    } catch (e) {
+      emit(EyewearError(e.toString()));
+    }
+  }
 }
