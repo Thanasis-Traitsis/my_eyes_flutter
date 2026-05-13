@@ -19,24 +19,33 @@ import 'package:my_eyes/core/network/connectivity_service.dart' as _i586;
 import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart' as _i1000;
 import 'package:my_eyes/data/datasources/eyewear_local_datasource.dart'
     as _i356;
+import 'package:my_eyes/data/datasources/eyewear_test_local_datasource.dart'
+    as _i628;
 import 'package:my_eyes/data/datasources/prescription_local_datasource.dart'
     as _i844;
 import 'package:my_eyes/data/datasources/profile_local_datasource.dart'
     as _i776;
 import 'package:my_eyes/data/models/eyewear_item_model.dart' as _i232;
+import 'package:my_eyes/data/models/eyewear_test_model.dart' as _i473;
 import 'package:my_eyes/data/models/prescription_model.dart' as _i369;
 import 'package:my_eyes/data/models/user_profile_model.dart' as _i534;
 import 'package:my_eyes/data/repositories/eyewear_repository_impl.dart'
     as _i361;
+import 'package:my_eyes/data/repositories/eyewear_test_repository_impl.dart'
+    as _i415;
 import 'package:my_eyes/data/repositories/prescription_repository_impl.dart'
     as _i683;
 import 'package:my_eyes/data/repositories/profile_repository_impl.dart'
     as _i183;
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart' as _i179;
+import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart'
+    as _i692;
 import 'package:my_eyes/domain/repositories/prescription_repository.dart'
     as _i852;
 import 'package:my_eyes/domain/repositories/profile_repository.dart' as _i622;
 import 'package:my_eyes/injection.dart' as _i122;
+import 'package:my_eyes/presentation/eyetest/cubit/eyewear_test_cubit.dart'
+    as _i224;
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart' as _i760;
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart' as _i281;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -64,6 +73,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await gh.singletonAsync<_i738.Box<_i232.EyewearItemModel>>(
       () => registerModule.eyewearBox,
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i738.Box<_i473.EyewearTestModel>>(
+      () => registerModule.eyewearTestBox,
       preResolve: true,
     );
     gh.lazySingleton<_i844.PrescriptionLocalDataSource>(
@@ -95,8 +108,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i179.EyewearRepository>(
       () => _i361.EyewearRepositoryImpl(gh<_i356.EyewearLocalDataSource>()),
     );
+    gh.lazySingleton<_i628.EyewearTestLocalDataSource>(
+      () => _i628.HiveEyewearTestLocalDataSource(
+        gh<_i738.Box<_i473.EyewearTestModel>>(),
+      ),
+    );
     gh.singleton<_i760.EyewearCubit>(
       () => _i760.EyewearCubit(gh<_i179.EyewearRepository>()),
+    );
+    gh.lazySingleton<_i692.EyewearTestRepository>(
+      () => _i415.EyewearTestRepositoryImpl(
+        gh<_i628.EyewearTestLocalDataSource>(),
+      ),
     );
     gh.lazySingleton<_i622.ProfileRepository>(
       () => _i183.ProfileRepositoryImpl(gh<_i776.ProfileLocalDataSource>()),
@@ -109,6 +132,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i622.ProfileRepository>(),
         gh<_i852.PrescriptionRepository>(),
       ),
+    );
+    gh.singleton<_i224.EyewearTestCubit>(
+      () => _i224.EyewearTestCubit(gh<_i692.EyewearTestRepository>()),
     );
     return this;
   }

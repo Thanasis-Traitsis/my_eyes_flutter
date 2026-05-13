@@ -2,47 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
+import 'package:my_eyes/core/utils/date_extensions.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/domain/entities/eyewear_test.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class TestHistoryCard extends StatelessWidget {
-  const TestHistoryCard({super.key});
+  const TestHistoryCard({super.key, required this.test});
+
+  final EyewearTest test;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: .all(AppSpacing.spacingM),
+      padding: const EdgeInsets.all(AppSpacing.spacingM),
       decoration: BoxDecoration(
         color: context.colors.black,
         borderRadius: AppBorders.largeBorderRadius,
       ),
       child: Row(
         spacing: AppSpacing.spacingM,
-        crossAxisAlignment: .center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: .all(AppSpacing.spacingM),
+            padding: const EdgeInsets.all(AppSpacing.spacingM),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: AppBorders.mediumBorderRadius,
             ),
             child: CustomText(
-              text: '65%',
+              text: '${test.score}%',
               textType: CustomTextType.smallHeading,
             ),
           ),
           Expanded(
             child: Column(
               spacing: AppSpacing.spacingS,
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  text: "near-sighted glasses".toUpperCase(),
+                  text: test.id.toUpperCase(),
                   textType: CustomTextType.extraSmallHeading,
                   color: context.colors.white,
                 ),
                 CustomText(
-                  text: "22/06/2026",
+                  text: test.takenAt.formattedDate,
                   textType: CustomTextType.smallBody,
                   color: context.colors.white,
                 ),

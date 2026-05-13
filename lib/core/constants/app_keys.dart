@@ -11,6 +11,7 @@ class AppKeys {
   static const String hiveBoxPrescriptions = 'prescriptions';
   static const String hiveBoxProfile = 'profile';
   static const String hiveBoxEyewear = 'eyewear';
+  static const String hiveBoxEyewearTests = 'eyewear_tests';
 
   static const String hiveProfileRecordKey = 'profile';
 }

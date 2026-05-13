@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/presentation/eyetest/screens/eyetest_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_screen.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
@@ -36,7 +37,7 @@ class AppPages {
     path: AppRoutes.eyeTest,
     name: 'eyeTest',
     title: 'Quick Eye Test',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const EyetestScreen(),
   );
 
   static final eyewear = PageInfo(

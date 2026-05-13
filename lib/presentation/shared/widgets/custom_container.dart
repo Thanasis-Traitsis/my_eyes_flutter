@@ -16,6 +16,7 @@ class CustomContainer extends StatelessWidget {
     this.icon,
     this.buttonText,
     this.onButtonPressed,
+    this.isDropdown = false,
   });
 
   final String containerTitle;
@@ -25,6 +26,7 @@ class CustomContainer extends StatelessWidget {
   final IconData? icon;
   final String? buttonText;
   final VoidCallback? onButtonPressed;
+  final bool isDropdown;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +69,10 @@ class CustomContainer extends StatelessWidget {
                       IntrinsicWidth(
                         child: OutlinedButton.icon(
                           iconAlignment: IconAlignment.end,
-                          icon: const Icon(
-                            Icons.arrow_outward,
+                          icon: Icon(
+                            isDropdown
+                                ? Icons.keyboard_arrow_down_sharp
+                                : Icons.arrow_outward,
                             size: AppSizes.iconSizeS,
                           ),
                           label: Text(buttonText!.toUpperCase()),

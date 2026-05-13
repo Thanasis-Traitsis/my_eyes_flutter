@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:my_eyes/domain/entities/eye_measurement.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
+import 'package:my_eyes/domain/entities/eyewear_test.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart';
+import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 
@@ -13,6 +15,7 @@ class DevSeeder {
     required ProfileRepository profileRepo,
     required PrescriptionRepository prescriptionRepo,
     required EyewearRepository eyewearRepo,
+    required EyewearTestRepository eyewearTestRepo,
   }) async {
     assert(kDebugMode, 'DevSeeder must only run in debug mode');
 
@@ -74,6 +77,61 @@ class DevSeeder {
           name: 'Summer Shades',
           category: EyewearCategory.sunglasses,
           updatedAt: now,
+        ),
+      );
+    }
+
+    final existingTests = await eyewearTestRepo.getTests();
+    if (existingTests.isEmpty) {
+      // 4 tests for Daily Frames
+      await eyewearTestRepo.saveTest(
+        EyewearTest(
+          id: 'dev-test-1',
+          eyewearId: 'dev-eyewear-1',
+          score: 82,
+          takenAt: DateTime(2025, 4, 10),
+        ),
+      );
+      await eyewearTestRepo.saveTest(
+        EyewearTest(
+          id: 'dev-test-2',
+          eyewearId: 'dev-eyewear-1',
+          score: 75,
+          takenAt: DateTime(2025, 2, 20),
+        ),
+      );
+      await eyewearTestRepo.saveTest(
+        EyewearTest(
+          id: 'dev-test-3',
+          eyewearId: 'dev-eyewear-1',
+          score: 68,
+          takenAt: DateTime(2024, 11, 5),
+        ),
+      );
+      await eyewearTestRepo.saveTest(
+        EyewearTest(
+          id: 'dev-test-4',
+          eyewearId: 'dev-eyewear-1',
+          score: 91,
+          takenAt: DateTime(2024, 8, 14),
+        ),
+      );
+
+      // 2 tests for Summer Shades
+      await eyewearTestRepo.saveTest(
+        EyewearTest(
+          id: 'dev-test-5',
+          eyewearId: 'dev-eyewear-2',
+          score: 60,
+          takenAt: DateTime(2025, 3, 1),
+        ),
+      );
+      await eyewearTestRepo.saveTest(
+        EyewearTest(
+          id: 'dev-test-6',
+          eyewearId: 'dev-eyewear-2',
+          score: 55,
+          takenAt: DateTime(2024, 9, 22),
         ),
       );
     }
