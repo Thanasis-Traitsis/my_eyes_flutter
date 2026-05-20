@@ -36,6 +36,11 @@ class AppStrings {
   static const String eyewearCarouselCardDetails = 'details';
   static const String eyewearSectionTestHistory = 'Test History';
   static const String eyewearTestHistoryEmpty = 'No tests recorded yet.';
+  static const String testHistoryFilterAll = 'All';
+  static const String testHistoryFilterSheetTitle = 'Filters';
+  static const String testHistoryFilterSectionEyewear = 'Eyewear Collection';
+  static const String testHistoryFilterApply = 'Apply';
+  static const String testHistoryFilterClearAll = 'Clear All';
 
   static const String eyewearAddSectionDetails = 'Eyewear Details';
   static const String eyewearAddSectionPrescription = 'Prescription';

@@ -11,8 +11,24 @@ class EyewearTestRepositoryImpl implements EyewearTestRepository {
   final EyewearTestLocalDataSource _localDataSource;
 
   @override
-  Future<List<EyewearTest>> getTests({String? eyewearId}) async {
-    final models = await _localDataSource.getTests(eyewearId: eyewearId);
+  Future<List<EyewearTest>> getTests({
+    Set<String> eyewearIds = const {},
+  }) async {
+    final models = await _localDataSource.getTests(eyewearIds: eyewearIds);
+    return models.map((m) => m.toEntity()).toList();
+  }
+
+  @override
+  Future<List<EyewearTest>> getTestsPaged({
+    Set<String> eyewearIds = const {},
+    required int offset,
+    required int limit,
+  }) async {
+    final models = await _localDataSource.getTestsPaged(
+      eyewearIds: eyewearIds,
+      offset: offset,
+      limit: limit,
+    );
     return models.map((m) => m.toEntity()).toList();
   }
 

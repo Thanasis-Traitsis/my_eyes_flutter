@@ -8,6 +8,7 @@ import 'package:my_eyes/presentation/notifications/screens/notifications_screen.
 import 'package:my_eyes/presentation/profile/screens/edit_profile_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/profile_screen.dart';
 import 'package:my_eyes/presentation/settings/screens/settings_screen.dart';
+import 'package:my_eyes/presentation/test_history/screens/test_history_screen.dart';
 
 class PageInfo {
   final String path;
@@ -96,18 +97,11 @@ class AppPages {
     builder: (_) => const Placeholder(),
   );
 
-  static final lensNew = PageInfo(
-    path: AppRoutes.lensNew,
-    name: 'lensNew',
-    title: 'Add Lens',
-    builder: (_) => const Placeholder(),
-  );
-
-  static final lensDetail = PageInfo(
-    path: AppRoutes.lensDetail,
-    name: 'lensDetail',
-    title: 'Lens Detail',
-    builder: (_) => const Placeholder(),
+  static final testHistory = PageInfo(
+    path: AppRoutes.testHistory,
+    name: 'testHistory',
+    title: 'Test History',
+    builder: (_) => const TestHistoryScreen(),
   );
 
   static final prescriptionNew = PageInfo(

@@ -6,6 +6,7 @@ import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/shared/screens/screen_with_navbar.dart';
+import 'package:my_eyes/presentation/test_history/screens/test_history_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -90,13 +91,14 @@ class AppRouter {
         builder: (context, state) =>
             AddEyewearScreen(eyewearItem: state.extra as EyewearItem?),
       ),
-      // ============================
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
-        path: AppRoutes.lensDetail,
-        name: AppPages.lensDetail.name,
-        builder: (context, state) => AppPages.lensDetail.builder(context),
+        path: AppRoutes.testHistory,
+        name: AppPages.testHistory.name,
+        builder: (context, state) =>
+            TestHistoryScreen(args: state.extra as TestHistoryScreenArgs?),
       ),
+      // ============================
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
         path: AppRoutes.prescriptionNew,

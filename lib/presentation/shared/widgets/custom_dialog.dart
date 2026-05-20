@@ -4,6 +4,7 @@ import 'package:my_eyes/core/constants/app_sizes.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/presentation/shared/widgets/custom_action_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -31,17 +32,18 @@ class CustomDialog extends StatelessWidget {
 
   Widget get _primaryButton => SizedBox(
     width: double.infinity,
-    child: FilledButton(
+    child: CustomActionButton(
       onPressed: primaryBtnAction,
-      child: Text(primaryBtnText.toUpperCase()),
+      buttonText: primaryBtnText,
+      isPrimary: true,
     ),
   );
 
   Widget get _secondaryButton => SizedBox(
     width: double.infinity,
-    child: ElevatedButton(
+    child: CustomActionButton(
       onPressed: secondaryBtnAction,
-      child: Text(secondaryBtnText.toUpperCase()),
+      buttonText: secondaryBtnText,
     ),
   );
 

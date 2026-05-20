@@ -44,8 +44,6 @@ import 'package:my_eyes/domain/repositories/prescription_repository.dart'
     as _i852;
 import 'package:my_eyes/domain/repositories/profile_repository.dart' as _i622;
 import 'package:my_eyes/injection.dart' as _i122;
-import 'package:my_eyes/presentation/eyetest/cubit/eyewear_test_cubit.dart'
-    as _i224;
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart' as _i760;
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart' as _i281;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -132,9 +130,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i622.ProfileRepository>(),
         gh<_i852.PrescriptionRepository>(),
       ),
-    );
-    gh.singleton<_i224.EyewearTestCubit>(
-      () => _i224.EyewearTestCubit(gh<_i692.EyewearTestRepository>()),
     );
     return this;
   }

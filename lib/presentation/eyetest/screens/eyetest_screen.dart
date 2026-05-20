@@ -14,9 +14,6 @@ class EyetestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScreen.withBottomNavbar(
-      suffixButtons: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.info_outline)),
-      ],
       bigTitle: AppPages.eyeTest.title,
       child: Column(
         spacing: AppSpacing.spacingM,

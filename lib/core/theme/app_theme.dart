@@ -167,6 +167,7 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: colors.textPrimary,
           backgroundColor: colors.surface,
+          side: BorderSide(color: colors.textHint),
           textStyle: TextStyle(
             fontFamily: appFont,
             fontSize: CustomTextType.regularButtonText.fontSize,
