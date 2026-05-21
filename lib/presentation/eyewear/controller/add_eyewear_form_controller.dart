@@ -79,8 +79,6 @@ class AddEyewearFormController {
   bool get hasPrescriptionData =>
       prescriptionControllers.any((c) => c.text.trim().isNotEmpty);
 
-  /// Builds the [EyewearItem] from the current form state.
-  /// Pass [existing] when editing so the original [id] is preserved.
   EyewearItem buildItem({EyewearItem? existing}) {
     final now = DateTime.now();
 

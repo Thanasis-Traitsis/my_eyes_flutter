@@ -3,6 +3,7 @@ import 'package:hive_ce/hive.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_eyes/data/datasources/eyewear_test_local_datasource.dart';
 import 'package:my_eyes/data/models/eyewear_test_model.dart';
+import 'package:my_eyes/domain/enums/test_filter_key.dart';
 
 class MockBox extends Mock implements Box<EyewearTestModel> {}
 
@@ -31,10 +32,6 @@ void main() {
     datasource = HiveEyewearTestLocalDataSource(mockBox);
   });
 
-  // -------------------------------------------------------------------------
-  // getTests (unpaged)
-  // -------------------------------------------------------------------------
-
   group('getTests — single eyewearId filter', () {
     test('returns only tests matching the given eyewearId', () async {
       final match1 = _makeModel(
@@ -54,7 +51,11 @@ void main() {
       );
       when(() => mockBox.values).thenReturn([match1, match2, other]);
 
-      final result = await datasource.getTests(eyewearIds: {'e1'});
+      final result = await datasource.getTests(
+        filters: {
+          TestFilterKey.eyewearId: {'e1'},
+        },
+      );
 
       expect(result.map((m) => m.id), containsAll(['t1', 't2']));
       expect(result.any((m) => m.id == 't3'), isFalse);
@@ -73,7 +74,11 @@ void main() {
       );
       when(() => mockBox.values).thenReturn([older, newer]);
 
-      final result = await datasource.getTests(eyewearIds: {'e1'});
+      final result = await datasource.getTests(
+        filters: {
+          TestFilterKey.eyewearId: {'e1'},
+        },
+      );
 
       expect(result.first.id, 't-new');
       expect(result.last.id, 't-old');
@@ -87,13 +92,17 @@ void main() {
       );
       when(() => mockBox.values).thenReturn([other]);
 
-      final result = await datasource.getTests(eyewearIds: {'e1'});
+      final result = await datasource.getTests(
+        filters: {
+          TestFilterKey.eyewearId: {'e1'},
+        },
+      );
 
       expect(result, isEmpty);
     });
   });
 
-  group('getTests — multiple eyewearId filters', () {
+  group('getTests — multiple eyewearId values', () {
     test('returns tests matching any of the given IDs', () async {
       final e1 = _makeModel(
         id: 't1',
@@ -112,15 +121,19 @@ void main() {
       );
       when(() => mockBox.values).thenReturn([e1, e2, e3]);
 
-      final result = await datasource.getTests(eyewearIds: {'e1', 'e2'});
+      final result = await datasource.getTests(
+        filters: {
+          TestFilterKey.eyewearId: {'e1', 'e2'},
+        },
+      );
 
       expect(result.map((m) => m.id), containsAll(['t1', 't2']));
       expect(result.any((m) => m.id == 't3'), isFalse);
     });
   });
 
-  group('getTests — no filter (all tests)', () {
-    test('returns all tests when eyewearIds is empty', () async {
+  group('getTests — no filters (all tests)', () {
+    test('returns all tests when filters map is empty', () async {
       final t1 = _makeModel(
         id: 't1',
         eyewearId: 'e1',
@@ -159,16 +172,9 @@ void main() {
 
     test('returns empty list when box is empty', () async {
       when(() => mockBox.values).thenReturn([]);
-
-      final result = await datasource.getTests();
-
-      expect(result, isEmpty);
+      expect(await datasource.getTests(), isEmpty);
     });
   });
-
-  // -------------------------------------------------------------------------
-  // getTestsPaged
-  // -------------------------------------------------------------------------
 
   group('getTestsPaged', () {
     final items = List.generate(
@@ -184,46 +190,42 @@ void main() {
 
     test('returns first page correctly (offset 0, limit 3)', () async {
       final result = await datasource.getTestsPaged(
-        eyewearIds: {'e1'},
+        filters: {
+          TestFilterKey.eyewearId: {'e1'},
+        },
         offset: 0,
         limit: 3,
       );
-
-      expect(result.length, 3);
       expect(result.map((m) => m.id).toList(), ['t1', 't2', 't3']);
     });
 
     test('returns second page correctly (offset 3, limit 3)', () async {
       final result = await datasource.getTestsPaged(
-        eyewearIds: {'e1'},
+        filters: {
+          TestFilterKey.eyewearId: {'e1'},
+        },
         offset: 3,
         limit: 3,
       );
-
-      expect(result.length, 2);
       expect(result.map((m) => m.id).toList(), ['t4', 't5']);
     });
 
     test('returns empty list when offset is beyond total count', () async {
       final result = await datasource.getTestsPaged(
-        eyewearIds: {'e1'},
+        filters: {
+          TestFilterKey.eyewearId: {'e1'},
+        },
         offset: 10,
         limit: 3,
       );
-
       expect(result, isEmpty);
     });
 
     test('returns all items when no filter and offset 0', () async {
       final result = await datasource.getTestsPaged(offset: 0, limit: 10);
-
       expect(result.length, 5);
     });
   });
-
-  // -------------------------------------------------------------------------
-  // save
-  // -------------------------------------------------------------------------
 
   group('save', () {
     test('calls box.put with model id as key', () async {

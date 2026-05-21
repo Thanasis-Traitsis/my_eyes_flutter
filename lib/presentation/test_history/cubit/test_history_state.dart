@@ -14,7 +14,7 @@ class TestHistoryInitial extends TestHistoryState {
 class TestHistoryLoading extends TestHistoryState {
   const TestHistoryLoading({required this.filters});
 
-  final Set<String> filters;
+  final Map<TestFilterKey, Set<String>> filters;
 
   @override
   List<Object?> get props => [filters];
@@ -29,13 +29,13 @@ final class TestHistoryLoaded extends TestHistoryState {
   });
 
   final List<EyewearTest> items;
-  final Set<String> filters;
+  final Map<TestFilterKey, Set<String>> filters;
   final bool hasMore;
   final bool isFetchingMore;
 
   TestHistoryLoaded copyWith({
     List<EyewearTest>? items,
-    Set<String>? filters,
+    Map<TestFilterKey, Set<String>>? filters,
     bool? hasMore,
     bool? isFetchingMore,
   }) {

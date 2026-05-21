@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_eyes/core/constants/app_values.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
+import 'package:my_eyes/domain/enums/test_filter_key.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/presentation/test_history/cubit/test_history_cubit.dart';
 
@@ -19,6 +20,14 @@ List<EyewearTest> _makeTests(int count, {String eyewearId = 'e1'}) =>
       ),
     );
 
+const Map<TestFilterKey, Set<String>> _noFilters = {};
+const Map<TestFilterKey, Set<String>> _filterE1 = {
+  TestFilterKey.eyewearId: {'e1'},
+};
+const Map<TestFilterKey, Set<String>> _filterE1E2 = {
+  TestFilterKey.eyewearId: {'e1', 'e2'},
+};
+
 void main() {
   late MockEyewearTestRepository repository;
 
@@ -26,17 +35,13 @@ void main() {
 
   TestHistoryCubit buildCubit() => TestHistoryCubit(repository);
 
-  // -------------------------------------------------------------------------
-  // loadFirstPage
-  // -------------------------------------------------------------------------
-
   group('loadFirstPage', () {
     blocTest<TestHistoryCubit, TestHistoryState>(
       'emits loading then loaded — no filters fetches all',
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: const {},
+            filters: _noFilters,
             offset: 0,
             limit: AppValues.kTestHistoryPageSize,
           ),
@@ -45,7 +50,7 @@ void main() {
       },
       act: (cubit) => cubit.loadFirstPage(),
       expect: () => [
-        const TestHistoryLoading(filters: {}),
+        const TestHistoryLoading(filters: _noFilters),
         isA<TestHistoryLoaded>()
             .having(
               (s) => s.items.length,
@@ -54,7 +59,7 @@ void main() {
             )
             .having((s) => s.hasMore, 'hasMore', true)
             .having((s) => s.isFetchingMore, 'isFetchingMore', false)
-            .having((s) => s.filters, 'filters', <String>{}),
+            .having((s) => s.filters, 'filters', _noFilters),
       ],
     );
 
@@ -63,7 +68,7 @@ void main() {
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: const {},
+            filters: _noFilters,
             offset: 0,
             limit: AppValues.kTestHistoryPageSize,
           ),
@@ -72,7 +77,7 @@ void main() {
       },
       act: (cubit) => cubit.loadFirstPage(),
       expect: () => [
-        const TestHistoryLoading(filters: {}),
+        const TestHistoryLoading(filters: _noFilters),
         isA<TestHistoryLoaded>()
             .having((s) => s.hasMore, 'hasMore', false)
             .having((s) => s.items.length, 'items.length', 5),
@@ -80,27 +85,27 @@ void main() {
     );
 
     blocTest<TestHistoryCubit, TestHistoryState>(
-      'passes single filter set to repository',
+      'passes single-value filter map to repository',
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: {'e1'},
+            filters: _filterE1,
             offset: 0,
             limit: AppValues.kTestHistoryPageSize,
           ),
         ).thenAnswer((_) async => _makeTests(3));
         return buildCubit();
       },
-      act: (cubit) => cubit.loadFirstPage(filters: {'e1'}),
+      act: (cubit) => cubit.loadFirstPage(filters: _filterE1),
       expect: () => [
-        const TestHistoryLoading(filters: {'e1'}),
+        const TestHistoryLoading(filters: _filterE1),
         isA<TestHistoryLoaded>()
-            .having((s) => s.filters, 'filters', {'e1'})
+            .having((s) => s.filters, 'filters', _filterE1)
             .having((s) => s.items.length, 'items.length', 3),
       ],
       verify: (_) => verify(
         () => repository.getTestsPaged(
-          eyewearIds: {'e1'},
+          filters: _filterE1,
           offset: 0,
           limit: AppValues.kTestHistoryPageSize,
         ),
@@ -108,27 +113,27 @@ void main() {
     );
 
     blocTest<TestHistoryCubit, TestHistoryState>(
-      'passes multiple filter set to repository — no longer falls back to null',
+      'passes multi-value filter map to repository',
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: {'e1', 'e2'},
+            filters: _filterE1E2,
             offset: 0,
             limit: AppValues.kTestHistoryPageSize,
           ),
         ).thenAnswer((_) async => _makeTests(4));
         return buildCubit();
       },
-      act: (cubit) => cubit.loadFirstPage(filters: {'e1', 'e2'}),
+      act: (cubit) => cubit.loadFirstPage(filters: _filterE1E2),
       expect: () => [
-        const TestHistoryLoading(filters: {'e1', 'e2'}),
+        const TestHistoryLoading(filters: _filterE1E2),
         isA<TestHistoryLoaded>()
-            .having((s) => s.filters, 'filters', {'e1', 'e2'})
+            .having((s) => s.filters, 'filters', _filterE1E2)
             .having((s) => s.items.length, 'items.length', 4),
       ],
       verify: (_) => verify(
         () => repository.getTestsPaged(
-          eyewearIds: {'e1', 'e2'},
+          filters: _filterE1E2,
           offset: 0,
           limit: AppValues.kTestHistoryPageSize,
         ),
@@ -140,7 +145,7 @@ void main() {
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: any(named: 'eyewearIds'),
+            filters: any(named: 'filters'),
             offset: any(named: 'offset'),
             limit: any(named: 'limit'),
           ),
@@ -149,30 +154,52 @@ void main() {
       },
       act: (cubit) => cubit.loadFirstPage(),
       expect: () => [
-        const TestHistoryLoading(filters: {}),
+        const TestHistoryLoading(filters: _noFilters),
         isA<TestHistoryError>(),
       ],
     );
   });
 
-  // -------------------------------------------------------------------------
-  // loadNextPage
-  // -------------------------------------------------------------------------
+  group('seedFirstPage', () {
+    test('emits loaded state directly without calling repository', () {
+      final cubit = buildCubit();
+      final items = _makeTests(3);
+
+      cubit.seedFirstPage(items: items, filters: _filterE1, hasMore: true);
+
+      expect(
+        cubit.state,
+        isA<TestHistoryLoaded>()
+            .having((s) => s.items, 'items', items)
+            .having((s) => s.filters, 'filters', _filterE1)
+            .having((s) => s.hasMore, 'hasMore', true)
+            .having((s) => s.isFetchingMore, 'isFetchingMore', false),
+      );
+      verifyNever(
+        () => repository.getTestsPaged(
+          filters: any(named: 'filters'),
+          offset: any(named: 'offset'),
+          limit: any(named: 'limit'),
+        ),
+      );
+      cubit.close();
+    });
+  });
 
   group('loadNextPage', () {
     blocTest<TestHistoryCubit, TestHistoryState>(
-      'appends next page — passes same filters as first page',
+      'appends next page — passes same filter map as first page',
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: {'e1', 'e2'},
+            filters: _filterE1E2,
             offset: 0,
             limit: AppValues.kTestHistoryPageSize,
           ),
         ).thenAnswer((_) async => _makeTests(AppValues.kTestHistoryPageSize));
         when(
           () => repository.getTestsPaged(
-            eyewearIds: {'e1', 'e2'},
+            filters: _filterE1E2,
             offset: AppValues.kTestHistoryPageSize,
             limit: AppValues.kTestHistoryPageSize,
           ),
@@ -180,11 +207,11 @@ void main() {
         return buildCubit();
       },
       act: (cubit) async {
-        await cubit.loadFirstPage(filters: {'e1', 'e2'});
+        await cubit.loadFirstPage(filters: _filterE1E2);
         await cubit.loadNextPage();
       },
       expect: () => [
-        const TestHistoryLoading(filters: {'e1', 'e2'}),
+        const TestHistoryLoading(filters: _filterE1E2),
         isA<TestHistoryLoaded>()
             .having(
               (s) => s.items.length,
@@ -213,7 +240,7 @@ void main() {
       build: () {
         when(
           () => repository.getTestsPaged(
-            eyewearIds: const {},
+            filters: _noFilters,
             offset: 0,
             limit: AppValues.kTestHistoryPageSize,
           ),
@@ -225,7 +252,7 @@ void main() {
         await cubit.loadNextPage();
       },
       expect: () => [
-        const TestHistoryLoading(filters: {}),
+        const TestHistoryLoading(filters: _noFilters),
         isA<TestHistoryLoaded>().having((s) => s.hasMore, 'hasMore', false),
       ],
     );

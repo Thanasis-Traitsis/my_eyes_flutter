@@ -1,12 +1,15 @@
 import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_eyes/data/models/eyewear_test_model.dart';
+import 'package:my_eyes/domain/enums/test_filter_key.dart';
 
 abstract class EyewearTestLocalDataSource {
-  Future<List<EyewearTestModel>> getTests({Set<String> eyewearIds = const {}});
+  Future<List<EyewearTestModel>> getTests({
+    Map<TestFilterKey, Set<String>> filters = const {},
+  });
 
   Future<List<EyewearTestModel>> getTestsPaged({
-    Set<String> eyewearIds = const {},
+    Map<TestFilterKey, Set<String>> filters = const {},
     required int offset,
     required int limit,
   });
@@ -22,22 +25,31 @@ class HiveEyewearTestLocalDataSource implements EyewearTestLocalDataSource {
 
   @override
   Future<List<EyewearTestModel>> getTests({
-    Set<String> eyewearIds = const {},
+    Map<TestFilterKey, Set<String>> filters = const {},
   }) async {
-    final values = eyewearIds.isEmpty
-        ? _box.values.toList()
-        : _box.values.where((m) => eyewearIds.contains(m.eyewearId)).toList();
+    var values = _box.values.toList();
+
+    for (final entry in filters.entries) {
+      if (entry.value.isEmpty) continue;
+      switch (entry.key) {
+        case TestFilterKey.eyewearId:
+          values = values
+              .where((m) => entry.value.contains(m.eyewearId))
+              .toList();
+      }
+    }
+
     values.sort((a, b) => b.takenAt.compareTo(a.takenAt));
     return values;
   }
 
   @override
   Future<List<EyewearTestModel>> getTestsPaged({
-    Set<String> eyewearIds = const {},
+    Map<TestFilterKey, Set<String>> filters = const {},
     required int offset,
     required int limit,
   }) async {
-    final all = await getTests(eyewearIds: eyewearIds);
+    final all = await getTests(filters: filters);
     return all.skip(offset).take(limit).toList();
   }
 

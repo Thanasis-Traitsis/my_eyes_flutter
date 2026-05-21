@@ -4,6 +4,7 @@ import 'package:my_eyes/data/datasources/eyewear_test_local_datasource.dart';
 import 'package:my_eyes/data/models/eyewear_test_model.dart';
 import 'package:my_eyes/data/repositories/eyewear_test_repository_impl.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
+import 'package:my_eyes/domain/enums/test_filter_key.dart';
 
 class MockEyewearTestLocalDataSource extends Mock
     implements EyewearTestLocalDataSource {}
@@ -17,7 +18,6 @@ void main() {
   setUpAll(() => registerFallbackValue(FakeEyewearTestModel()));
 
   final tDate = DateTime(2024, 6, 1);
-
   final tModel = EyewearTestModel(
     id: 't1',
     eyewearId: 'e1',
@@ -36,72 +36,63 @@ void main() {
     repository = EyewearTestRepositoryImpl(mockDataSource);
   });
 
-  // -------------------------------------------------------------------------
-  // getTests (unpaged)
-  // -------------------------------------------------------------------------
-
-  group('getTests — single filter', () {
-    test('returns entities filtered by eyewearId', () async {
+  group('getTests — with filters', () {
+    test('passes filter map to datasource and returns entities', () async {
+      final filters = {
+        TestFilterKey.eyewearId: {'e1'},
+      };
       when(
-        () => mockDataSource.getTests(eyewearIds: {'e1'}),
+        () => mockDataSource.getTests(filters: filters),
       ).thenAnswer((_) async => [tModel]);
 
-      final result = await repository.getTests(eyewearIds: {'e1'});
+      final result = await repository.getTests(filters: filters);
 
       expect(result, [tEntity]);
-      verify(() => mockDataSource.getTests(eyewearIds: {'e1'})).called(1);
+      verify(() => mockDataSource.getTests(filters: filters)).called(1);
     });
 
-    test('returns empty list when datasource returns nothing', () async {
+    test('passes multi-value filter map to datasource', () async {
+      final filters = {
+        TestFilterKey.eyewearId: {'e1', 'e2'},
+      };
       when(
-        () => mockDataSource.getTests(eyewearIds: {'e1'}),
-      ).thenAnswer((_) async => []);
-
-      expect(await repository.getTests(eyewearIds: {'e1'}), isEmpty);
-    });
-  });
-
-  group('getTests — multiple filters', () {
-    test('passes the full set to datasource', () async {
-      when(
-        () => mockDataSource.getTests(eyewearIds: {'e1', 'e2'}),
+        () => mockDataSource.getTests(filters: filters),
       ).thenAnswer((_) async => [tModel]);
 
-      await repository.getTests(eyewearIds: {'e1', 'e2'});
+      await repository.getTests(filters: filters);
 
-      verify(() => mockDataSource.getTests(eyewearIds: {'e1', 'e2'})).called(1);
+      verify(() => mockDataSource.getTests(filters: filters)).called(1);
     });
   });
 
-  group('getTests — no filter (all tests)', () {
-    test('passes empty set to datasource and returns all entities', () async {
+  group('getTests — no filters', () {
+    test('passes empty map and returns all entities', () async {
       when(
-        () => mockDataSource.getTests(eyewearIds: const {}),
+        () => mockDataSource.getTests(filters: const {}),
       ).thenAnswer((_) async => [tModel]);
 
       final result = await repository.getTests();
 
       expect(result, [tEntity]);
-      verify(() => mockDataSource.getTests(eyewearIds: const {})).called(1);
+      verify(() => mockDataSource.getTests(filters: const {})).called(1);
     });
   });
 
-  // -------------------------------------------------------------------------
-  // getTestsPaged
-  // -------------------------------------------------------------------------
-
-  group('getTestsPaged — single filter', () {
+  group('getTestsPaged — with filters', () {
     test('delegates to datasource with correct parameters', () async {
+      final filters = {
+        TestFilterKey.eyewearId: {'e1'},
+      };
       when(
         () => mockDataSource.getTestsPaged(
-          eyewearIds: {'e1'},
+          filters: filters,
           offset: 0,
           limit: 15,
         ),
       ).thenAnswer((_) async => [tModel]);
 
       final result = await repository.getTestsPaged(
-        eyewearIds: {'e1'},
+        filters: filters,
         offset: 0,
         limit: 15,
       );
@@ -109,33 +100,30 @@ void main() {
       expect(result, [tEntity]);
       verify(
         () => mockDataSource.getTestsPaged(
-          eyewearIds: {'e1'},
+          filters: filters,
           offset: 0,
           limit: 15,
         ),
       ).called(1);
     });
-  });
 
-  group('getTestsPaged — multiple filters', () {
-    test('passes the full set to datasource', () async {
+    test('passes multi-value filter map to datasource', () async {
+      final filters = {
+        TestFilterKey.eyewearId: {'e1', 'e2'},
+      };
       when(
         () => mockDataSource.getTestsPaged(
-          eyewearIds: {'e1', 'e2'},
+          filters: filters,
           offset: 0,
           limit: 15,
         ),
       ).thenAnswer((_) async => [tModel]);
 
-      await repository.getTestsPaged(
-        eyewearIds: {'e1', 'e2'},
-        offset: 0,
-        limit: 15,
-      );
+      await repository.getTestsPaged(filters: filters, offset: 0, limit: 15);
 
       verify(
         () => mockDataSource.getTestsPaged(
-          eyewearIds: {'e1', 'e2'},
+          filters: filters,
           offset: 0,
           limit: 15,
         ),
@@ -143,11 +131,11 @@ void main() {
     });
   });
 
-  group('getTestsPaged — no filter', () {
-    test('passes empty set when no filter', () async {
+  group('getTestsPaged — no filters', () {
+    test('passes empty map when no filter', () async {
       when(
         () => mockDataSource.getTestsPaged(
-          eyewearIds: const {},
+          filters: const {},
           offset: 15,
           limit: 15,
         ),
@@ -158,17 +146,13 @@ void main() {
       expect(result, isEmpty);
       verify(
         () => mockDataSource.getTestsPaged(
-          eyewearIds: const {},
+          filters: const {},
           offset: 15,
           limit: 15,
         ),
       ).called(1);
     });
   });
-
-  // -------------------------------------------------------------------------
-  // saveTest
-  // -------------------------------------------------------------------------
 
   group('saveTest', () {
     test(

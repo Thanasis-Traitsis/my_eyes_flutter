@@ -6,6 +6,7 @@ import 'package:my_eyes/core/constants/app_values.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
+import 'package:my_eyes/domain/enums/test_filter_key.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/injection.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
@@ -21,11 +22,18 @@ class TestHistoryContainer extends StatelessWidget {
 
   static const int _cap = AppValues.testHistoryContainerMaxTest;
 
+  Map<TestFilterKey, Set<String>> get _initialFilters => eyewearId != null
+      ? {
+          TestFilterKey.eyewearId: {eyewearId!},
+        }
+      : const {};
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TestHistoryCubit(getIt<EyewearTestRepository>())
-        ..loadFirstPage(filters: eyewearId != null ? {eyewearId!} : const {}),
+      create: (_) =>
+          TestHistoryCubit(getIt<EyewearTestRepository>())
+            ..loadFirstPage(filters: _initialFilters),
       child: _TestHistoryContainerBody(cap: _cap),
     );
   }

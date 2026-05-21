@@ -3,14 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_values.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
-import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
+import 'package:my_eyes/domain/entities/filter_category.dart';
+import 'package:my_eyes/domain/enums/test_filter_key.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/injection.dart';
+import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
 import 'package:my_eyes/presentation/shared/screens/full_screen_with_title.dart';
 import 'package:my_eyes/presentation/test_history/cubit/test_history_cubit.dart';
 import 'package:my_eyes/presentation/test_history/widgets/filter_bottomsheet.dart';
-import 'package:my_eyes/presentation/test_history/widgets/filter_button.dart';
+import 'package:my_eyes/presentation/test_history/widgets/filter_section.dart';
 import 'package:my_eyes/presentation/test_history/widgets/test_list.dart';
 
 class TestHistoryScreenArgs {
@@ -21,7 +23,7 @@ class TestHistoryScreenArgs {
   });
 
   final List<EyewearTest> items;
-  final Set<String> filters;
+  final Map<TestFilterKey, Set<String>> filters;
   final bool hasMore;
 }
 
@@ -89,13 +91,23 @@ class _TestHistoryViewState extends State<_TestHistoryView> {
     }
   }
 
+  List<FilterCategory> _buildCategories(EyewearLoaded eyewearState) => [
+    FilterCategory(
+      key: TestFilterKey.eyewearId,
+      options: [
+        for (final item in eyewearState.items)
+          FilterOption(id: item.id, label: item.name),
+      ],
+    ),
+  ];
+
   Future<void> _openFilterSheet(
-    List<EyewearItem> items,
-    Set<String> activeFilters,
+    List<FilterCategory> categories,
+    Map<TestFilterKey, Set<String>> activeFilters,
   ) async {
     final result = await showFilterBottomSheet(
       context: context,
-      items: items,
+      categories: categories,
       activeFilters: activeFilters,
     );
     if (result != null && mounted) {
@@ -112,21 +124,36 @@ class _TestHistoryViewState extends State<_TestHistoryView> {
           final activeFilters = switch (state) {
             TestHistoryLoaded(:final filters) => filters,
             TestHistoryLoading(:final filters) => filters,
-            _ => const <String>{},
+            _ => const <TestFilterKey, Set<String>>{},
           };
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: AppSpacing.spacingM,
             children: [
-              FilterSection(
-                activeFilters: activeFilters,
-                onTap: (eyewearState) =>
-                    _openFilterSheet(eyewearState.items, activeFilters),
-                onRemoveFilter: (id) {
-                  final updated = Set.of(activeFilters)..remove(id);
-                  context.read<TestHistoryCubit>().loadFirstPage(
-                    filters: updated,
+              BlocBuilder<EyewearCubit, EyewearState>(
+                builder: (context, eyewearState) {
+                  if (eyewearState is! EyewearLoaded ||
+                      eyewearState.items.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  final categories = _buildCategories(eyewearState);
+                  return FilterSection(
+                    categories: categories,
+                    activeFilters: activeFilters,
+                    onOpenSheet: () =>
+                        _openFilterSheet(categories, activeFilters),
+                    onRemoveFilter: (key, id) {
+                      final updated = {
+                        for (final e in activeFilters.entries)
+                          e.key: e.key == key
+                              ? (Set.of(e.value)..remove(id))
+                              : e.value,
+                      }..removeWhere((_, v) => v.isEmpty);
+                      context.read<TestHistoryCubit>().loadFirstPage(
+                        filters: updated,
+                      );
+                    },
                   );
                 },
               ),
