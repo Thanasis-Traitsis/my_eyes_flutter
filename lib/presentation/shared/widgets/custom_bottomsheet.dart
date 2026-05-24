@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
-import 'package:my_eyes/presentation/shared/widgets/custom_action_button.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class CustomBottomsheet extends StatelessWidget {
@@ -66,19 +66,17 @@ class CustomBottomsheet extends StatelessWidget {
                   spacing: AppSpacing.spacingM,
                   children: [
                     Expanded(
-                      child: CustomActionButton(
-                        buttonText: secondaryButtonText!,
-                        onPressed: secondaryOnPressed != null
-                            ? secondaryOnPressed!
-                            : () => Navigator.of(context).pop(null),
+                      child: AppButton.outlined(
+                        text: secondaryButtonText!,
+                        onPressed:
+                            secondaryOnPressed ??
+                            () => Navigator.of(context).pop(null),
                       ),
                     ),
                     Expanded(
-                      child: CustomActionButton(
-                        buttonText: primaryButtonText!,
-                        onPressed: primaryOnPressed!,
-                        isPrimary: true,
-                        isActive: isPrimaryActive!,
+                      child: AppButton.filled(
+                        text: primaryButtonText!,
+                        onPressed: isPrimaryActive! ? primaryOnPressed! : null,
                       ),
                     ),
                   ],

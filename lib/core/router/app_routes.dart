@@ -6,9 +6,9 @@ class AppRoutes {
   static const String home = '/home';
 
   static const String eyeTest = '/eye-test';
+  static const String newEyeTest = '/new-eyeTest';
 
   static const String eyewear = '/eyewear';
-  static const String eyewearDetail = '/eyewear/:id';
   static const String eyewearNew = '/new-eyewear';
   static const String eyewearEdit = '/edit-eyewear';
 

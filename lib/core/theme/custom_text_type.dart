@@ -10,6 +10,7 @@ enum CustomTextType {
   extraSmallHeading,
   regularBody,
   smallBody,
+  xSmallBody,
   bigButtonText,
   regularButtonText,
 }
@@ -24,12 +25,15 @@ extension CustomFontSize on CustomTextType {
     CustomTextType.extraSmallHeading ||
     CustomTextType.regularButtonText => AppTextSizes.textSizeS,
     CustomTextType.smallBody => AppTextSizes.textSizeXS,
+    CustomTextType.xSmallBody => AppTextSizes.textSizeXXS,
   };
 }
 
 extension CustomFontWeight on CustomTextType {
   FontWeight get fontWeight => switch (this) {
-    CustomTextType.regularBody || CustomTextType.smallBody => FontWeight.normal,
+    CustomTextType.regularBody ||
+    CustomTextType.smallBody ||
+    CustomTextType.xSmallBody => FontWeight.normal,
     _ => FontWeight.bold,
   };
 }

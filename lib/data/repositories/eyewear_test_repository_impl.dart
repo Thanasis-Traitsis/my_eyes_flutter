@@ -36,4 +36,7 @@ class EyewearTestRepositoryImpl implements EyewearTestRepository {
   @override
   Future<void> saveTest(EyewearTest test) =>
       _localDataSource.save(EyewearTestModel.fromEntity(test));
+
+  @override
+  Future<void> clearAllTests() => _localDataSource.clearAll();
 }

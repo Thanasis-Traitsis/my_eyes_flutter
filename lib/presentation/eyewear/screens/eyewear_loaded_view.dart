@@ -20,11 +20,11 @@ class _EyewearLoadedViewState extends State<EyewearLoadedView> {
   @override
   void didUpdateWidget(EyewearLoadedView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_currentIndex >= widget.items.length) {
-      _currentIndex = (widget.items.length - 1).clamp(
-        0,
-        double.maxFinite.toInt(),
-      );
+    if (widget.items.length != oldWidget.items.length) {
+      final safeIndex = _currentIndex.clamp(0, widget.items.length - 1);
+      if (safeIndex != _currentIndex) {
+        setState(() => _currentIndex = safeIndex);
+      }
     }
   }
 
@@ -36,12 +36,15 @@ class _EyewearLoadedViewState extends State<EyewearLoadedView> {
       spacing: AppSpacing.spacingM,
       children: [
         CustomCarousel(
-          onPageChanged: (index) => setState(() => _currentIndex = index),
+          onPageChanged: (index) => {setState(() => _currentIndex = index)},
           children: [
             for (final item in widget.items) EyewearCarouselCard(item: item),
           ],
         ),
-        TestHistoryContainer(eyewearId: currentItem.id),
+        TestHistoryContainer(
+          key: ValueKey(currentItem.id),
+          eyewearId: currentItem.id,
+        ),
       ],
     );
   }

@@ -32,6 +32,21 @@ class AppStrings {
   static const String shortcutPrescriptionHistory = 'Prescription History';
   static const String shortcutAddLenses = 'Add New Lenses';
 
+  static const String eyeTestInstructionHeader = 'test instructions';
+  static const String eyeTestInstructionDescription =
+      'Lorem ipsum dolor sit amet consectetur. Odio vel amet sit id luctus. Et viverra massa commodo diam sapien dignissim lorem sed sem. Condimentum eget pretium nisl pellentesque duis massa. Erat rhoncus massa lectus non sagittis faucibus suspendisse a.';
+  static const String eyeTestStep = 'step';
+  static const String eyeTestStatisticsHeader = 'test statistics';
+  static const String eyeTestStatisticsButtonText = 'all';
+  static const String eyeTestStatisticsEmpty = 'No data yet';
+  static const String eyeTestChartDateFormat = 'MMM yy';
+  static const String eyeTestFloatingButtonText = 'new test';
+  static const String eyeTestOnboardingNext = 'Next';
+  static const String eyeTestOnboardingStart = 'Start Test';
+  static const String eyeTestOnboardingPrevious = 'Previous';
+  static const String eyeTestOnboardingExit = 'Exit';
+  static const String eyeTestOnboardingSkip = 'Skip';
+
   static const String eyewearCarouselCardButtonEdit = 'edit';
   static const String eyewearCarouselCardDetails = 'details';
   static const String eyewearSectionTestHistory = 'Test History';
@@ -46,6 +61,12 @@ class AppStrings {
   static const String eyewearAddSectionPrescription = 'Prescription';
   static const String eyewearFieldName = 'Name';
   static const String eyewearFieldNameHint = 'e.g. Daily Frames';
+  static const String eyewearFieldColor = 'Colour';
+  static const String eyewearHsvPickerDialogTitle = 'Custom colour';
+  static const String eyewearHsvPickerDialogDescription =
+      'Create your own colour';
+  static const String eyewearHsvPickerDialogSave = 'save';
+  static const String eyewearHsvPickerDialogCancel = 'cancel';
   static const String eyewearFieldCategory = 'Category';
   static const String eyewearButtonSave = 'Save';
   static const String eyewearPrescriptionOptionalNote =

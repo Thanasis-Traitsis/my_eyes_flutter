@@ -4,13 +4,14 @@ import 'package:my_eyes/core/constants/app_sizes.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
-import 'package:my_eyes/presentation/shared/widgets/custom_action_button.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
     super.key,
     required this.dialogTitle,
+    this.dialogBody,
     this.dialogDescription,
     this.dialogIcon,
     required this.primaryBtnText,
@@ -22,29 +23,24 @@ class CustomDialog extends StatelessWidget {
 
   final String dialogTitle;
   final String? dialogDescription;
+  final Widget? dialogBody;
   final IconData? dialogIcon;
-
   final String primaryBtnText;
   final VoidCallback primaryBtnAction;
   final String secondaryBtnText;
   final VoidCallback secondaryBtnAction;
   final bool reversedButtons;
 
-  Widget get _primaryButton => SizedBox(
-    width: double.infinity,
-    child: CustomActionButton(
-      onPressed: primaryBtnAction,
-      buttonText: primaryBtnText,
-      isPrimary: true,
-    ),
+  Widget get _primaryButton => AppButton.filled(
+    text: primaryBtnText,
+    onPressed: primaryBtnAction,
+    size: AppButtonSize.large,
   );
 
-  Widget get _secondaryButton => SizedBox(
-    width: double.infinity,
-    child: CustomActionButton(
-      onPressed: secondaryBtnAction,
-      buttonText: secondaryBtnText,
-    ),
+  Widget get _secondaryButton => AppButton.outlined(
+    text: secondaryBtnText,
+    onPressed: secondaryBtnAction,
+    size: AppButtonSize.large,
   );
 
   @override
@@ -84,6 +80,7 @@ class CustomDialog extends StatelessWidget {
                       ),
                       if (dialogDescription case final description?)
                         CustomText(text: description),
+                      if (dialogBody case final body?) body,
                     ],
                   ),
                 ),

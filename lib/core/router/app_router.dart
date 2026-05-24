@@ -98,6 +98,12 @@ class AppRouter {
         builder: (context, state) =>
             TestHistoryScreen(args: state.extra as TestHistoryScreenArgs?),
       ),
+      GoRoute(
+        parentNavigatorKey: AppKeys.rootNavigatorKey,
+        path: AppRoutes.newEyeTest,
+        name: AppPages.newEyeTest.name,
+        builder: (context, state) => AppPages.newEyeTest.builder(context),
+      ),
       // ============================
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,

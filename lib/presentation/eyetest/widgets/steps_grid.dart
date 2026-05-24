@@ -38,9 +38,11 @@ class StepsGrid extends StatelessWidget {
   }
 
   Widget _buildRow(List<Widget> items, double totalWidth) {
-    return Row(
-      spacing: _spacing,
-      children: [for (final item in items) Expanded(child: item)],
+    return IntrinsicHeight(
+      child: Row(
+        spacing: _spacing,
+        children: [for (final item in items) Expanded(child: item)],
+      ),
     );
   }
 }

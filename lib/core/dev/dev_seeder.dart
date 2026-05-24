@@ -11,6 +11,9 @@ import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 
 class DevSeeder {
+  static const _eyewear1Id = 'dev-eyewear-1';
+  static const _eyewear2Id = 'dev-eyewear-2';
+
   static Future<void> seed({
     required ProfileRepository profileRepo,
     required PrescriptionRepository prescriptionRepo,
@@ -19,19 +22,14 @@ class DevSeeder {
   }) async {
     assert(kDebugMode, 'DevSeeder must only run in debug mode');
 
-    final existing = await profileRepo.getProfile();
-    if (existing == null) {
+    final now = DateTime.now();
+    final devDate = DateTime(2024, 6, 1);
+
+    if (await profileRepo.getProfile() == null) {
       await profileRepo.saveProfile(
-        UserProfile(
-          id: 'local-dev-user',
-          username: 'Thanasis',
-          updatedAt: DateTime.now(),
-        ),
+        UserProfile(id: 'local-dev-user', username: 'Thanasis', updatedAt: now),
       );
     }
-
-    final devDate = DateTime(2024, 6, 1);
-    final now = DateTime.now();
 
     final devPrescription = Prescription(
       id: 'dev-prescription-1',
@@ -54,88 +52,97 @@ class DevSeeder {
       updatedAt: now,
     );
 
-    final existingPrescriptions = await prescriptionRepo.getPrescriptions();
-    if (existingPrescriptions.isEmpty) {
+    if ((await prescriptionRepo.getPrescriptions()).isEmpty) {
       await prescriptionRepo.savePrescription(devPrescription);
     }
 
     final existingEyewear = await eyewearRepo.getAll();
-    if (existingEyewear.isEmpty) {
-      await eyewearRepo.save(
-        EyewearItem(
-          id: 'dev-eyewear-1',
-          name: 'Daily Frames',
-          category: EyewearCategory.nearSightedGlasses,
-          updatedAt: now,
-          prescription: devPrescription,
-        ),
-      );
+    for (final item in existingEyewear) {
+      await eyewearRepo.delete(item.id);
+    }
+    await eyewearTestRepo.clearAllTests();
 
-      await eyewearRepo.save(
-        EyewearItem(
-          id: 'dev-eyewear-2',
-          name: 'Summer Shades',
-          category: EyewearCategory.sunglasses,
-          updatedAt: now,
-        ),
-      );
+    await eyewearRepo.save(
+      EyewearItem(
+        id: _eyewear1Id,
+        name: 'Daily Frames',
+        category: EyewearCategory.nearSightedGlasses,
+        updatedAt: now,
+        prescription: devPrescription,
+        colorValue: 0xff69140E,
+      ),
+    );
+    await eyewearRepo.save(
+      EyewearItem(
+        id: _eyewear2Id,
+        name: 'Summer Shades',
+        category: EyewearCategory.sunglasses,
+        updatedAt: now,
+        colorValue: 0xffBA5A31,
+      ),
+    );
+
+    for (final test in _testsFor(_eyewear1Id, _eyewear2Id)) {
+      await eyewearTestRepo.saveTest(test);
     }
 
-    final existingTests = await eyewearTestRepo.getTests();
-    if (existingTests.isEmpty) {
-      // 4 tests for Daily Frames
-      await eyewearTestRepo.saveTest(
-        EyewearTest(
-          id: 'dev-test-1',
-          eyewearId: 'dev-eyewear-1',
-          score: 82,
-          takenAt: DateTime(2025, 4, 10),
-        ),
-      );
-      await eyewearTestRepo.saveTest(
-        EyewearTest(
-          id: 'dev-test-2',
-          eyewearId: 'dev-eyewear-1',
-          score: 75,
-          takenAt: DateTime(2025, 2, 20),
-        ),
-      );
-      await eyewearTestRepo.saveTest(
-        EyewearTest(
-          id: 'dev-test-3',
-          eyewearId: 'dev-eyewear-1',
-          score: 68,
-          takenAt: DateTime(2024, 11, 5),
-        ),
-      );
-      await eyewearTestRepo.saveTest(
-        EyewearTest(
-          id: 'dev-test-4',
-          eyewearId: 'dev-eyewear-1',
-          score: 91,
-          takenAt: DateTime(2024, 8, 14),
-        ),
-      );
-
-      // 2 tests for Summer Shades
-      await eyewearTestRepo.saveTest(
-        EyewearTest(
-          id: 'dev-test-5',
-          eyewearId: 'dev-eyewear-2',
-          score: 60,
-          takenAt: DateTime(2025, 3, 1),
-        ),
-      );
-      await eyewearTestRepo.saveTest(
-        EyewearTest(
-          id: 'dev-test-6',
-          eyewearId: 'dev-eyewear-2',
-          score: 55,
-          takenAt: DateTime(2024, 9, 22),
-        ),
-      );
-    }
-
-    debugPrint('DevSeeder: mock data seeded');
+    debugPrint('DevSeeder: data reseeded');
   }
+
+  static List<EyewearTest> _testsFor(String e1, String e2) => [
+    EyewearTest(
+      id: 'dev-test-1',
+      eyewearId: e1,
+      score: 82,
+      takenAt: DateTime(2026, 10, 10),
+    ),
+    EyewearTest(
+      id: 'dev-test-2',
+      eyewearId: e1,
+      score: 75,
+      takenAt: DateTime(2026, 2, 20),
+    ),
+    EyewearTest(
+      id: 'dev-test-3',
+      eyewearId: e1,
+      score: 68,
+      takenAt: DateTime(2026, 11, 5),
+    ),
+    EyewearTest(
+      id: 'dev-test-4',
+      eyewearId: e1,
+      score: 91,
+      takenAt: DateTime(2026, 8, 14),
+    ),
+    EyewearTest(
+      id: 'dev-test-5',
+      eyewearId: e2,
+      score: 60,
+      takenAt: DateTime(2025, 3, 1),
+    ),
+    EyewearTest(
+      id: 'dev-test-6',
+      eyewearId: e2,
+      score: 55,
+      takenAt: DateTime(2025, 9, 22),
+    ),
+    EyewearTest(
+      id: 'dev-test-7',
+      eyewearId: e2,
+      score: 25,
+      takenAt: DateTime(2025, 6, 12),
+    ),
+    EyewearTest(
+      id: 'dev-test-8',
+      eyewearId: e1,
+      score: 75,
+      takenAt: DateTime(2025, 4, 09),
+    ),
+    EyewearTest(
+      id: 'dev-test-9',
+      eyewearId: e2,
+      score: 69,
+      takenAt: DateTime(2024, 9, 23),
+    ),
+  ];
 }

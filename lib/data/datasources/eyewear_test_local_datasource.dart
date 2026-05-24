@@ -15,6 +15,7 @@ abstract class EyewearTestLocalDataSource {
   });
 
   Future<void> save(EyewearTestModel model);
+  Future<void> clearAll();
 }
 
 @LazySingleton(as: EyewearTestLocalDataSource)
@@ -55,4 +56,7 @@ class HiveEyewearTestLocalDataSource implements EyewearTestLocalDataSource {
 
   @override
   Future<void> save(EyewearTestModel model) => _box.put(model.id, model);
+
+  @override
+  Future<void> clearAll() => _box.clear();
 }

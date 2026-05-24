@@ -4,6 +4,7 @@ import 'package:my_eyes/presentation/eyetest/screens/eyetest_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_screen.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
+import 'package:my_eyes/presentation/newtest/screens/new_test_screen.dart';
 import 'package:my_eyes/presentation/notifications/screens/notifications_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/edit_profile_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/profile_screen.dart';
@@ -90,18 +91,18 @@ class AppPages {
     builder: (_) => const AddEyewearScreen(),
   );
 
-  static final eyewearDetail = PageInfo(
-    path: ':id',
-    name: 'eyewearDetail',
-    title: 'Eyewear Detail',
-    builder: (_) => const Placeholder(),
-  );
-
   static final testHistory = PageInfo(
     path: AppRoutes.testHistory,
     name: 'testHistory',
     title: 'Test History',
     builder: (_) => const TestHistoryScreen(),
+  );
+
+  static final newEyeTest = PageInfo(
+    path: AppRoutes.newEyeTest,
+    name: 'newEyeTest',
+    title: 'New Test',
+    builder: (_) => const NewTestScreen(),
   );
 
   static final prescriptionNew = PageInfo(

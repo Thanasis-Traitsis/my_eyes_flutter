@@ -13,4 +13,5 @@ abstract class EyewearTestRepository {
   });
 
   Future<void> saveTest(EyewearTest test);
+  Future<void> clearAllTests();
 }
