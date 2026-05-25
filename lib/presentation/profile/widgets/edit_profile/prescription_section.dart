@@ -23,7 +23,6 @@ class PrescriptionSection extends StatelessWidget {
       children: [
         EyeFields(
           label: AppStrings.prescriptionOdRight,
-          formController: formController,
           sphereController: formController.sphereRight,
           cylinderController: formController.cylinderRight,
           axisController: formController.axisRight,
@@ -31,7 +30,6 @@ class PrescriptionSection extends StatelessWidget {
         ),
         EyeFields(
           label: AppStrings.prescriptionOsLeft,
-          formController: formController,
           sphereController: formController.sphereLeft,
           cylinderController: formController.cylinderLeft,
           axisController: formController.axisLeft,

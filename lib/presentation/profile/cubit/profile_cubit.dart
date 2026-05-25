@@ -34,6 +34,40 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  Future<void> editPrescription(Prescription prescription) async {
+    final current = state;
+    if (current is! ProfileLoaded) return;
+
+    try {
+      await _prescriptionRepository.updatePrescription(prescription);
+      emit(
+        ProfileLoaded(
+          profile: current.profile,
+          latestPrescription: prescription,
+        ),
+      );
+    } catch (e) {
+      emit(current.copyWith(saveError: e.toString()));
+    }
+  }
+
+  Future<void> addPrescription(Prescription prescription) async {
+    final current = state;
+    if (current is! ProfileLoaded) return;
+
+    try {
+      await _prescriptionRepository.savePrescription(prescription);
+      emit(
+        ProfileLoaded(
+          profile: current.profile,
+          latestPrescription: prescription,
+        ),
+      );
+    } catch (e) {
+      emit(current.copyWith(saveError: e.toString()));
+    }
+  }
+
   Future<void> saveProfile({
     required String username,
     required String email,

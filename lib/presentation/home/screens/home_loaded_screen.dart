@@ -81,7 +81,7 @@ class HomeLoadedScreen extends StatelessWidget {
           ShortcutCard(
             cardTitle: AppStrings.shortcutAddPrescription,
             icon: Icons.fiber_new_outlined,
-            onTap: () {},
+            onTap: () => NavigationService.push(AppPages.prescriptionNew.path),
           ),
           ShortcutCard(
             cardTitle: AppStrings.shortcutAddLenses,

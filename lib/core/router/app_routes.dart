@@ -18,9 +18,7 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String settings = '/settings';
   static const String testHistory = '/test-history';
-
-  static const String prescriptionNew = '/prescriptions/new';
-  static const String prescriptionDetail = '/prescriptions/:id';
-  static const String prescriptionEdit = '/prescriptions/:id/edit';
-  static const String calendarEvents = '/calendar-events';
+  static const String prescriptionNew = '/prescriptions-new';
+  static const String prescriptionEdit = '/prescriptions-edit';
+  static const String prescriptionHistory = '/prescriptions-history';
 }

@@ -3,8 +3,11 @@ import 'package:my_eyes/core/constants/app_keys.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
+import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
+import 'package:my_eyes/presentation/prescription/screens/add_prescription_screen.dart';
+import 'package:my_eyes/presentation/prescription_history/screens/prescription_history_screen.dart';
 import 'package:my_eyes/presentation/shared/screens/screen_with_navbar.dart';
 import 'package:my_eyes/presentation/test_history/screens/test_history_screen.dart';
 
@@ -104,7 +107,6 @@ class AppRouter {
         name: AppPages.newEyeTest.name,
         builder: (context, state) => AppPages.newEyeTest.builder(context),
       ),
-      // ============================
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
         path: AppRoutes.prescriptionNew,
@@ -113,22 +115,16 @@ class AppRouter {
       ),
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
-        path: AppRoutes.prescriptionDetail,
-        name: AppPages.prescriptionDetail.name,
-        builder: (context, state) =>
-            AppPages.prescriptionDetail.builder(context),
-      ),
-      GoRoute(
-        parentNavigatorKey: AppKeys.rootNavigatorKey,
         path: AppRoutes.prescriptionEdit,
         name: AppPages.prescriptionEdit.name,
-        builder: (context, state) => AppPages.prescriptionEdit.builder(context),
+        builder: (context, state) =>
+            AddPrescriptionScreen(prescription: state.extra as Prescription?),
       ),
       GoRoute(
         parentNavigatorKey: AppKeys.rootNavigatorKey,
-        path: AppRoutes.calendarEvents,
-        name: AppPages.calendarEvents.name,
-        builder: (context, state) => AppPages.calendarEvents.builder(context),
+        path: AppRoutes.prescriptionHistory,
+        name: AppPages.prescriptionHistory.name,
+        builder: (context, state) => const PrescriptionHistoryScreen(),
       ),
     ],
 

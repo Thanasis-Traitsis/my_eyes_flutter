@@ -14,6 +14,8 @@ class PrescriptionField extends StatelessWidget {
     required this.controller,
     required this.isOptional,
     required this.onValidationChanged,
+    this.showInlineError = true,
+    this.onErrorChanged,
   });
 
   final PrescriptionEyeField field;
@@ -21,6 +23,8 @@ class PrescriptionField extends StatelessWidget {
   final bool isOptional;
   final void Function(TextEditingController controller, bool isValid)
   onValidationChanged;
+  final bool showInlineError;
+  final ValueChanged<String?>? onErrorChanged;
 
   FieldValidator get _validator => switch (field) {
     PrescriptionEyeField.sphere => SphereValidator(isOptional: isOptional),
@@ -53,6 +57,8 @@ class PrescriptionField extends StatelessWidget {
         hintText: _hintText,
         keyboardType: _keyboardType,
         inputFormatters: _inputFormatters,
+        showInlineError: showInlineError,
+        onErrorChanged: onErrorChanged,
         onValidationChanged: (isValid) =>
             onValidationChanged(controller, isValid),
       ),

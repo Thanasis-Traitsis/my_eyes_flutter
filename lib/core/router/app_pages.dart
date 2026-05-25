@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
 import 'package:my_eyes/presentation/eyetest/screens/eyetest_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
@@ -9,6 +10,8 @@ import 'package:my_eyes/presentation/notifications/screens/notifications_screen.
 import 'package:my_eyes/presentation/profile/screens/edit_profile_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/profile_screen.dart';
 import 'package:my_eyes/presentation/settings/screens/settings_screen.dart';
+import 'package:my_eyes/presentation/prescription/screens/add_prescription_screen.dart';
+import 'package:my_eyes/presentation/prescription_history/screens/prescription_history_screen.dart';
 import 'package:my_eyes/presentation/test_history/screens/test_history_screen.dart';
 
 class PageInfo {
@@ -109,27 +112,20 @@ class AppPages {
     path: AppRoutes.prescriptionNew,
     name: 'prescriptionNew',
     title: 'Add Prescription',
-    builder: (_) => const Placeholder(),
-  );
-
-  static final prescriptionDetail = PageInfo(
-    path: AppRoutes.prescriptionDetail,
-    name: 'prescriptionDetail',
-    title: 'Prescription Detail',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const AddPrescriptionScreen(),
   );
 
   static final prescriptionEdit = PageInfo(
     path: AppRoutes.prescriptionEdit,
     name: 'prescriptionEdit',
     title: 'Edit Prescription',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const AddPrescriptionScreen(),
   );
 
-  static final calendarEvents = PageInfo(
-    path: AppRoutes.calendarEvents,
-    name: 'calendarEvents',
-    title: 'Calendar Events',
-    builder: (_) => const Placeholder(),
+  static final prescriptionHistory = PageInfo(
+    path: AppRoutes.prescriptionHistory,
+    name: 'prescriptionHistory',
+    title: AppStrings.prescriptionHistoryTitle,
+    builder: (_) => const PrescriptionHistoryScreen(),
   );
 }

@@ -14,6 +14,9 @@ class PrescriptionModel extends HiveObject {
     required this.leftEye,
     required this.updatedAt,
     this.pendingSync = true,
+    this.doctor,
+    this.notes,
+    this.reminderMonths,
   });
 
   @HiveField(0)
@@ -37,6 +40,15 @@ class PrescriptionModel extends HiveObject {
   @HiveField(6)
   bool pendingSync;
 
+  @HiveField(7)
+  String? doctor;
+
+  @HiveField(8)
+  String? notes;
+
+  @HiveField(9)
+  int? reminderMonths;
+
   Prescription toEntity() => Prescription(
     id: id,
     label: label,
@@ -44,6 +56,9 @@ class PrescriptionModel extends HiveObject {
     rightEye: rightEye.toEntity(),
     leftEye: leftEye.toEntity(),
     updatedAt: updatedAt,
+    doctor: doctor,
+    notes: notes,
+    reminderMonths: reminderMonths,
   );
 
   factory PrescriptionModel.fromEntity(Prescription p) => PrescriptionModel(
@@ -54,5 +69,8 @@ class PrescriptionModel extends HiveObject {
     leftEye: EyeMeasurementModel.fromEntity(p.leftEye),
     updatedAt: p.updatedAt,
     pendingSync: true,
+    doctor: p.doctor,
+    notes: p.notes,
+    reminderMonths: p.reminderMonths,
   );
 }

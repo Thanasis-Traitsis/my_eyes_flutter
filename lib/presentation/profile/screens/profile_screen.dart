@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
+import 'package:my_eyes/core/router/navigation_service.dart';
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
 import 'package:my_eyes/presentation/profile/widgets/profile_insight.dart';
 import 'package:my_eyes/presentation/profile/widgets/profile_summary.dart';
@@ -38,7 +39,8 @@ class ProfileScreen extends StatelessWidget {
               ShortcutCard(
                 cardTitle: AppStrings.shortcutPrescriptionHistory,
                 icon: Icons.history_outlined,
-                onTap: () {},
+                onTap: () =>
+                    NavigationService.push(AppPages.prescriptionHistory.path),
               ),
             ],
           ),

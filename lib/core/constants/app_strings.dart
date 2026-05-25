@@ -121,6 +121,20 @@ class AppStrings {
   static const String prescriptionSphere = 'Sphere';
   static const String prescriptionCylinder = 'Cylinder';
   static const String prescriptionAxis = 'Axis';
+
+  static const String prescriptionNewPrescriptionSection = 'Prescription';
+  static const String prescriptionNewReuseButton = 'Use current';
+  static const String prescriptionNewDetailsSection = 'Details';
+  static const String prescriptionNewIssueDate = 'Issue Date';
+  static const String prescriptionNewDateCancelButton = 'dismiss';
+  static const String prescriptionNewDateConfirmButton = 'confirm';
+  static const String prescriptionNewDoctor = 'Doctor / Hospital';
+  static const String prescriptionNewDoctorHint = 'e.g. Dr. Smith';
+  static const String prescriptionNewNotes = 'Notes';
+  static const String prescriptionNewNotesHint = 'Additional notes...';
+  static const String prescriptionNewReminder = 'Recheck Reminder';
+  static const String prescriptionNewReminderNone = 'None';
+  static const String prescriptionNewSave = 'Save';
   static const String eyewearVisualSelectorHint =
       'Pick the frame style that best matches your eyewear';
 
@@ -128,4 +142,11 @@ class AppStrings {
   static const String eyeRight = 'right';
 
   static const String calendarEventLensReplacement = 'Lens replacement';
+
+  static const String prescriptionHistoryTitle = 'Prescription History';
+  static const String prescriptionHistoryEmpty =
+      'No prescriptions recorded yet.';
+  static const String prescriptionHistoryReminder3M = '3-month reminder';
+  static const String prescriptionHistoryReminder6M = '6-month reminder';
+  static const String prescriptionHistoryReminder1Y = '1-year reminder';
 }

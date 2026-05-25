@@ -151,6 +151,11 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                   CustomContainer(
                     containerTitle:
                         AppStrings.profileEditSectionCurrentPrescription,
+                    buttonText: AppStrings.homeButtonEdit,
+                    onButtonPressed: () => NavigationService.push(
+                      AppPages.prescriptionEdit.path,
+                      extra: widget.state.latestPrescription,
+                    ),
                     containerChild: PrescriptionSection(
                       formController: _form,
                       onValidationChanged: (controller, isValid) {

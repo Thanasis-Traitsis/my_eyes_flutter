@@ -19,6 +19,7 @@ class CustomContainer extends StatelessWidget {
     this.onButtonPressed,
     this.buttonWidget,
     this.isDropdown = false,
+    this.buttonIcon = Icons.arrow_outward,
   });
 
   final String containerTitle;
@@ -29,6 +30,7 @@ class CustomContainer extends StatelessWidget {
   final String? buttonText;
   final VoidCallback? onButtonPressed;
   final Widget? buttonWidget;
+  final IconData? buttonIcon;
   final bool isDropdown;
 
   @override
@@ -79,7 +81,7 @@ class CustomContainer extends StatelessWidget {
                           iconAlignment: IconAlignment.end,
                           icon: isDropdown
                               ? Icons.keyboard_arrow_down_sharp
-                              : Icons.arrow_outward,
+                              : buttonIcon,
                           text: buttonText!,
                           onPressed: onButtonPressed,
                         ),

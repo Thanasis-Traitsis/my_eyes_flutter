@@ -78,8 +78,9 @@ class ChartDiagram extends StatelessWidget {
               reservedSize: 28,
               interval: step,
               getTitlesWidget: (value, meta) {
-                if (value == meta.min || value == meta.max)
+                if (value == meta.min || value == meta.max) {
                   return const SizedBox.shrink();
+                }
 
                 return SideTitleWidget(
                   meta: meta,

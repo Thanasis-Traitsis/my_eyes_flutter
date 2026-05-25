@@ -17,6 +17,18 @@ class PrescriptionRepositoryImpl implements PrescriptionRepository {
   }
 
   @override
+  Future<List<Prescription>> getPrescriptionsPaged({
+    required int offset,
+    required int limit,
+  }) async {
+    final models = await _localDataSource.getAllPaged(
+      offset: offset,
+      limit: limit,
+    );
+    return models.map((m) => m.toEntity()).toList();
+  }
+
+  @override
   Future<void> savePrescription(Prescription prescription) =>
       _localDataSource.save(PrescriptionModel.fromEntity(prescription));
 
