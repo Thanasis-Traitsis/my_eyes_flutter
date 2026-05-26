@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
+import 'package:my_eyes/domain/enums/reminder_interval.dart';
 import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 
 class ReminderRow extends StatelessWidget {
@@ -13,23 +14,21 @@ class ReminderRow extends StatelessWidget {
   final int? selected;
   final ValueChanged<int?> onChanged;
 
-  static const _options = [
-    (label: AppStrings.prescriptionNewReminderNone, months: null),
-    (label: '3M', months: 3),
-    (label: '6M', months: 6),
-    (label: '1Y', months: 12),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Row(
       spacing: AppSpacing.spacingS,
       children: [
-        for (final option in _options)
+        _ReminderButton(
+          label: AppStrings.prescriptionNewReminderNone,
+          isSelected: selected == null,
+          onTap: () => onChanged(null),
+        ),
+        for (final interval in ReminderInterval.values)
           _ReminderButton(
-            label: option.label,
-            isSelected: selected == option.months,
-            onTap: () => onChanged(option.months),
+            label: interval.buttonLabel,
+            isSelected: selected == interval.months,
+            onTap: () => onChanged(interval.months),
           ),
       ],
     );

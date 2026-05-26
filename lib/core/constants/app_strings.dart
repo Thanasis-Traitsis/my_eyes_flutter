@@ -146,7 +146,4 @@ class AppStrings {
   static const String prescriptionHistoryTitle = 'Prescription History';
   static const String prescriptionHistoryEmpty =
       'No prescriptions recorded yet.';
-  static const String prescriptionHistoryReminder3M = '3-month reminder';
-  static const String prescriptionHistoryReminder6M = '6-month reminder';
-  static const String prescriptionHistoryReminder1Y = '1-year reminder';
 }
