@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_eyes/core/theme/custom_text_type.dart';
-import 'package:my_eyes/core/utils/theme_extensions.dart';
-import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 
 class CustomFloatingButton extends StatelessWidget {
   const CustomFloatingButton({
@@ -17,24 +15,11 @@ class CustomFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return buttonIcon != null
-        ? FilledButton.icon(
-            iconAlignment: IconAlignment.end,
-            onPressed: onTap,
-            label: CustomText(
-              text: buttonText.toUpperCase(),
-              textType: CustomTextType.regularButtonText,
-              color: context.colors.white,
-            ),
-            icon: Icon(buttonIcon),
-          )
-        : FilledButton(
-            onPressed: onTap,
-            child: CustomText(
-              text: buttonText.toUpperCase(),
-              textType: CustomTextType.regularButtonText,
-              color: context.colors.white,
-            ),
-          );
+    return AppButton.filled(
+      iconAlignment: IconAlignment.end,
+      icon: buttonIcon,
+      text: buttonText,
+      onPressed: onTap,
+    );
   }
 }

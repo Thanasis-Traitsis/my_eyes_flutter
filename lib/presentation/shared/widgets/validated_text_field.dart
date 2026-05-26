@@ -11,6 +11,8 @@ class ValidatedTextField extends StatefulWidget {
     this.hintText,
     this.keyboardType,
     this.inputFormatters,
+    this.showInlineError = true,
+    this.onErrorChanged,
   });
 
   final TextEditingController controller;
@@ -19,6 +21,8 @@ class ValidatedTextField extends StatefulWidget {
   final String? hintText;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final bool showInlineError;
+  final ValueChanged<String?>? onErrorChanged;
 
   @override
   State<ValidatedTextField> createState() => _ValidatedTextFieldState();
@@ -54,6 +58,9 @@ class _ValidatedTextFieldState extends State<ValidatedTextField> {
     if (newError != _errorText) {
       setState(() => _errorText = newError);
       widget.onValidationChanged(isValid);
+      if (!widget.showInlineError) {
+        widget.onErrorChanged?.call(newError);
+      }
     }
   }
 
@@ -65,7 +72,12 @@ class _ValidatedTextFieldState extends State<ValidatedTextField> {
       inputFormatters: widget.inputFormatters,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        errorText: _isDirty ? _errorText : null,
+        errorText: widget.showInlineError
+            ? (_isDirty ? _errorText : null)
+            : (_isDirty && _errorText != null ? '' : null),
+        errorStyle: widget.showInlineError
+            ? null
+            : const TextStyle(fontSize: 0, height: 0),
       ),
     );
   }

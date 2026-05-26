@@ -32,13 +32,41 @@ class AppStrings {
   static const String shortcutPrescriptionHistory = 'Prescription History';
   static const String shortcutAddLenses = 'Add New Lenses';
 
+  static const String eyeTestInstructionHeader = 'test instructions';
+  static const String eyeTestInstructionDescription =
+      'Lorem ipsum dolor sit amet consectetur. Odio vel amet sit id luctus. Et viverra massa commodo diam sapien dignissim lorem sed sem. Condimentum eget pretium nisl pellentesque duis massa. Erat rhoncus massa lectus non sagittis faucibus suspendisse a.';
+  static const String eyeTestStep = 'step';
+  static const String eyeTestStatisticsHeader = 'test statistics';
+  static const String eyeTestStatisticsButtonText = 'all';
+  static const String eyeTestStatisticsEmpty = 'No data yet';
+  static const String eyeTestChartDateFormat = 'MMM yy';
+  static const String eyeTestFloatingButtonText = 'new test';
+  static const String eyeTestOnboardingNext = 'Next';
+  static const String eyeTestOnboardingStart = 'Start Test';
+  static const String eyeTestOnboardingPrevious = 'Previous';
+  static const String eyeTestOnboardingExit = 'Exit';
+  static const String eyeTestOnboardingSkip = 'Skip';
+
   static const String eyewearCarouselCardButtonEdit = 'edit';
   static const String eyewearCarouselCardDetails = 'details';
+  static const String eyewearSectionTestHistory = 'Test History';
+  static const String eyewearTestHistoryEmpty = 'No tests recorded yet.';
+  static const String testHistoryFilterAll = 'All';
+  static const String testHistoryFilterSheetTitle = 'Filters';
+  static const String testHistoryFilterSectionEyewear = 'Eyewear Collection';
+  static const String testHistoryFilterApply = 'Apply';
+  static const String testHistoryFilterClearAll = 'Clear All';
 
   static const String eyewearAddSectionDetails = 'Eyewear Details';
   static const String eyewearAddSectionPrescription = 'Prescription';
   static const String eyewearFieldName = 'Name';
   static const String eyewearFieldNameHint = 'e.g. Daily Frames';
+  static const String eyewearFieldColor = 'Colour';
+  static const String eyewearHsvPickerDialogTitle = 'Custom colour';
+  static const String eyewearHsvPickerDialogDescription =
+      'Create your own colour';
+  static const String eyewearHsvPickerDialogSave = 'save';
+  static const String eyewearHsvPickerDialogCancel = 'cancel';
   static const String eyewearFieldCategory = 'Category';
   static const String eyewearButtonSave = 'Save';
   static const String eyewearPrescriptionOptionalNote =
@@ -93,6 +121,20 @@ class AppStrings {
   static const String prescriptionSphere = 'Sphere';
   static const String prescriptionCylinder = 'Cylinder';
   static const String prescriptionAxis = 'Axis';
+
+  static const String prescriptionNewPrescriptionSection = 'Prescription';
+  static const String prescriptionNewReuseButton = 'Use current';
+  static const String prescriptionNewDetailsSection = 'Details';
+  static const String prescriptionNewIssueDate = 'Issue Date';
+  static const String prescriptionNewDateCancelButton = 'dismiss';
+  static const String prescriptionNewDateConfirmButton = 'confirm';
+  static const String prescriptionNewDoctor = 'Doctor / Hospital';
+  static const String prescriptionNewDoctorHint = 'e.g. Dr. Smith';
+  static const String prescriptionNewNotes = 'Notes';
+  static const String prescriptionNewNotesHint = 'Additional notes...';
+  static const String prescriptionNewReminder = 'Recheck Reminder';
+  static const String prescriptionNewReminderNone = 'None';
+  static const String prescriptionNewSave = 'Save';
   static const String eyewearVisualSelectorHint =
       'Pick the frame style that best matches your eyewear';
 
@@ -100,4 +142,8 @@ class AppStrings {
   static const String eyeRight = 'right';
 
   static const String calendarEventLensReplacement = 'Lens replacement';
+
+  static const String prescriptionHistoryTitle = 'Prescription History';
+  static const String prescriptionHistoryEmpty =
+      'No prescriptions recorded yet.';
 }

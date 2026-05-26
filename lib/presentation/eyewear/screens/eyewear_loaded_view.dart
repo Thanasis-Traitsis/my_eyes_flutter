@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_carousel_card.dart';
-import 'package:my_eyes/presentation/eyewear/widgets/test_history_card.dart';
 import 'package:my_eyes/presentation/shared/widgets/carousel/custom_carousel.dart';
-import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
+import 'package:my_eyes/presentation/shared/widgets/test_history_container.dart';
 
 class EyewearLoadedView extends StatefulWidget {
   const EyewearLoadedView({super.key, required this.items});
@@ -21,36 +20,30 @@ class _EyewearLoadedViewState extends State<EyewearLoadedView> {
   @override
   void didUpdateWidget(EyewearLoadedView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_currentIndex >= widget.items.length) {
-      _currentIndex = (widget.items.length - 1).clamp(
-        0,
-        double.maxFinite.toInt(),
-      );
+    if (widget.items.length != oldWidget.items.length) {
+      final safeIndex = _currentIndex.clamp(0, widget.items.length - 1);
+      if (safeIndex != _currentIndex) {
+        setState(() => _currentIndex = safeIndex);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentItem = widget.items[_currentIndex];
+
     return Column(
       spacing: AppSpacing.spacingM,
       children: [
         CustomCarousel(
-          onPageChanged: (index) => setState(() => _currentIndex = index),
+          onPageChanged: (index) => {setState(() => _currentIndex = index)},
           children: [
             for (final item in widget.items) EyewearCarouselCard(item: item),
           ],
         ),
-        CustomContainer(
-          icon: Icons.history,
-          containerTitle: 'test history — ${widget.items[_currentIndex].name}',
-          containerChild: Column(
-            spacing: AppSpacing.spacingM,
-            children: const [
-              TestHistoryCard(),
-              TestHistoryCard(),
-              TestHistoryCard(),
-            ],
-          ),
+        TestHistoryContainer(
+          key: ValueKey(currentItem.id),
+          eyewearId: currentItem.id,
         ),
       ],
     );

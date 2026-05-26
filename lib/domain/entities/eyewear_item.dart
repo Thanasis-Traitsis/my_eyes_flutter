@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 
@@ -9,6 +10,7 @@ class EyewearItem extends Equatable {
     required this.category,
     required this.updatedAt,
     this.selectedOptionIndex = 0,
+    this.colorValue = 0xFF9E9EAF,
     this.prescription,
   });
 
@@ -17,6 +19,10 @@ class EyewearItem extends Equatable {
   final EyewearCategory category;
   final DateTime updatedAt;
   final int selectedOptionIndex;
+  final int colorValue;
+
+  Color get color => Color(colorValue);
+
   final Prescription? prescription;
 
   EyewearItem copyWith({
@@ -25,6 +31,7 @@ class EyewearItem extends Equatable {
     EyewearCategory? category,
     DateTime? updatedAt,
     int? selectedOptionIndex,
+    int? colorValue,
     Prescription? prescription,
   }) {
     return EyewearItem(
@@ -33,6 +40,7 @@ class EyewearItem extends Equatable {
       category: category ?? this.category,
       updatedAt: updatedAt ?? this.updatedAt,
       selectedOptionIndex: selectedOptionIndex ?? this.selectedOptionIndex,
+      colorValue: colorValue ?? this.colorValue,
       prescription: prescription ?? this.prescription,
     );
   }
@@ -44,6 +52,7 @@ class EyewearItem extends Equatable {
     category,
     updatedAt,
     selectedOptionIndex,
+    colorValue,
     prescription,
   ];
 }

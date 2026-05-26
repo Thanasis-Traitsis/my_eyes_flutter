@@ -4,6 +4,10 @@ import 'package:my_eyes/data/models/prescription_model.dart';
 
 abstract class PrescriptionLocalDataSource {
   Future<List<PrescriptionModel>> getAll();
+  Future<List<PrescriptionModel>> getAllPaged({
+    required int offset,
+    required int limit,
+  });
   Future<void> save(PrescriptionModel model);
   Future<void> update(PrescriptionModel model);
   Future<void> delete(String id);
@@ -20,6 +24,15 @@ class HivePrescriptionLocalDataSource implements PrescriptionLocalDataSource {
     final values = _box.values.toList();
     values.sort((a, b) => b.issueDate.compareTo(a.issueDate));
     return values;
+  }
+
+  @override
+  Future<List<PrescriptionModel>> getAllPaged({
+    required int offset,
+    required int limit,
+  }) async {
+    final all = await getAll();
+    return all.skip(offset).take(limit).toList();
   }
 
   @override

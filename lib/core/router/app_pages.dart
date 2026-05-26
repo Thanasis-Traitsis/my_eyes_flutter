@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/presentation/eyetest/screens/eyetest_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_screen.dart';
 import 'package:my_eyes/presentation/home/screens/home_screen.dart';
+import 'package:my_eyes/presentation/newtest/screens/new_test_screen.dart';
 import 'package:my_eyes/presentation/notifications/screens/notifications_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/edit_profile_screen.dart';
 import 'package:my_eyes/presentation/profile/screens/profile_screen.dart';
 import 'package:my_eyes/presentation/settings/screens/settings_screen.dart';
+import 'package:my_eyes/presentation/prescription/screens/add_prescription_screen.dart';
+import 'package:my_eyes/presentation/prescription_history/screens/prescription_history_screen.dart';
+import 'package:my_eyes/presentation/test_history/screens/test_history_screen.dart';
 
 class PageInfo {
   final String path;
@@ -36,7 +42,7 @@ class AppPages {
     path: AppRoutes.eyeTest,
     name: 'eyeTest',
     title: 'Quick Eye Test',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const EyetestScreen(),
   );
 
   static final eyewear = PageInfo(
@@ -88,52 +94,38 @@ class AppPages {
     builder: (_) => const AddEyewearScreen(),
   );
 
-  static final eyewearDetail = PageInfo(
-    path: ':id',
-    name: 'eyewearDetail',
-    title: 'Eyewear Detail',
-    builder: (_) => const Placeholder(),
+  static final testHistory = PageInfo(
+    path: AppRoutes.testHistory,
+    name: 'testHistory',
+    title: 'Test History',
+    builder: (_) => const TestHistoryScreen(),
   );
 
-  static final lensNew = PageInfo(
-    path: AppRoutes.lensNew,
-    name: 'lensNew',
-    title: 'Add Lens',
-    builder: (_) => const Placeholder(),
-  );
-
-  static final lensDetail = PageInfo(
-    path: AppRoutes.lensDetail,
-    name: 'lensDetail',
-    title: 'Lens Detail',
-    builder: (_) => const Placeholder(),
+  static final newEyeTest = PageInfo(
+    path: AppRoutes.newEyeTest,
+    name: 'newEyeTest',
+    title: 'New Test',
+    builder: (_) => const NewTestScreen(),
   );
 
   static final prescriptionNew = PageInfo(
     path: AppRoutes.prescriptionNew,
     name: 'prescriptionNew',
     title: 'Add Prescription',
-    builder: (_) => const Placeholder(),
-  );
-
-  static final prescriptionDetail = PageInfo(
-    path: AppRoutes.prescriptionDetail,
-    name: 'prescriptionDetail',
-    title: 'Prescription Detail',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const AddPrescriptionScreen(),
   );
 
   static final prescriptionEdit = PageInfo(
     path: AppRoutes.prescriptionEdit,
     name: 'prescriptionEdit',
     title: 'Edit Prescription',
-    builder: (_) => const Placeholder(),
+    builder: (_) => const AddPrescriptionScreen(),
   );
 
-  static final calendarEvents = PageInfo(
-    path: AppRoutes.calendarEvents,
-    name: 'calendarEvents',
-    title: 'Calendar Events',
-    builder: (_) => const Placeholder(),
+  static final prescriptionHistory = PageInfo(
+    path: AppRoutes.prescriptionHistory,
+    name: 'prescriptionHistory',
+    title: AppStrings.prescriptionHistoryTitle,
+    builder: (_) => const PrescriptionHistoryScreen(),
   );
 }

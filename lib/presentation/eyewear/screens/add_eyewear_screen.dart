@@ -9,6 +9,7 @@ import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/presentation/eyewear/controller/add_eyewear_form_controller.dart';
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_category_dropdown.dart';
+import 'package:my_eyes/presentation/eyewear/widgets/eyewear_color_picker.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_prescription_section.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_visual_selector.dart';
 import 'package:my_eyes/presentation/profile/widgets/edit_profile/labeled_section.dart';
@@ -185,6 +186,14 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
                     onValidationChanged: (controller, isValid) {
                       setState(() => _form.setValidity(controller, isValid));
                     },
+                  ),
+                ),
+                CustomContainer(
+                  containerTitle: AppStrings.eyewearFieldColor,
+                  containerChild: EyewearColorPicker(
+                    selected: _form.selectedColor,
+                    onChanged: (color) =>
+                        setState(() => _form.selectedColor = color),
                   ),
                 ),
                 Opacity(

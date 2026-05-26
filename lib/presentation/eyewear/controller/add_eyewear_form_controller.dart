@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:my_eyes/domain/entities/eye_measurement.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
@@ -15,6 +15,7 @@ class AddEyewearFormController {
     axisLeft = TextEditingController();
     selectedCategory = category ?? EyewearCategory.nearSightedGlasses;
     selectedOptionIndex = 0;
+    selectedColor = const Color(0xFF9E9EAF);
   }
 
   AddEyewearFormController.fromItem(EyewearItem item) {
@@ -36,6 +37,7 @@ class AddEyewearFormController {
     axisLeft = TextEditingController(text: rx?.leftEye.axis.toString() ?? '');
     selectedCategory = item.category;
     selectedOptionIndex = item.selectedOptionIndex;
+    selectedColor = item.color;
   }
 
   late final TextEditingController name;
@@ -48,6 +50,7 @@ class AddEyewearFormController {
 
   late EyewearCategory selectedCategory;
   late int selectedOptionIndex;
+  late Color selectedColor;
 
   final Map<TextEditingController, bool> _validityMap = {};
 
@@ -79,8 +82,6 @@ class AddEyewearFormController {
   bool get hasPrescriptionData =>
       prescriptionControllers.any((c) => c.text.trim().isNotEmpty);
 
-  /// Builds the [EyewearItem] from the current form state.
-  /// Pass [existing] when editing so the original [id] is preserved.
   EyewearItem buildItem({EyewearItem? existing}) {
     final now = DateTime.now();
 
@@ -114,6 +115,7 @@ class AddEyewearFormController {
       category: selectedCategory,
       updatedAt: now,
       selectedOptionIndex: selectedOptionIndex,
+      colorValue: selectedColor.toARGB32(),
       prescription: prescription,
     );
   }

@@ -9,6 +9,7 @@ import 'package:my_eyes/core/storage/hive_setup.dart';
 import 'package:my_eyes/core/theme/app_theme.dart';
 import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart';
+import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 import 'package:my_eyes/injection.dart';
@@ -26,6 +27,7 @@ void main() async {
       profileRepo: getIt<ProfileRepository>(),
       prescriptionRepo: getIt<PrescriptionRepository>(),
       eyewearRepo: getIt<EyewearRepository>(),
+      eyewearTestRepo: getIt<EyewearTestRepository>(),
     );
   }
 

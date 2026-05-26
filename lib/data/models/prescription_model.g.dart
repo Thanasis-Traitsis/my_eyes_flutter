@@ -24,13 +24,16 @@ class PrescriptionModelAdapter extends TypeAdapter<PrescriptionModel> {
       leftEye: fields[4] as EyeMeasurementModel,
       updatedAt: fields[5] as DateTime,
       pendingSync: fields[6] == null ? true : fields[6] as bool,
+      doctor: fields[7] as String?,
+      notes: fields[8] as String?,
+      reminderMonths: (fields[9] as num?)?.toInt(),
     );
   }
 
   @override
   void write(BinaryWriter writer, PrescriptionModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +47,13 @@ class PrescriptionModelAdapter extends TypeAdapter<PrescriptionModel> {
       ..writeByte(5)
       ..write(obj.updatedAt)
       ..writeByte(6)
-      ..write(obj.pendingSync);
+      ..write(obj.pendingSync)
+      ..writeByte(7)
+      ..write(obj.doctor)
+      ..writeByte(8)
+      ..write(obj.notes)
+      ..writeByte(9)
+      ..write(obj.reminderMonths);
   }
 
   @override

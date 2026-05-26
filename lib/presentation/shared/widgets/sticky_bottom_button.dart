@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 
 class StickyBottomButton extends StatelessWidget {
   const StickyBottomButton({
@@ -31,9 +32,10 @@ class StickyBottomButton extends StatelessWidget {
           ),
         ),
       ),
-      child: FilledButton(
+      child: AppButton.filled(
+        text: buttonText,
         onPressed: isEnabled ? onTap : null,
-        child: Text(buttonText.toUpperCase()),
+        size: AppButtonSize.large,
       ),
     );
   }

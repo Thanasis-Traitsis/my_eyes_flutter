@@ -16,9 +16,12 @@ class HomeCurrentPrescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       buttonText: AppStrings.homeButtonEdit,
-      onButtonPressed: () {
-        NavigationService.push(AppPages.editProfile.path);
-      },
+      onButtonPressed: latestPrescription != null
+          ? () => NavigationService.push(
+              AppPages.prescriptionEdit.path,
+              extra: latestPrescription,
+            )
+          : null,
       containerTitle: AppStrings.homeSectionPrescription,
       containerChild: latestPrescription != null
           ? Column(

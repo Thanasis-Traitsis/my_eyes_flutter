@@ -6,9 +6,9 @@ class AppRoutes {
   static const String home = '/home';
 
   static const String eyeTest = '/eye-test';
+  static const String newEyeTest = '/new-eyeTest';
 
   static const String eyewear = '/eyewear';
-  static const String eyewearDetail = '/eyewear/:id';
   static const String eyewearNew = '/new-eyewear';
   static const String eyewearEdit = '/edit-eyewear';
 
@@ -17,10 +17,8 @@ class AppRoutes {
 
   static const String notifications = '/notifications';
   static const String settings = '/settings';
-  static const String lensNew = '/lenses/new';
-  static const String lensDetail = '/lenses/:id';
-  static const String prescriptionNew = '/prescriptions/new';
-  static const String prescriptionDetail = '/prescriptions/:id';
-  static const String prescriptionEdit = '/prescriptions/:id/edit';
-  static const String calendarEvents = '/calendar-events';
+  static const String testHistory = '/test-history';
+  static const String prescriptionNew = '/prescriptions-new';
+  static const String prescriptionEdit = '/prescriptions-edit';
+  static const String prescriptionHistory = '/prescriptions-history';
 }

@@ -4,6 +4,7 @@ import 'package:my_eyes/core/constants/app_sizes.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class CustomContainer extends StatelessWidget {
@@ -16,6 +17,9 @@ class CustomContainer extends StatelessWidget {
     this.icon,
     this.buttonText,
     this.onButtonPressed,
+    this.buttonWidget,
+    this.isDropdown = false,
+    this.buttonIcon = Icons.arrow_outward,
   });
 
   final String containerTitle;
@@ -25,6 +29,9 @@ class CustomContainer extends StatelessWidget {
   final IconData? icon;
   final String? buttonText;
   final VoidCallback? onButtonPressed;
+  final Widget? buttonWidget;
+  final IconData? buttonIcon;
+  final bool isDropdown;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +62,8 @@ class CustomContainer extends StatelessWidget {
                 Row(
                   crossAxisAlignment: .center,
                   mainAxisSize: .max,
+                  mainAxisAlignment: .spaceBetween,
+                  spacing: AppSpacing.spacingM,
                   children: [
                     Expanded(
                       child: CustomText(
@@ -62,16 +71,18 @@ class CustomContainer extends StatelessWidget {
                         textType: CustomTextType.smallHeading,
                       ),
                     ),
-                    if (buttonText != null && onButtonPressed != null) ...[
-                      SizedBox(width: AppSpacing.spacingM),
-                      IntrinsicWidth(
-                        child: OutlinedButton.icon(
+                    if (buttonWidget != null) ...[
+                      Flexible(child: buttonWidget!),
+                    ] else if (buttonText != null &&
+                        onButtonPressed != null) ...[
+                      Flexible(
+                        child: AppButton.outlined(
+                          size: AppButtonSize.regular,
                           iconAlignment: IconAlignment.end,
-                          icon: const Icon(
-                            Icons.arrow_outward,
-                            size: AppSizes.iconSizeS,
-                          ),
-                          label: Text(buttonText!.toUpperCase()),
+                          icon: isDropdown
+                              ? Icons.keyboard_arrow_down_sharp
+                              : buttonIcon,
+                          text: buttonText!,
                           onPressed: onButtonPressed,
                         ),
                       ),
