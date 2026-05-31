@@ -95,7 +95,7 @@ class ChartDiagram extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 32,
+              reservedSize: 40,
               getTitlesWidget: (value, meta) => SideTitleWidget(
                 meta: meta,
                 child: CustomText(

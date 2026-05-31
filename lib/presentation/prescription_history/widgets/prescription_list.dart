@@ -27,7 +27,8 @@ class PrescriptionList extends StatelessWidget {
     return Column(
       spacing: AppSpacing.spacingM,
       children: [
-        for (final rx in items) PrescriptionHistoryCard(prescription: rx),
+        for (final (index, rx) in items.indexed)
+          PrescriptionHistoryCard(prescription: rx, isLatest: index == 0),
         if (isFetchingMore)
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.spacingM),

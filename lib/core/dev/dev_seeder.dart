@@ -1,10 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
+import 'package:my_eyes/core/constants/app_avatars.dart';
+import 'package:my_eyes/domain/entities/calendar_event.dart';
 import 'package:my_eyes/domain/entities/eye_measurement.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
+import 'package:my_eyes/domain/enums/calendar_event_type.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
+import 'package:my_eyes/domain/repositories/calendar_event_repository.dart';
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
@@ -13,26 +19,32 @@ import 'package:my_eyes/domain/repositories/profile_repository.dart';
 class DevSeeder {
   static const _eyewear1Id = 'dev-eyewear-1';
   static const _eyewear2Id = 'dev-eyewear-2';
+  static const _devPrescriptionId = 'dev-prescription-1';
 
   static Future<void> seed({
     required ProfileRepository profileRepo,
     required PrescriptionRepository prescriptionRepo,
     required EyewearRepository eyewearRepo,
     required EyewearTestRepository eyewearTestRepo,
+    required CalendarEventRepository calendarRepo,
   }) async {
     assert(kDebugMode, 'DevSeeder must only run in debug mode');
 
     final now = DateTime.now();
     final devDate = DateTime(2024, 6, 1);
 
-    if (await profileRepo.getProfile() == null) {
-      await profileRepo.saveProfile(
-        UserProfile(id: 'local-dev-user', username: 'Thanasis', updatedAt: now),
-      );
-    }
+    final avatar = AppAvatars.all[Random().nextInt(AppAvatars.all.length)];
+    await profileRepo.saveProfile(
+      UserProfile(
+        id: 'local-dev-user',
+        username: 'Thanasis',
+        updatedAt: now,
+        avatarUrl: avatar,
+      ),
+    );
 
     final devPrescription = Prescription(
-      id: 'dev-prescription-1',
+      id: _devPrescriptionId,
       label: 'Current',
       issueDate: devDate,
       rightEye: const EyeMeasurement(
@@ -86,8 +98,45 @@ class DevSeeder {
       await eyewearTestRepo.saveTest(test);
     }
 
+    final existingEvents = await calendarRepo.getEvents();
+    for (final event in existingEvents) {
+      await calendarRepo.deleteEvent(event.id);
+    }
+    for (final event in _calendarEvents()) {
+      await calendarRepo.saveEvent(event);
+    }
+
     debugPrint('DevSeeder: data reseeded');
   }
+
+  static List<CalendarEvent> _calendarEvents() => [
+    CalendarEvent(
+      id: 'dev-cal-1',
+      date: DateTime(2026, 6, 15),
+      title: 'Eye Exam',
+      type: CalendarEventType.custom,
+      description: "test description",
+    ),
+    CalendarEvent(
+      id: 'dev-cal-2',
+      date: DateTime(2026, 6, 28),
+      title: 'Lens replacement',
+      type: CalendarEventType.custom,
+    ),
+    CalendarEvent(
+      id: 'dev-cal-3',
+      date: DateTime(2026, 8, 5),
+      title: 'Lens replacement',
+      type: CalendarEventType.custom,
+      description: "this is a random description text",
+    ),
+    CalendarEvent(
+      id: 'dev-cal-4',
+      date: DateTime(2025, 9, 10),
+      title: 'Annual Eye Check',
+      type: CalendarEventType.custom,
+    ),
+  ];
 
   static List<EyewearTest> _testsFor(String e1, String e2) => [
     EyewearTest(

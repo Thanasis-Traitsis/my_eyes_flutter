@@ -5,6 +5,7 @@ import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/constants/app_values.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
+import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
 import 'package:my_eyes/domain/enums/test_filter_key.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
@@ -59,6 +60,8 @@ class _TestHistoryContainerBody extends StatelessWidget {
           icon: Icons.history,
           containerTitle: AppStrings.eyewearSectionTestHistory,
           buttonText: hasMore ? AppStrings.homeButtonViewAll : null,
+          iconColor: context.colors.primary,
+          iconBackgroundColor: context.colors.tintBlue,
           onButtonPressed: hasMore
               ? () {
                   final loaded =

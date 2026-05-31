@@ -15,11 +15,16 @@ class MockPrescriptionRepository extends Mock
 
 class FakeUserProfile extends Fake implements UserProfile {}
 
+class FakePrescription extends Fake implements Prescription {}
+
 void main() {
   late MockProfileRepository profileRepo;
   late MockPrescriptionRepository prescriptionRepo;
 
-  setUpAll(() => registerFallbackValue(FakeUserProfile()));
+  setUpAll(() {
+    registerFallbackValue(FakeUserProfile());
+    registerFallbackValue(FakePrescription());
+  });
 
   final tDate = DateTime(2024, 1, 15);
 
@@ -58,7 +63,7 @@ void main() {
 
   ProfileCubit buildCubit() => ProfileCubit(profileRepo, prescriptionRepo);
 
-  group('User loads profile', () {
+  group('loadProfile', () {
     blocTest<ProfileCubit, ProfileState>(
       'emits loading then loaded with profile and prescription',
       build: () {
@@ -117,9 +122,9 @@ void main() {
     );
   });
 
-  group('User updates profile', () {
+  group('saveProfile', () {
     blocTest<ProfileCubit, ProfileState>(
-      'emits updated loaded state with new username and new email',
+      'emits updated loaded state with new username and email',
       build: () {
         when(() => profileRepo.updateProfile(any())).thenAnswer((_) async {});
         return buildCubit()..emit(
@@ -140,6 +145,64 @@ void main() {
       build: () => buildCubit(),
       act: (cubit) =>
           cubit.saveProfile(username: 'NewName', email: 'newemail@mail.com'),
+      expect: () => [],
+    );
+  });
+
+  group('addPrescription', () {
+    blocTest<ProfileCubit, ProfileState>(
+      'saves prescription and emits updated loaded state',
+      build: () {
+        when(
+          () => prescriptionRepo.savePrescription(any()),
+        ).thenAnswer((_) async {});
+        return buildCubit()
+          ..emit(ProfileLoaded(profile: tProfile, latestPrescription: null));
+      },
+      act: (cubit) => cubit.addPrescription(tPrescription),
+      expect: () => [
+        isA<ProfileLoaded>().having(
+          (s) => s.latestPrescription?.id,
+          'id',
+          'p1',
+        ),
+      ],
+    );
+
+    blocTest<ProfileCubit, ProfileState>(
+      'does nothing when state is not loaded',
+      build: () => buildCubit(),
+      act: (cubit) => cubit.addPrescription(tPrescription),
+      expect: () => [],
+    );
+  });
+
+  group('editPrescription', () {
+    blocTest<ProfileCubit, ProfileState>(
+      'saves prescription and emits updated loaded state with refreshed updatedAt',
+      build: () {
+        when(
+          () => prescriptionRepo.updatePrescription(any()),
+        ).thenAnswer((_) async {});
+        return buildCubit()..emit(
+          ProfileLoaded(profile: tProfile, latestPrescription: tPrescription),
+        );
+      },
+      act: (cubit) =>
+          cubit.editPrescription(tPrescription.copyWith(notes: 'updated')),
+      expect: () => [
+        isA<ProfileLoaded>().having(
+          (s) => s.latestPrescription?.notes,
+          'notes',
+          'updated',
+        ),
+      ],
+    );
+
+    blocTest<ProfileCubit, ProfileState>(
+      'does nothing when state is not loaded',
+      build: () => buildCubit(),
+      act: (cubit) => cubit.editPrescription(tPrescription),
       expect: () => [],
     );
   });

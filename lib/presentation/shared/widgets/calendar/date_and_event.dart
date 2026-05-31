@@ -23,12 +23,13 @@ class DateAndEvent extends StatelessWidget {
             vertical: AppSpacing.spacingS,
           ),
           decoration: BoxDecoration(
-            color: context.colors.white,
+            color: context.colors.tintMint,
             borderRadius: AppBorders.smallBorderRadius,
           ),
           child: CustomText(
             text: '$date',
             textType: CustomTextType.smallHeading,
+            color: context.colors.tintMintDark,
           ),
         ),
         Expanded(child: CustomText(text: event)),

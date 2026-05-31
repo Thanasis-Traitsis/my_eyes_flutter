@@ -7,6 +7,10 @@ extension DateFormatting on DateTime {
       '${month.toString().padLeft(2, '0')}/'
       '$year';
 
+  String get formattedMonth => DateFormat('MMMM yyyy').format(this);
+
+  String get formattedDayMonth => DateFormat('d MMM').format(this);
+
   String toChartLabel() =>
       DateFormat(AppStrings.eyeTestChartDateFormat).format(this);
 }

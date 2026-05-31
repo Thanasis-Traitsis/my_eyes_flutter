@@ -2,7 +2,8 @@ class AppStrings {
   AppStrings._();
 
   static const String appName = 'My Eyes';
-  static const String appFont = 'Advent Pro';
+  static const String appFontBody = 'PlusJakartaSans';
+  static const String appFontHighlight = 'BricolageGrotesque';
 
   static const String devThemeLoadError = 'ThemeCubit: failed to load theme';
   static const String devThemeSaveError = 'ThemeCubit: failed to save theme';
@@ -19,14 +20,15 @@ class AppStrings {
   static const String greetingEvening = 'Good Evening';
 
   static const String homeSectionPrescription = 'Current Prescription';
+  static const String homeSectionPrescriptionEmpty =
+      'No prescription data found';
   static const String homeSectionEyewear = 'My Eyewear Collection';
   static const String homeSectionUpcoming = 'Upcoming';
+  static const String homeSectionUpcomingEmpty = 'No upcoming events.';
   static const String homeSectionDetails = 'Details';
-
   static const String homeButtonEdit = 'Edit';
   static const String homeButtonViewAll = 'View All';
   static const String homeButtonAddNew = 'Add New';
-
   static const String shortcutAddPrescription = 'Add New Prescription';
   static const String shortcutCalendarEvents = 'Calendar Events';
   static const String shortcutPrescriptionHistory = 'Prescription History';
@@ -46,6 +48,27 @@ class AppStrings {
   static const String eyeTestOnboardingPrevious = 'Previous';
   static const String eyeTestOnboardingExit = 'Exit';
   static const String eyeTestOnboardingSkip = 'Skip';
+
+  static const String eyeTestStep1Label = '1st';
+  static const String eyeTestStep1Title = 'Find the right distance';
+  static const String eyeTestStep1Description =
+      'Hold your device at arm\'s length — about 40 cm away from your eyes. Make sure you are in a well-lit room.';
+  static const String eyeTestStep1Short =
+      'Hold device ~40 cm away in a well-lit room.';
+
+  static const String eyeTestStep2Label = '2nd';
+  static const String eyeTestStep2Title = 'Cover one eye';
+  static const String eyeTestStep2Description =
+      'Use your hand or a piece of paper to cover one eye at a time. Keep both eyes open to avoid straining.';
+  static const String eyeTestStep2Short =
+      'Cover one eye at a time with your hand.';
+
+  static const String eyeTestStep3Label = '3rd';
+  static const String eyeTestStep3Title = 'Read each line carefully';
+  static const String eyeTestStep3Description =
+      'Read the letters on screen from top to bottom. Stop when the letters become too blurry to identify.';
+  static const String eyeTestStep3Short =
+      'Read top to bottom, stop when lines blur.';
 
   static const String eyewearCarouselCardButtonEdit = 'edit';
   static const String eyewearCarouselCardDetails = 'details';
@@ -78,6 +101,7 @@ class AppStrings {
       'Are you sure you want to delete "$name"? This action cannot be undone.';
   static const String eyewearDeleteDialogConfirm = 'Delete';
   static const String eyewearDeleteDialogCancel = 'Cancel';
+  static const String eyewearEmptyState = 'No eyewear added yet.';
   static const String prescriptionNoData = 'No data provided';
 
   static const String profileSectionInsight = 'Profile Insight';
@@ -93,16 +117,23 @@ class AppStrings {
   static const String profileButtonSave = 'Save';
   static const String profileLabelEmail = 'Email';
   static const String profileButtonEditImage = 'edit image';
+  static const String profileNotFoundError = 'No profile found';
   static const String profileEditSectionPersonalDetails = 'Personal Details';
   static const String profileEditSectionCurrentPrescription =
       'Current Prescription';
+  static String profileShortcutCalendarEventsSubtitle(int events) =>
+      '$events upcoming events';
 
   static const String validatorInvalidUsernameEmpty =
       'Nickname cannot be empty';
-  static String validatorInvalidUsernameShort(int minLength) =>
-      'Nickname must be at least $minLength characters';
-  static String validatorInvalidUsernameLong(int maxLength) =>
-      'Nickname cannot exceed $maxLength characters';
+  static String validatorInvalidUsernameShort(
+    int minLength, {
+    String fieldName = 'This field',
+  }) => '$fieldName must be at least $minLength characters';
+  static String validatorInvalidUsernameLong(
+    int maxLength, {
+    String fieldName = 'This field',
+  }) => '$fieldName cannot exceed $maxLength characters';
   static const String validatorInvalidEmailEmpty = 'Email cannot be empty';
   static const String validatorInvalidEmailValue =
       'Enter a valid email address';
@@ -140,10 +171,32 @@ class AppStrings {
 
   static const String eyeLeft = 'left';
   static const String eyeRight = 'right';
+  static String noteLabel(String note) => 'Note: $note';
 
   static const String calendarEventLensReplacement = 'Lens replacement';
 
   static const String prescriptionHistoryTitle = 'Prescription History';
   static const String prescriptionHistoryEmpty =
       'No prescriptions recorded yet.';
+  static const String prescriptionHistoryCurrentTag = 'current';
+
+  static const String calendarEventsHistoryTitle = 'Calendar Events';
+
+  static const String calendarSectionUpcoming = 'Upcoming';
+  static const String calendarSectionPrevious = 'Previous';
+  static const String calendarUpcomingEmpty = 'No upcoming events.';
+  static const String calendarEventNextEventTag = 'upcoming';
+
+  static const String calendarEventAddSectionDetails = 'Event Details';
+  static const String calendarEventFieldTitle = 'Title';
+  static const String calendarEventFieldTitleHint = 'e.g. Eye Exam';
+  static const String calendarEventFieldDate = 'Date';
+  static const String calendarEventFieldNotes = 'Notes';
+  static const String calendarEventFieldNotesHint = 'Additional notes...';
+  static const String calendarEventButtonSave = 'Save';
+  static const String calendarEventDeleteDialogTitle = 'Delete Event';
+  static String calendarEventDeleteDialogBody(String title) =>
+      'Are you sure you want to delete "$title"? This action cannot be undone.';
+  static const String calendarEventDeleteDialogConfirm = 'Delete';
+  static const String calendarEventDeleteDialogCancel = 'Cancel';
 }

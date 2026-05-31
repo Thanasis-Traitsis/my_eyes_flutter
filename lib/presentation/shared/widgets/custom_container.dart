@@ -20,6 +20,10 @@ class CustomContainer extends StatelessWidget {
     this.buttonWidget,
     this.isDropdown = false,
     this.buttonIcon = Icons.arrow_outward,
+    this.backgroundColor,
+    this.iconColor,
+    this.iconBackgroundColor,
+    this.borderColor,
   });
 
   final String containerTitle;
@@ -32,14 +36,23 @@ class CustomContainer extends StatelessWidget {
   final Widget? buttonWidget;
   final IconData? buttonIcon;
   final bool isDropdown;
+  final Color? backgroundColor;
+  final Color? iconColor;
+  final Color? iconBackgroundColor;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: .all(AppSpacing.spacingL),
       decoration: BoxDecoration(
-        color: context.colors.divider,
+        color: backgroundColor ?? context.colors.surface,
         borderRadius: AppBorders.largeBorderRadius,
+        border: Border.all(
+          color:
+              borderColor ?? context.colors.textPrimary.withValues(alpha: .4),
+          width: AppBorders.smallBorderWidth,
+        ),
       ),
       child: Row(
         spacing: AppSpacing.spacingM,
@@ -49,10 +62,10 @@ class CustomContainer extends StatelessWidget {
             Container(
               padding: .all(AppSpacing.spacingM),
               decoration: BoxDecoration(
-                color: context.colors.white,
+                color: iconBackgroundColor ?? context.colors.white,
                 borderRadius: AppBorders.mediumBorderRadius,
               ),
-              child: Icon(iconData, size: AppSizes.iconSizeL),
+              child: Icon(iconData, size: AppSizes.iconSizeL, color: iconColor),
             ),
           Expanded(
             child: Column(

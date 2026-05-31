@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_eyes/core/constants/app_sizes.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
-import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/filter_category.dart';
 import 'package:my_eyes/domain/enums/test_filter_key.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 
 class FilterSection extends StatelessWidget {
   const FilterSection({
@@ -37,22 +36,18 @@ class FilterSection extends StatelessWidget {
       child: Row(
         spacing: AppSpacing.spacingS,
         children: [
-          OutlinedButton.icon(
-            iconAlignment: IconAlignment.end,
-            icon: const Icon(Icons.filter_list, size: AppSizes.iconSizeS),
-            label: Text(AppStrings.testHistoryFilterAll.toUpperCase()),
+          AppButton.outlined(
+            text: AppStrings.testHistoryFilterAll,
             onPressed: onOpenSheet,
+            iconAlignment: IconAlignment.end,
+            icon: Icons.filter_list,
           ),
           for (final chip in activeChips)
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: context.colors.white,
-                backgroundColor: context.colors.textPrimary,
-              ),
-              iconAlignment: IconAlignment.end,
-              icon: const Icon(Icons.close, size: AppSizes.iconSizeS),
-              label: Text(labelById[chip.id] ?? chip.id.toUpperCase()),
+            AppButton.filled(
+              text: labelById[chip.id] ?? chip.id,
               onPressed: () => onRemoveFilter(chip.key, chip.id),
+              iconAlignment: IconAlignment.end,
+              icon: Icons.close,
             ),
         ],
       ),

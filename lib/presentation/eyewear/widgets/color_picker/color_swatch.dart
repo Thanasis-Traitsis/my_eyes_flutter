@@ -6,11 +6,10 @@ import 'package:my_eyes/core/utils/theme_extensions.dart';
 class ColorTile extends StatelessWidget {
   const ColorTile({
     super.key,
-    required Color color,
+    required Color this.color,
     required this.isSelected,
     required this.onTap,
-  }) : color = color, // ignore: prefer_initializing_formals
-       _isCustom = false;
+  }) : _isCustom = false;
 
   const ColorTile.custom({super.key, this.color, required this.onTap})
     : isSelected = false,

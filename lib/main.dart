@@ -13,6 +13,8 @@ import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 import 'package:my_eyes/injection.dart';
+import 'package:my_eyes/domain/repositories/calendar_event_repository.dart';
+import 'package:my_eyes/presentation/calendar/cubit/calendar_event_cubit.dart';
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
 
@@ -28,11 +30,13 @@ void main() async {
       prescriptionRepo: getIt<PrescriptionRepository>(),
       eyewearRepo: getIt<EyewearRepository>(),
       eyewearTestRepo: getIt<EyewearTestRepository>(),
+      calendarRepo: getIt<CalendarEventRepository>(),
     );
   }
 
   await getIt<ProfileCubit>().loadProfile();
   await getIt<EyewearCubit>().loadEyewear();
+  await getIt<CalendarEventCubit>().loadEvents();
 
   runApp(
     MultiBlocProvider(
@@ -41,6 +45,7 @@ void main() async {
         BlocProvider.value(value: getIt<ConnectivityCubit>()),
         BlocProvider.value(value: getIt<ProfileCubit>()),
         BlocProvider.value(value: getIt<EyewearCubit>()),
+        BlocProvider.value(value: getIt<CalendarEventCubit>()),
       ],
       child: const MainApp(),
     ),

@@ -10,17 +10,19 @@ import 'package:my_eyes/core/utils/date_extensions.dart';
 import 'package:my_eyes/core/utils/prescription_extensions.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
-import 'package:my_eyes/domain/enums/reminder_interval.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
+import 'package:my_eyes/presentation/shared/widgets/label_tag.dart';
+import 'package:my_eyes/presentation/shared/widgets/prescription/eye_card.dart';
 
 class PrescriptionHistoryCard extends StatelessWidget {
-  const PrescriptionHistoryCard({super.key, required this.prescription});
+  const PrescriptionHistoryCard({
+    super.key,
+    required this.prescription,
+    this.isLatest = false,
+  });
 
   final Prescription prescription;
-
-  String? get _reminderLabel => ReminderInterval.fromMonths(
-    prescription.reminderMonths,
-  )?.historyLabel.toUpperCase();
+  final bool isLatest;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,16 @@ class PrescriptionHistoryCard extends StatelessWidget {
       child: Container(
         padding: const .all(AppSpacing.spacingL),
         decoration: BoxDecoration(
-          color: context.colors.black,
+          color: context.colors.surface,
           borderRadius: AppBorders.largeBorderRadius,
+          border: Border.all(
+            color: isLatest
+                ? context.colors.primary
+                : context.colors.primary.withValues(alpha: .4),
+            width: isLatest
+                ? AppBorders.mediumBorderWidth
+                : AppBorders.smallBorderWidth,
+          ),
         ),
         child: Row(
           spacing: AppSpacing.spacingM,
@@ -41,92 +51,39 @@ class PrescriptionHistoryCard extends StatelessWidget {
           children: [
             Expanded(
               child: Column(
-                spacing: AppSpacing.spacingS,
+                spacing: AppSpacing.spacingM,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IntrinsicHeight(
-                    child: Row(
-                      spacing: AppSpacing.spacingS,
-                      crossAxisAlignment: .stretch,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          padding: const .symmetric(
-                            horizontal: AppSpacing.spacingM,
-                            vertical: AppSpacing.spacingS,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.colors.divider,
-                            borderRadius: AppBorders.smallBorderRadius,
-                            border: Border.all(
-                              color: context.colors.textHint,
-                              width: AppBorders.smallBorderWidth,
-                            ),
-                          ),
-                          child: CustomText(
-                            text: prescription.issueDate.formattedDate,
-                            textType: CustomTextType.regularBody,
-                          ),
-                        ),
-                        if (_reminderLabel != null)
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const .symmetric(
-                              horizontal: AppSpacing.spacingM,
-                              vertical: AppSpacing.spacingS,
-                            ),
-                            decoration: BoxDecoration(
-                              color: context.colors.primary,
-                              borderRadius: AppBorders.smallBorderRadius,
-                              border: Border.all(
-                                color: context.colors.primaryLight,
-                                width: AppBorders.smallBorderWidth,
-                              ),
-                            ),
-                            child: Row(
-                              spacing: AppSpacing.spacingM,
-                              mainAxisAlignment: .center,
-                              children: [
-                                Icon(
-                                  Icons.notifications_active,
-                                  color: context.colors.white,
-                                  size: AppSizes.iconSizeS,
-                                ),
-                                CustomText(
-                                  text: _reminderLabel!,
-                                  textType: CustomTextType.regularBody,
-                                  color: context.colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
+                  if (isLatest)
+                    LabelTag(label: AppStrings.prescriptionHistoryCurrentTag),
                   CustomText(
-                    text:
-                        '${AppStrings.prescriptionOdRight}: ${prescription.formattedRight}',
-                    textType: CustomTextType.extraSmallHeading,
-                    color: context.colors.white,
+                    text: prescription.issueDate.formattedDate,
+                    textType: CustomTextType.smallHeading,
                   ),
-                  CustomText(
-                    text:
-                        '${AppStrings.prescriptionOsLeft}: ${prescription.formattedLeft}',
-                    textType: CustomTextType.extraSmallHeading,
-                    color: context.colors.white,
+                  Row(
+                    spacing: AppSpacing.spacingM,
+                    children: [
+                      EyeCard.small(
+                        label: AppStrings.prescriptionOsLeft,
+                        value: prescription.formattedLeft,
+                      ),
+                      EyeCard.small(
+                        label: AppStrings.prescriptionOdRight,
+                        value: prescription.formattedRight,
+                      ),
+                    ],
                   ),
                   if (prescription.notes != null)
                     CustomText(
-                      text: "Note: ${prescription.notes}",
+                      text: AppStrings.noteLabel(prescription.notes!),
                       textType: CustomTextType.smallBody,
-                      color: context.colors.white,
                     ),
                 ],
               ),
             ),
             Icon(
               Icons.chevron_right_rounded,
-              color: context.colors.white,
+              color: context.colors.textPrimary,
               size: AppSizes.iconSizeL,
             ),
           ],

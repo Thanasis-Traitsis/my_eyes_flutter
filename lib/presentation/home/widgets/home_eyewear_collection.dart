@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
@@ -45,13 +46,41 @@ class _HomeEyewearCollectionState extends State<HomeEyewearCollection> {
               onPageChanged: (index) => setState(() => _selectedIndex = index),
               children: [
                 for (final item in state.items)
-                  Container(
-                    alignment: Alignment.center,
-                    padding: .all(AppSpacing.spacingXL),
-                    color: context.colors.white,
-                    child: CustomText(
-                      text: item.name,
-                      textType: CustomTextType.regularHeading,
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: ClipRRect(
+                      borderRadius: AppBorders.largeBorderRadius,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Container(
+                            padding: .all(AppSpacing.spacingL),
+                            decoration: BoxDecoration(
+                              borderRadius: AppBorders.largeBorderRadius,
+                              border: Border.all(
+                                width: AppBorders.smallBorderWidth,
+                                color: context.colors.textPrimary.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
+                            ),
+                            child: Image.asset(
+                              item.category.imagePaths[item
+                                  .selectedOptionIndex],
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          Positioned(
+                            left: AppSpacing.spacingL,
+                            bottom: AppSpacing.spacingM,
+                            child: CustomText(
+                              text: item.name,
+                              textType: CustomTextType.regularHeading,
+                              color: item.color,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
               ],

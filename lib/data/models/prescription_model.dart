@@ -16,7 +16,6 @@ class PrescriptionModel extends HiveObject {
     this.pendingSync = true,
     this.doctor,
     this.notes,
-    this.reminderMonths,
   });
 
   @HiveField(0)
@@ -46,9 +45,6 @@ class PrescriptionModel extends HiveObject {
   @HiveField(8)
   String? notes;
 
-  @HiveField(9)
-  int? reminderMonths;
-
   Prescription toEntity() => Prescription(
     id: id,
     label: label,
@@ -58,7 +54,6 @@ class PrescriptionModel extends HiveObject {
     updatedAt: updatedAt,
     doctor: doctor,
     notes: notes,
-    reminderMonths: reminderMonths,
   );
 
   factory PrescriptionModel.fromEntity(Prescription p) => PrescriptionModel(
@@ -71,6 +66,5 @@ class PrescriptionModel extends HiveObject {
     pendingSync: true,
     doctor: p.doctor,
     notes: p.notes,
-    reminderMonths: p.reminderMonths,
   );
 }

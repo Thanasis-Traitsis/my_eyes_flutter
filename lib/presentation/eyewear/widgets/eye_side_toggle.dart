@@ -3,9 +3,10 @@ import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/domain/enums/eye_side.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/toggle_option.dart';
 
-enum EyeSide { left, right }
+export 'package:my_eyes/domain/enums/eye_side.dart' show EyeSide;
 
 class EyeSideToggle extends StatelessWidget {
   const EyeSideToggle({

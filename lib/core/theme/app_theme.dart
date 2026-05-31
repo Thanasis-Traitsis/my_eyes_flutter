@@ -7,7 +7,8 @@ import 'package:my_eyes/core/theme/app_colors.dart';
 import 'package:my_eyes/core/theme/custom_text_type.dart';
 
 class AppTheme {
-  static const String appFont = AppStrings.appFont;
+  static const String appFontBody = AppStrings.appFontBody;
+  static const String appFontHighlight = AppStrings.appFontHighlight;
 
   static ThemeData light() => _buildTheme(AppColors.light);
   static ThemeData dark() => _buildTheme(AppColors.dark);
@@ -19,11 +20,11 @@ class AppTheme {
           : Brightness.dark,
       primary: colors.primary,
       onPrimary: colors.white,
-      primaryContainer: colors.primaryLight,
+      primaryContainer: colors.tintBlue,
       onPrimaryContainer: colors.textPrimary,
       secondary: colors.secondary,
       onSecondary: colors.white,
-      secondaryContainer: colors.primaryLight,
+      secondaryContainer: colors.tintMint,
       onSecondaryContainer: colors.textPrimary,
       surface: colors.surface,
       onSurface: colors.textPrimary,
@@ -34,20 +35,19 @@ class AppTheme {
     );
 
     return ThemeData(
-      fontFamily: appFont,
+      fontFamily: appFontBody,
       useMaterial3: true,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colors.background,
       extensions: <ThemeExtension<dynamic>>[colors],
 
-      // AppBar
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
         backgroundColor: colors.background,
         titleTextStyle: TextStyle(
-          fontFamily: appFont,
+          fontFamily: appFontBody,
           fontSize: AppTextSizes.textSizeL,
           fontWeight: FontWeight.bold,
           color: colors.textPrimary,
@@ -56,7 +56,6 @@ class AppTheme {
         actionsIconTheme: IconThemeData(color: colors.textPrimary),
       ),
 
-      // Cards
       cardTheme: CardThemeData(
         color: colors.cardBackground,
         elevation: 0,
@@ -66,7 +65,6 @@ class AppTheme {
         ),
       ),
 
-      // Bottom Navigation Bar
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: colors.surface,
         selectedItemColor: colors.primary,
@@ -75,12 +73,11 @@ class AppTheme {
         elevation: 0,
       ),
 
-      // Input fields
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colors.surface,
         isDense: true,
-        hintStyle: TextStyle(color: colors.textHint, fontFamily: appFont),
+        hintStyle: TextStyle(color: colors.textHint, fontFamily: appFontBody),
         border: OutlineInputBorder(
           borderRadius: AppBorders.mediumBorderRadius,
           borderSide: BorderSide(color: colors.divider),
@@ -97,7 +94,7 @@ class AppTheme {
           ),
         ),
         errorStyle: TextStyle(
-          fontFamily: appFont,
+          fontFamily: appFontBody,
           fontSize: AppTextSizes.textSizeXS,
           height: 1.2,
           color: colors.error,
@@ -108,7 +105,6 @@ class AppTheme {
         ),
       ),
 
-      // Divider
       dividerTheme: DividerThemeData(
         color: colors.divider,
         thickness: AppBorders.smallBorderWidth,
@@ -121,38 +117,17 @@ class AppTheme {
         ),
       ),
 
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: colors.primary,
-          backgroundColor: colors.white,
-          textStyle: TextStyle(
-            fontFamily: appFont,
-            fontSize: CustomTextType.bigButtonText.fontSize,
-            fontWeight: FontWeight.bold,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: AppBorders.smallBorderRadius,
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.spacingL,
-            vertical: AppSpacing.spacingM,
-          ),
-          minimumSize: Size.zero,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-      ),
-
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           foregroundColor: colors.white,
           backgroundColor: colors.primary,
           textStyle: TextStyle(
-            fontFamily: appFont,
+            fontFamily: appFontBody,
             fontSize: CustomTextType.bigButtonText.fontSize,
             fontWeight: FontWeight.bold,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: AppBorders.smallBorderRadius,
+            borderRadius: AppBorders.largeBorderRadius,
           ),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.spacingL,
@@ -169,8 +144,29 @@ class AppTheme {
           backgroundColor: colors.surface,
           side: BorderSide(color: colors.textHint),
           textStyle: TextStyle(
-            fontFamily: appFont,
-            fontSize: CustomTextType.regularButtonText.fontSize,
+            fontFamily: appFontBody,
+            fontSize: CustomTextType.bigButtonText.fontSize,
+            fontWeight: FontWeight.bold,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: AppBorders.largeBorderRadius,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.spacingL,
+            vertical: AppSpacing.spacingM,
+          ),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
+
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: colors.primary,
+          backgroundColor: colors.tintBlue,
+          textStyle: TextStyle(
+            fontFamily: appFontBody,
+            fontSize: CustomTextType.bigButtonText.fontSize,
             fontWeight: FontWeight.bold,
           ),
           shape: RoundedRectangleBorder(

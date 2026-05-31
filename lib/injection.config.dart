@@ -17,6 +17,8 @@ import 'package:my_eyes/core/network/connectivity_cubit/connectivity_cubit.dart'
     as _i645;
 import 'package:my_eyes/core/network/connectivity_service.dart' as _i586;
 import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart' as _i1000;
+import 'package:my_eyes/data/datasources/calendar_event_local_datasource.dart'
+    as _i107;
 import 'package:my_eyes/data/datasources/eyewear_local_datasource.dart'
     as _i356;
 import 'package:my_eyes/data/datasources/eyewear_test_local_datasource.dart'
@@ -25,10 +27,13 @@ import 'package:my_eyes/data/datasources/prescription_local_datasource.dart'
     as _i844;
 import 'package:my_eyes/data/datasources/profile_local_datasource.dart'
     as _i776;
+import 'package:my_eyes/data/models/calendar_event_model.dart' as _i380;
 import 'package:my_eyes/data/models/eyewear_item_model.dart' as _i232;
 import 'package:my_eyes/data/models/eyewear_test_model.dart' as _i473;
 import 'package:my_eyes/data/models/prescription_model.dart' as _i369;
 import 'package:my_eyes/data/models/user_profile_model.dart' as _i534;
+import 'package:my_eyes/data/repositories/calendar_event_repository_impl.dart'
+    as _i605;
 import 'package:my_eyes/data/repositories/eyewear_repository_impl.dart'
     as _i361;
 import 'package:my_eyes/data/repositories/eyewear_test_repository_impl.dart'
@@ -37,6 +42,8 @@ import 'package:my_eyes/data/repositories/prescription_repository_impl.dart'
     as _i683;
 import 'package:my_eyes/data/repositories/profile_repository_impl.dart'
     as _i183;
+import 'package:my_eyes/domain/repositories/calendar_event_repository.dart'
+    as _i268;
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart' as _i179;
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart'
     as _i692;
@@ -44,6 +51,8 @@ import 'package:my_eyes/domain/repositories/prescription_repository.dart'
     as _i852;
 import 'package:my_eyes/domain/repositories/profile_repository.dart' as _i622;
 import 'package:my_eyes/injection.dart' as _i122;
+import 'package:my_eyes/presentation/calendar/cubit/calendar_event_cubit.dart'
+    as _i111;
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart' as _i760;
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart' as _i281;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -77,9 +86,23 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.eyewearTestBox,
       preResolve: true,
     );
+    await gh.singletonAsync<_i738.Box<_i380.CalendarEventModel>>(
+      () => registerModule.calendarEventBox,
+      preResolve: true,
+    );
+    gh.lazySingleton<_i107.CalendarEventLocalDataSource>(
+      () => _i107.HiveCalendarEventLocalDataSource(
+        gh<_i738.Box<_i380.CalendarEventModel>>(),
+      ),
+    );
     gh.lazySingleton<_i844.PrescriptionLocalDataSource>(
       () => _i844.HivePrescriptionLocalDataSource(
         gh<_i738.Box<_i369.PrescriptionModel>>(),
+      ),
+    );
+    gh.lazySingleton<_i268.CalendarEventRepository>(
+      () => _i605.CalendarEventRepositoryImpl(
+        gh<_i107.CalendarEventLocalDataSource>(),
       ),
     );
     gh.singleton<_i586.ConnectivityService>(
@@ -113,6 +136,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i760.EyewearCubit>(
       () => _i760.EyewearCubit(gh<_i179.EyewearRepository>()),
+    );
+    gh.singleton<_i111.CalendarEventCubit>(
+      () => _i111.CalendarEventCubit(gh<_i268.CalendarEventRepository>()),
     );
     gh.lazySingleton<_i692.EyewearTestRepository>(
       () => _i415.EyewearTestRepositoryImpl(

@@ -9,11 +9,11 @@ class EyeMeasurement extends Equatable {
     required this.pd,
   });
 
-  final double sphere; // -30.00 to +30.00, step 0.25
-  final double cylinder; // -10.00 to +10.00, step 0.25
-  final int axis; // 0–180 degrees
-  final double addition; // 0.00 to +4.00, step 0.25
-  final double pd; // 40–80 mm, step 0.5
+  final double sphere;
+  final double cylinder;
+  final int axis;
+  final double addition;
+  final double pd;
 
   EyeMeasurement copyWith({
     double? sphere,

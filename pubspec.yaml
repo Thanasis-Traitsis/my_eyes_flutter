@@ -59,9 +59,18 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/avatars/
+    - assets/eyewear/
   fonts:
-    - family: Advent Pro
+    - family: PlusJakartaSans
       fonts:
-        - asset: assets/fonts/AdventPro-Regular.ttf
-        - asset: assets/fonts/AdventPro-Bold.ttf
+        - asset: assets/fonts/body/PlusJakartaSans-Light.ttf
+        - asset: assets/fonts/body/PlusJakartaSans-Regular.ttf
+        - asset: assets/fonts/body/PlusJakartaSans-Bold.ttf
+          weight: 700
+    - family: BricolageGrotesque
+      fonts:
+        - asset: assets/fonts/highlight/BricolageGrotesque_Condensed-Regular.ttf
+        - asset: assets/fonts/highlight/BricolageGrotesque_Condensed-Bold.ttf
           weight: 700

@@ -4,8 +4,10 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
+import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
+import 'package:my_eyes/domain/enums/eyewear_category.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eye_side_toggle.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
@@ -56,11 +58,47 @@ class _EyewearCarouselCardState extends State<EyewearCarouselCard> {
               child: ClipRRect(
                 borderRadius: AppBorders.largeBorderRadius,
                 child: Stack(
+                  fit: StackFit.expand,
                   children: [
                     Container(
-                      color: context.colors.white,
-                      width: double.infinity,
-                      child: Center(child: CustomText(text: widget.item.name)),
+                      padding: const EdgeInsets.all(AppSpacing.spacingL),
+                      decoration: BoxDecoration(
+                        borderRadius: AppBorders.largeBorderRadius,
+                        border: Border.all(
+                          width: AppBorders.smallBorderWidth,
+                          color: context.colors.textPrimary.withValues(
+                            alpha: 0.6,
+                          ),
+                        ),
+                      ),
+                      child:
+                          widget.item.category == EyewearCategory.contactLenses
+                          ? Row(
+                              children: [
+                                Expanded(
+                                  child: Image.asset(
+                                    widget.item.category.imagePaths[widget
+                                        .item
+                                        .selectedOptionIndex],
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Image.asset(
+                                    widget.item.category.imagePaths[widget
+                                        .item
+                                        .selectedOptionIndex],
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Image.asset(
+                              widget.item.category.imagePaths[widget
+                                  .item
+                                  .selectedOptionIndex],
+                              fit: BoxFit.contain,
+                            ),
                     ),
                     Positioned.fill(
                       child: ValueListenableBuilder<EyeSide>(
@@ -76,11 +114,22 @@ class _EyewearCarouselCardState extends State<EyewearCarouselCard> {
                               widthFactor: 0.5,
                               heightFactor: 1.0,
                               child: ColoredBox(
-                                color: Colors.black.withValues(alpha: 0.3),
+                                color: context.colors.textPrimary.withValues(
+                                  alpha: 0.7,
+                                ),
                               ),
                             ),
                           ),
                         ),
+                      ),
+                    ),
+                    Positioned(
+                      left: AppSpacing.spacingL,
+                      bottom: AppSpacing.spacingM,
+                      child: CustomText(
+                        text: widget.item.name,
+                        textType: CustomTextType.regularHeading,
+                        color: widget.item.color,
                       ),
                     ),
                   ],
@@ -91,7 +140,13 @@ class _EyewearCarouselCardState extends State<EyewearCarouselCard> {
         ],
       ),
       footerTitle: AppStrings.eyewearCarouselCardDetails,
-      footerContent: PrescriptionFooterDetails(prescription: prescription),
+      footerContent: ValueListenableBuilder<EyeSide>(
+        valueListenable: _selectedSide,
+        builder: (context, side, _) => PrescriptionFooterDetails(
+          prescription: prescription,
+          selectedSide: side,
+        ),
+      ),
     );
   }
 }

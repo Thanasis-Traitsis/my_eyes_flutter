@@ -39,7 +39,7 @@ class _EyeFieldsState extends State<EyeFields> {
       margin: .only(top: AppSpacing.spacingM),
       child: Column(
         crossAxisAlignment: .start,
-        spacing: AppSpacing.spacingS,
+        spacing: AppSpacing.spacingM,
         children: [
           CustomText(
             text: "${widget.label} *",

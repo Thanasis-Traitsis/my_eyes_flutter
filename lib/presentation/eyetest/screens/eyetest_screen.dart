@@ -3,6 +3,7 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
+import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/presentation/eyetest/widgets/statistics_section.dart';
 import 'package:my_eyes/presentation/eyetest/widgets/steps_container.dart';
 import 'package:my_eyes/presentation/eyetest/widgets/steps_grid.dart';
@@ -31,6 +32,8 @@ class EyetestScreen extends StatelessWidget {
                 containerChild: CustomText(
                   text: AppStrings.eyeTestInstructionDescription,
                 ),
+                iconColor: context.colors.primary,
+                iconBackgroundColor: context.colors.tintBlue,
               ),
               StepsGrid(
                 children: [

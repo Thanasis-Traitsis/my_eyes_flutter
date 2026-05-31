@@ -29,7 +29,7 @@ class CarouselPageIndicator extends StatelessWidget {
           margin: .only(left: index == 0 ? 0 : AppSpacing.spacingS),
           decoration: BoxDecoration(
             borderRadius: AppBorders.mediumBorderRadius,
-            color: context.colors.textHint.withValues(
+            color: context.colors.primary.withValues(
               alpha: currentIndex == index ? 1 : 0.5,
             ),
           ),

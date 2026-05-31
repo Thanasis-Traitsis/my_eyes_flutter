@@ -7,7 +7,7 @@ import 'package:my_eyes/core/theme/app_theme.dart';
 
 enum AppButtonSize { small, regular, large }
 
-enum _Variant { filled, outlined, elevated }
+enum _Variant { filled, outlined, textButton }
 
 class AppButton extends StatelessWidget {
   const AppButton.filled({
@@ -28,14 +28,14 @@ class AppButton extends StatelessWidget {
     this.iconAlignment = IconAlignment.end,
   }) : _variant = _Variant.outlined;
 
-  const AppButton.elevated({
+  const AppButton.textButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.size = AppButtonSize.regular,
     this.icon,
     this.iconAlignment = IconAlignment.end,
-  }) : _variant = _Variant.elevated;
+  }) : _variant = _Variant.textButton;
 
   final String text;
   final VoidCallback? onPressed;
@@ -66,7 +66,7 @@ class AppButton extends StatelessWidget {
           icon: iconWidget,
           label: label,
         ),
-        _Variant.elevated => ElevatedButton.icon(
+        _Variant.textButton => TextButton.icon(
           onPressed: onPressed,
           style: style,
           iconAlignment: iconAlignment,
@@ -87,7 +87,7 @@ class AppButton extends StatelessWidget {
         style: style,
         child: label,
       ),
-      _Variant.elevated => ElevatedButton(
+      _Variant.textButton => TextButton(
         onPressed: onPressed,
         style: style,
         child: label,
@@ -99,7 +99,7 @@ class AppButton extends StatelessWidget {
     padding: WidgetStatePropertyAll(_padding),
     textStyle: WidgetStatePropertyAll(
       TextStyle(
-        fontFamily: AppTheme.appFont,
+        fontFamily: AppTheme.appFontBody,
         fontSize: _fontSize,
         fontWeight: FontWeight.bold,
       ),

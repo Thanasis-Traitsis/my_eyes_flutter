@@ -21,6 +21,8 @@ class ProfileInsight extends StatelessWidget {
       containerChild: withLenses
           ? _buildWithLenses(context)
           : InsightCardsContainer(withLenses: false),
+      iconColor: context.colors.primary,
+      iconBackgroundColor: context.colors.tintBlue,
     );
   }
 
@@ -49,8 +51,8 @@ class ProfileInsight extends StatelessWidget {
                         width: double.infinity,
                         padding: .all(AppSpacing.spacingM),
                         decoration: BoxDecoration(
+                          color: context.colors.tintBlue,
                           borderRadius: AppBorders.mediumBorderRadius,
-                          color: context.colors.textHint,
                         ),
                         child: Column(
                           crossAxisAlignment: .start,
@@ -59,11 +61,13 @@ class ProfileInsight extends StatelessWidget {
                             CustomText(
                               text: "14",
                               textType: CustomTextType.bigHeading,
+                              color: context.colors.primary,
                             ),
                             CustomText(
                               text: AppStrings.profileStatDaysLeft
                                   .toUpperCase(),
                               textType: CustomTextType.smallHeading,
+                              color: context.colors.primary,
                             ),
                           ],
                         ),

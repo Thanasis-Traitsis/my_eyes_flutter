@@ -4,7 +4,9 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
+import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
+import 'package:my_eyes/presentation/profile/widgets/profile_calendar_shortcut.dart';
 import 'package:my_eyes/presentation/profile/widgets/profile_insight.dart';
 import 'package:my_eyes/presentation/profile/widgets/profile_summary.dart';
 import 'package:my_eyes/presentation/shared/screens/custom_screen.dart';
@@ -28,19 +30,17 @@ class ProfileScreen extends StatelessWidget {
               ProfileSummary(
                 username: profile.username,
                 prescription: latestPrescription,
+                avatarUrl: profile.avatarUrl,
               ),
               const ProfileInsight(),
-              ShortcutCard(
-                cardTitle: AppStrings.shortcutCalendarEvents,
-                cardSubtitle: '3 upcoming events',
-                icon: Icons.calendar_month_outlined,
-                onTap: () {},
-              ),
+              const ProfileCalendarShortcut(),
               ShortcutCard(
                 cardTitle: AppStrings.shortcutPrescriptionHistory,
                 icon: Icons.history_outlined,
                 onTap: () =>
                     NavigationService.push(AppPages.prescriptionHistory.path),
+                iconColor: context.colors.primary,
+                iconBackgroundColor: context.colors.tintBlue,
               ),
             ],
           ),
@@ -49,3 +49,5 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
+class CalendarEventBloc {}

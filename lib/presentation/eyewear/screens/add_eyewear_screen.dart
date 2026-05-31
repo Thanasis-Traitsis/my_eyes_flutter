@@ -142,10 +142,14 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
                     children: [
                       LabeledSection(
                         title: AppStrings.eyewearFieldName,
-                        validator: const UsernameValidator(),
+                        validator: const UsernameValidator(
+                          fieldName: AppStrings.eyewearFieldName,
+                        ),
                         child: ValidatedTextField(
                           controller: _form.name,
-                          validator: const UsernameValidator(),
+                          validator: const UsernameValidator(
+                            fieldName: AppStrings.eyewearFieldName,
+                          ),
                           hintText: AppStrings.eyewearFieldNameHint,
                           onValidationChanged: (isValid) {
                             setState(

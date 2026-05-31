@@ -17,10 +17,10 @@ class MonthTag extends StatelessWidget {
         vertical: AppSpacing.spacingS,
       ),
       decoration: BoxDecoration(
-        color: context.colors.textHint,
+        color: context.colors.tintMintDark,
         borderRadius: AppBorders.extraSmallBorderRadius,
       ),
-      child: CustomText(text: monthText),
+      child: CustomText(text: monthText, color: context.colors.white),
     );
   }
 }

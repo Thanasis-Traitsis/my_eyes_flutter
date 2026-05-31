@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_eyes/core/constants/app_keys.dart';
+import 'package:my_eyes/data/models/calendar_event_model.dart';
 import 'package:my_eyes/data/models/eyewear_item_model.dart';
 import 'package:my_eyes/data/models/eyewear_test_model.dart';
 import 'package:my_eyes/data/models/prescription_model.dart';
@@ -44,4 +45,9 @@ abstract class RegisterModule {
   @singleton
   Future<Box<EyewearTestModel>> get eyewearTestBox =>
       Hive.openBox<EyewearTestModel>(AppKeys.hiveBoxEyewearTests);
+
+  @preResolve
+  @singleton
+  Future<Box<CalendarEventModel>> get calendarEventBox =>
+      Hive.openBox<CalendarEventModel>(AppKeys.hiveBoxCalendarEvents);
 }

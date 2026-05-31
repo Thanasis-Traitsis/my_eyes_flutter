@@ -17,7 +17,7 @@ class TestHistoryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.spacingM),
       decoration: BoxDecoration(
-        color: context.colors.black,
+        color: context.colors.textPrimary,
         borderRadius: AppBorders.largeBorderRadius,
       ),
       child: Row(

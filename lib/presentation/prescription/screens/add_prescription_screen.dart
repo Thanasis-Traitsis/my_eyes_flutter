@@ -8,12 +8,12 @@ import 'package:my_eyes/core/utils/date_extensions.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/presentation/prescription/controller/add_prescription_form_controller.dart';
 import 'package:my_eyes/presentation/prescription/widgets/custom_date_picker.dart';
-import 'package:my_eyes/presentation/prescription/widgets/reminder_row.dart';
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
 import 'package:my_eyes/presentation/profile/widgets/edit_profile/eye_fields.dart';
 import 'package:my_eyes/presentation/profile/widgets/edit_profile/labeled_section.dart';
 import 'package:my_eyes/presentation/shared/screens/dismiss_keyboard.dart';
 import 'package:my_eyes/presentation/shared/screens/full_screen_with_title.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
 import 'package:my_eyes/presentation/shared/widgets/sticky_bottom_button.dart';
 
@@ -48,7 +48,6 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
       _form.doctor.text = rx.doctor ?? '';
       _form.notes.text = rx.notes ?? '';
       _form.issueDate = rx.issueDate;
-      _form.reminderMonths = rx.reminderMonths;
       for (final c in _form.prescriptionControllers) {
         _form.setValidity(c, true);
       }
@@ -131,13 +130,16 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                   CustomContainer(
                     containerTitle:
                         AppStrings.prescriptionNewPrescriptionSection,
-                    buttonIcon: Icons.arrow_downward_rounded,
-                    buttonText: currentRx != null
-                        ? AppStrings.prescriptionNewReuseButton
-                        : null,
-                    onButtonPressed: currentRx != null
-                        ? () => _reuseCurrentPrescription(currentRx)
-                        : null,
+                    buttonWidget: AppButton.textButton(
+                      icon: Icons.arrow_downward_rounded,
+                      iconAlignment: IconAlignment.end,
+                      text: currentRx != null
+                          ? AppStrings.prescriptionNewReuseButton
+                          : "",
+                      onPressed: currentRx != null
+                          ? () => _reuseCurrentPrescription(currentRx)
+                          : null,
+                    ),
                     containerChild: Column(
                       spacing: AppSpacing.spacingM,
                       children: [
@@ -194,14 +196,6 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                               hintText: AppStrings.prescriptionNewNotesHint,
                               alignLabelWithHint: true,
                             ),
-                          ),
-                        ),
-                        LabeledSection(
-                          title: AppStrings.prescriptionNewReminder,
-                          child: ReminderRow(
-                            selected: _form.reminderMonths,
-                            onChanged: (months) =>
-                                setState(() => _form.reminderMonths = months),
                           ),
                         ),
                       ],

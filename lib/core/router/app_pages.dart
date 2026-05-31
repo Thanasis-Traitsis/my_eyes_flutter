@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/presentation/calendar/screens/add_calendar_event_screen.dart';
 import 'package:my_eyes/presentation/eyetest/screens/eyetest_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/eyewear_screen.dart';
@@ -127,5 +128,26 @@ class AppPages {
     name: 'prescriptionHistory',
     title: AppStrings.prescriptionHistoryTitle,
     builder: (_) => const PrescriptionHistoryScreen(),
+  );
+
+  static final calendarHistory = PageInfo(
+    path: AppRoutes.calendarHistory,
+    name: 'calendarHistory',
+    title: AppStrings.calendarEventsHistoryTitle,
+    builder: (_) => const PrescriptionHistoryScreen(),
+  );
+
+  static final calendarEventNew = PageInfo(
+    path: AppRoutes.calendarEventNew,
+    name: 'calendarEventNew',
+    title: 'Add Event',
+    builder: (_) => const AddCalendarEventScreen(),
+  );
+
+  static final calendarEventEdit = PageInfo(
+    path: AppRoutes.calendarEventEdit,
+    name: 'calendarEventEdit',
+    title: 'Edit Event',
+    builder: (_) => const AddCalendarEventScreen(),
   );
 }

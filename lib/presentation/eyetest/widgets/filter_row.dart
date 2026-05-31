@@ -22,7 +22,7 @@ class FilterRow extends StatelessWidget {
                     onPressed: () => onChanged(filter),
                     size: AppButtonSize.small,
                   )
-                : AppButton.elevated(
+                : AppButton.textButton(
                     text: filter.label,
                     onPressed: () => onChanged(filter),
                     size: AppButtonSize.small,

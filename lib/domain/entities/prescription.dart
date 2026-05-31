@@ -11,18 +11,16 @@ class Prescription extends Equatable {
     required this.updatedAt,
     this.doctor,
     this.notes,
-    this.reminderMonths,
   });
 
   final String id;
   final String label;
   final DateTime issueDate;
-  final EyeMeasurement rightEye; // OD
-  final EyeMeasurement leftEye; // OS
+  final EyeMeasurement rightEye;
+  final EyeMeasurement leftEye;
   final DateTime updatedAt;
   final String? doctor;
   final String? notes;
-  final int? reminderMonths; // 3, 6, or 12
 
   Prescription copyWith({
     String? id,
@@ -33,7 +31,6 @@ class Prescription extends Equatable {
     DateTime? updatedAt,
     String? doctor,
     String? notes,
-    int? reminderMonths,
   }) {
     return Prescription(
       id: id ?? this.id,
@@ -44,7 +41,6 @@ class Prescription extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
       doctor: doctor ?? this.doctor,
       notes: notes ?? this.notes,
-      reminderMonths: reminderMonths ?? this.reminderMonths,
     );
   }
 
@@ -58,6 +54,5 @@ class Prescription extends Equatable {
     updatedAt,
     doctor,
     notes,
-    reminderMonths,
   ];
 }

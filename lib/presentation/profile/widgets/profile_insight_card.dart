@@ -22,16 +22,21 @@ class ProfileInsightCard extends StatelessWidget {
       padding: .all(AppSpacing.spacingM),
       decoration: BoxDecoration(
         borderRadius: AppBorders.mediumBorderRadius,
-        color: context.colors.textHint,
+        color: context.colors.tintBlue,
       ),
       child: Column(
         crossAxisAlignment: .start,
         mainAxisAlignment: .end,
         children: [
-          CustomText(text: "$value", textType: CustomTextType.bigHeading),
+          CustomText(
+            text: "$value",
+            textType: CustomTextType.bigHeading,
+            color: context.colors.primary,
+          ),
           CustomText(
             text: title.toUpperCase(),
             textType: CustomTextType.smallHeading,
+            color: context.colors.primary,
           ),
         ],
       ),

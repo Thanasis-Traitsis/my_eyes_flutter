@@ -9,6 +9,9 @@ IconButton deleteIconButton({
     onPressed: onPressed,
     icon: const Icon(Icons.delete),
     color: context.colors.error,
-    style: IconButton.styleFrom(side: BorderSide(color: context.colors.error)),
+    style: IconButton.styleFrom(
+      backgroundColor: context.colors.errorLight,
+      side: BorderSide(color: context.colors.error),
+    ),
   );
 }

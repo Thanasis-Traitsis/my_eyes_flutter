@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_eyes/core/constants/app_borders.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
+import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 
 class BottomNavbar extends StatelessWidget {
@@ -29,25 +30,25 @@ class BottomNavbar extends StatelessWidget {
         children: [
           _NavItem(
             icon: Icons.home_outlined,
-            label: 'Home',
+            label: AppStrings.navHome,
             index: 0,
             navigationShell: navigationShell,
           ),
           _NavItem(
             icon: Icons.filter_2_rounded,
-            label: 'Eye Test',
+            label: AppStrings.navEyeTest,
             index: 1,
             navigationShell: navigationShell,
           ),
           _NavItem(
             icon: Icons.remove_red_eye_outlined,
-            label: 'Eyewear',
+            label: AppStrings.navEyewear,
             index: 2,
             navigationShell: navigationShell,
           ),
           _NavItem(
             icon: Icons.person_outline,
-            label: 'Profile',
+            label: AppStrings.navProfile,
             index: 3,
             navigationShell: navigationShell,
           ),

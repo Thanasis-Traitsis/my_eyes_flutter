@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
@@ -21,7 +22,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final profile = await _profileRepository.getProfile();
       if (profile == null) {
-        emit(const ProfileError('No profile found'));
+        emit(const ProfileError(AppStrings.profileNotFoundError));
         return;
       }
 
@@ -39,12 +40,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (current is! ProfileLoaded) return;
 
     try {
-      await _prescriptionRepository.updatePrescription(prescription);
+      final stamped = prescription.copyWith(updatedAt: DateTime.now());
+      await _prescriptionRepository.updatePrescription(stamped);
       emit(
-        ProfileLoaded(
-          profile: current.profile,
-          latestPrescription: prescription,
-        ),
+        ProfileLoaded(profile: current.profile, latestPrescription: stamped),
       );
     } catch (e) {
       emit(current.copyWith(saveError: e.toString()));

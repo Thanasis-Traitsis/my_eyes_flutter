@@ -24,7 +24,6 @@ class AddPrescriptionFormController {
   late final TextEditingController cylinderLeft;
   late final TextEditingController axisLeft;
   DateTime issueDate = DateTime.now();
-  int? reminderMonths;
 
   final Map<TextEditingController, bool> _validityMap = {};
 
@@ -74,7 +73,6 @@ class AddPrescriptionFormController {
       updatedAt: now,
       doctor: doctor.text.trim().isEmpty ? null : doctor.text.trim(),
       notes: notes.text.trim().isEmpty ? null : notes.text.trim(),
-      reminderMonths: reminderMonths,
     );
   }
 

@@ -20,16 +20,19 @@ class LabeledSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isRequired = validator?.isRequired ?? false;
 
-    return Column(
-      crossAxisAlignment: .start,
-      spacing: AppSpacing.spacingS,
-      children: [
-        CustomText(
-          text: isRequired ? "${title.toUpperCase()} *" : title.toUpperCase(),
-          textType: CustomTextType.regularBody,
-        ),
-        child,
-      ],
+    return Container(
+      margin: .only(top: AppSpacing.spacingM),
+      child: Column(
+        crossAxisAlignment: .start,
+        spacing: AppSpacing.spacingM,
+        children: [
+          CustomText(
+            text: isRequired ? "${title.toUpperCase()} *" : title.toUpperCase(),
+            textType: CustomTextType.regularBody,
+          ),
+          child,
+        ],
+      ),
     );
   }
 }

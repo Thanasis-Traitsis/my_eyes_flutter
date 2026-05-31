@@ -8,6 +8,7 @@ enum CustomTextType {
   regularHeading,
   smallHeading,
   extraSmallHeading,
+  bigBody,
   regularBody,
   smallBody,
   xSmallBody,
@@ -20,7 +21,8 @@ extension CustomFontSize on CustomTextType {
     CustomTextType.bigHeading => AppTextSizes.textSizeXL,
     CustomTextType.regularHeading ||
     CustomTextType.bigButtonText => AppTextSizes.textSizeL,
-    CustomTextType.smallHeading => AppTextSizes.textSizeM,
+    CustomTextType.smallHeading ||
+    CustomTextType.bigBody => AppTextSizes.textSizeM,
     CustomTextType.regularBody ||
     CustomTextType.extraSmallHeading ||
     CustomTextType.regularButtonText => AppTextSizes.textSizeS,
@@ -39,7 +41,13 @@ extension CustomFontWeight on CustomTextType {
 }
 
 extension CustomFontFamily on CustomTextType {
-  String get fontFamily => AppTheme.appFont;
+  String get fontFamily => switch (this) {
+    CustomTextType.bigHeading ||
+    CustomTextType.regularHeading ||
+    CustomTextType.smallHeading ||
+    CustomTextType.extraSmallHeading => AppTheme.appFontHighlight,
+    _ => AppTheme.appFontBody,
+  };
 }
 
 extension CustomTextStyle on CustomTextType {

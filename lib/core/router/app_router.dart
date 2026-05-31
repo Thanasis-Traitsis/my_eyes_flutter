@@ -2,9 +2,12 @@ import 'package:go_router/go_router.dart';
 import 'package:my_eyes/core/constants/app_keys.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/app_routes.dart';
+import 'package:my_eyes/domain/entities/calendar_event.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
+import 'package:my_eyes/presentation/calendar/screens/add_calendar_event_screen.dart';
+import 'package:my_eyes/presentation/calendar/screens/calendar_history_screen.dart';
 import 'package:my_eyes/presentation/eyewear/screens/add_eyewear_screen.dart';
 import 'package:my_eyes/presentation/prescription/screens/add_prescription_screen.dart';
 import 'package:my_eyes/presentation/prescription_history/screens/prescription_history_screen.dart';
@@ -125,6 +128,25 @@ class AppRouter {
         path: AppRoutes.prescriptionHistory,
         name: AppPages.prescriptionHistory.name,
         builder: (context, state) => const PrescriptionHistoryScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: AppKeys.rootNavigatorKey,
+        path: AppRoutes.calendarHistory,
+        name: AppPages.calendarHistory.name,
+        builder: (context, state) => const CalendarHistoryScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: AppKeys.rootNavigatorKey,
+        path: AppRoutes.calendarEventNew,
+        name: AppPages.calendarEventNew.name,
+        builder: (context, state) => const AddCalendarEventScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: AppKeys.rootNavigatorKey,
+        path: AppRoutes.calendarEventEdit,
+        name: AppPages.calendarEventEdit.name,
+        builder: (context, state) =>
+            AddCalendarEventScreen(event: state.extra as CalendarEvent?),
       ),
     ],
 

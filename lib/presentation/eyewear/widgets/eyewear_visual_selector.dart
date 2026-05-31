@@ -22,7 +22,7 @@ class EyewearVisualSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final options = category.eyewearOptions;
+    final paths = category.imagePaths;
 
     return Column(
       spacing: AppSpacing.spacingM,
@@ -42,8 +42,13 @@ class EyewearVisualSelector extends StatelessWidget {
               decoration: BoxDecoration(
                 color: context.colors.white,
                 borderRadius: AppBorders.largeBorderRadius,
+                border: Border.all(
+                  width: AppBorders.smallBorderWidth,
+                  color: context.colors.textPrimary.withValues(alpha: 0.6),
+                ),
               ),
-              child: Center(child: CustomText(text: options[selectedIndex])),
+              padding: const EdgeInsets.all(AppSpacing.spacingL),
+              child: Image.asset(paths[selectedIndex], fit: BoxFit.contain),
             ),
           ),
         ),
@@ -52,11 +57,14 @@ class EyewearVisualSelector extends StatelessWidget {
           child: Row(
             spacing: AppSpacing.spacingM,
             children: List.generate(
-              options.length,
+              paths.length,
               (index) => _Thumbnail(
                 isSelected: index == selectedIndex,
                 onTap: () => onSelected(index),
-                child: Center(child: CustomText(text: '${index + 1}')),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.spacingS),
+                  child: Image.asset(paths[index], fit: BoxFit.contain),
+                ),
               ),
             ),
           ),

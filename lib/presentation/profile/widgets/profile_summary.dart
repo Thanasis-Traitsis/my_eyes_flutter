@@ -9,22 +9,33 @@ import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/prescription_extensions.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
-import 'package:my_eyes/presentation/profile/widgets/prescription_single_eye_card.dart';
+import 'package:my_eyes/presentation/shared/widgets/app_button.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
+import 'package:my_eyes/presentation/shared/widgets/prescription/eye_card.dart';
 
 class ProfileSummary extends StatelessWidget {
-  const ProfileSummary({super.key, required this.username, this.prescription});
+  const ProfileSummary({
+    super.key,
+    required this.username,
+    this.prescription,
+    this.avatarUrl,
+  });
 
   final String username;
   final Prescription? prescription;
+  final String? avatarUrl;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.spacingL),
       decoration: BoxDecoration(
-        color: context.colors.divider,
+        color: context.colors.surface,
         borderRadius: AppBorders.largeBorderRadius,
+        border: Border.all(
+          color: context.colors.textPrimary.withValues(alpha: .4),
+          width: AppBorders.smallBorderWidth,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,13 +46,20 @@ class ProfileSummary extends StatelessWidget {
               spacing: AppSpacing.spacingM,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: AppSizes.profileAvatarSize,
-                  height: AppSizes.profileAvatarSize,
-                  decoration: BoxDecoration(
-                    color: context.colors.white,
-                    borderRadius: AppBorders.mediumBorderRadius,
-                  ),
+                ClipRRect(
+                  borderRadius: AppBorders.mediumBorderRadius,
+                  child: avatarUrl != null
+                      ? Image.asset(
+                          avatarUrl!,
+                          width: AppSizes.profileAvatarSize,
+                          height: AppSizes.profileAvatarSize,
+                          fit: BoxFit.fitHeight,
+                        )
+                      : Container(
+                          width: AppSizes.profileAvatarSize,
+                          height: AppSizes.profileAvatarSize,
+                          color: context.colors.white,
+                        ),
                 ),
                 Expanded(
                   child: Row(
@@ -69,15 +87,10 @@ class ProfileSummary extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.topRight,
-                        child: OutlinedButton.icon(
+                        child: AppButton.outlined(
+                          text: AppStrings.profileButtonEdit,
                           iconAlignment: IconAlignment.end,
-                          icon: const Icon(
-                            Icons.arrow_outward,
-                            size: AppSizes.iconSizeS,
-                          ),
-                          label: Text(
-                            AppStrings.profileButtonEdit.toUpperCase(),
-                          ),
+                          icon: Icons.arrow_outward,
                           onPressed: () {
                             NavigationService.push(AppPages.editProfile.path);
                           },
@@ -108,15 +121,13 @@ class ProfileSummary extends StatelessWidget {
           child: Row(
             spacing: AppSpacing.spacingS,
             children: [
-              Expanded(
-                child: PrescriptionSingleEyeCard.isLeft(
-                  prescription: p.formattedLeft,
-                ),
+              EyeCard(
+                label: AppStrings.prescriptionOsLeft,
+                value: p.formattedLeft,
               ),
-              Expanded(
-                child: PrescriptionSingleEyeCard.isRight(
-                  prescription: p.formattedRight,
-                ),
+              EyeCard(
+                label: AppStrings.prescriptionOdRight,
+                value: p.formattedRight,
               ),
             ],
           ),

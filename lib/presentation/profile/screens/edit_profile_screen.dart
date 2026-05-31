@@ -114,13 +114,17 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                     crossAxisAlignment: .start,
                     spacing: AppSpacing.spacingL,
                     children: [
-                      const AvatarSection(),
+                      AvatarSection(avatarUrl: widget.state.profile.avatarUrl),
                       LabeledSection(
                         title: AppStrings.profileLabelNickname,
-                        validator: const UsernameValidator(),
+                        validator: const UsernameValidator(
+                          fieldName: AppStrings.profileLabelNickname,
+                        ),
                         child: ValidatedTextField(
                           controller: _form.username,
-                          validator: const UsernameValidator(),
+                          validator: const UsernameValidator(
+                            fieldName: AppStrings.profileLabelNickname,
+                          ),
                           hintText: AppStrings.profileLabelNickname,
                           onValidationChanged: (isValid) {
                             setState(
