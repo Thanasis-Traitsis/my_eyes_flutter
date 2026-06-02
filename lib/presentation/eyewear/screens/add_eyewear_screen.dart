@@ -4,11 +4,14 @@ import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/core/router/app_pages.dart';
 import 'package:my_eyes/core/router/navigation_service.dart';
+import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/core/validators/username_validator.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/presentation/eyewear/controller/add_eyewear_form_controller.dart';
 import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
+import 'package:my_eyes/presentation/eyewear/widgets/active_lens_actions.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_category_dropdown.dart';
+import 'package:my_eyes/presentation/eyewear/widgets/contact_lens_section.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_color_picker.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_prescription_section.dart';
 import 'package:my_eyes/presentation/eyewear/widgets/eyewear_visual_selector.dart';
@@ -183,6 +186,39 @@ class _AddEyewearScreenState extends State<AddEyewearScreen> {
                     }),
                   ),
                 ),
+                if (_form.selectedCategory == EyewearCategory.contactLenses)
+                  CustomContainer(
+                    containerTitle: AppStrings.eyewearAddSectionLensSupply,
+                    containerChild: ContactLensSection(
+                      formController: _form,
+                      onChanged: () => setState(() {}),
+                    ),
+                  ),
+                if (_isEditing &&
+                    _form.selectedCategory == EyewearCategory.contactLenses)
+                  BlocSelector<EyewearCubit, EyewearState, EyewearItem?>(
+                    selector: (state) {
+                      if (state is! EyewearLoaded) return null;
+                      final matches = state.items.where(
+                        (i) => i.id == widget.eyewearItem!.id,
+                      );
+                      return matches.isEmpty ? null : matches.first;
+                    },
+                    builder: (context, liveItem) {
+                      if (liveItem?.contactLensSupply?.isActive != true) {
+                        return const SizedBox.shrink();
+                      }
+                      return CustomContainer(
+                        backgroundColor: context.colors.textPrimary,
+                        contentColor: context.colors.white,
+                        containerTitle: AppStrings.eyewearEditActiveLens,
+                        containerChild: ActiveLensActions(
+                          item: liveItem!,
+                          isEditing: true,
+                        ),
+                      );
+                    },
+                  ),
                 CustomContainer(
                   containerTitle: AppStrings.eyewearAddSectionPrescription,
                   containerChild: EyewearPrescriptionSection(

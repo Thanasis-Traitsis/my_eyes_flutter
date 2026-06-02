@@ -25,13 +25,14 @@ class EyewearItemModelAdapter extends TypeAdapter<EyewearItemModel> {
       colorValue: fields[7] == null ? 0xFF9E9EAF : (fields[7] as num).toInt(),
       prescription: fields[4] as PrescriptionModel?,
       pendingSync: fields[5] == null ? true : fields[5] as bool,
+      contactLensSupply: fields[8] as ContactLensSupplyModel?,
     );
   }
 
   @override
   void write(BinaryWriter writer, EyewearItemModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class EyewearItemModelAdapter extends TypeAdapter<EyewearItemModel> {
       ..writeByte(6)
       ..write(obj.selectedOptionIndex)
       ..writeByte(7)
-      ..write(obj.colorValue);
+      ..write(obj.colorValue)
+      ..writeByte(8)
+      ..write(obj.contactLensSupply);
   }
 
   @override

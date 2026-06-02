@@ -1,5 +1,6 @@
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:my_eyes/data/models/calendar_event_model.dart';
+import 'package:my_eyes/data/models/contact_lens_supply_model.dart';
 import 'package:my_eyes/data/models/eye_measurement_model.dart';
 import 'package:my_eyes/data/models/eyewear_item_model.dart';
 import 'package:my_eyes/data/models/eyewear_test_model.dart';
@@ -18,4 +19,5 @@ void _registerAdapters() {
   Hive.registerAdapter(EyewearItemModelAdapter());
   Hive.registerAdapter(EyewearTestModelAdapter());
   Hive.registerAdapter(CalendarEventModelAdapter());
+  Hive.registerAdapter(ContactLensSupplyModelAdapter());
 }

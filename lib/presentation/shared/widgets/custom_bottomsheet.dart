@@ -38,48 +38,72 @@ class CustomBottomsheet extends StatelessWidget {
         top: Radius.circular(AppBorders.largeBorderRadius.topLeft.x),
       ),
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.spacingL),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.9,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: AppSpacing.spacingL,
             children: [
-              Row(
-                spacing: AppSpacing.spacingM,
-                mainAxisAlignment: .spaceBetween,
-                crossAxisAlignment: .end,
-                children: [
-                  CustomText(
-                    text: bottomsheetTitle,
-                    textType: CustomTextType.bigHeading,
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(null),
-                    icon: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-              content,
-              if (withButtons)
-                Row(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.spacingL,
+                  AppSpacing.spacingL,
+                  AppSpacing.spacingL,
+                  0,
+                ),
+                child: Row(
                   spacing: AppSpacing.spacingM,
+                  mainAxisAlignment: .spaceBetween,
+                  crossAxisAlignment: .end,
                   children: [
-                    Expanded(
-                      child: AppButton.outlined(
-                        text: secondaryButtonText!,
-                        onPressed:
-                            secondaryOnPressed ??
-                            () => Navigator.of(context).pop(null),
-                      ),
+                    CustomText(
+                      text: bottomsheetTitle,
+                      textType: CustomTextType.bigHeading,
                     ),
-                    Expanded(
-                      child: AppButton.filled(
-                        text: primaryButtonText!,
-                        onPressed: isPrimaryActive! ? primaryOnPressed! : null,
-                      ),
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(null),
+                      icon: const Icon(Icons.close),
                     ),
                   ],
+                ),
+              ),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(AppSpacing.spacingL),
+                  child: content,
+                ),
+              ),
+              if (withButtons)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.spacingL,
+                    0,
+                    AppSpacing.spacingL,
+                    AppSpacing.spacingL,
+                  ),
+                  child: Row(
+                    spacing: AppSpacing.spacingM,
+                    children: [
+                      Expanded(
+                        child: AppButton.outlined(
+                          text: secondaryButtonText!,
+                          onPressed:
+                              secondaryOnPressed ??
+                              () => Navigator.of(context).pop(null),
+                        ),
+                      ),
+                      Expanded(
+                        child: AppButton.filled(
+                          text: primaryButtonText!,
+                          onPressed: isPrimaryActive!
+                              ? primaryOnPressed!
+                              : null,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
             ],
           ),

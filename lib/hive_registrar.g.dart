@@ -4,6 +4,7 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:my_eyes/data/models/calendar_event_model.dart';
+import 'package:my_eyes/data/models/contact_lens_supply_model.dart';
 import 'package:my_eyes/data/models/eye_measurement_model.dart';
 import 'package:my_eyes/data/models/eyewear_item_model.dart';
 import 'package:my_eyes/data/models/eyewear_test_model.dart';
@@ -13,6 +14,7 @@ import 'package:my_eyes/data/models/user_profile_model.dart';
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(CalendarEventModelAdapter());
+    registerAdapter(ContactLensSupplyModelAdapter());
     registerAdapter(EyeMeasurementModelAdapter());
     registerAdapter(EyewearItemModelAdapter());
     registerAdapter(EyewearTestModelAdapter());
@@ -24,6 +26,7 @@ extension HiveRegistrar on HiveInterface {
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(CalendarEventModelAdapter());
+    registerAdapter(ContactLensSupplyModelAdapter());
     registerAdapter(EyeMeasurementModelAdapter());
     registerAdapter(EyewearItemModelAdapter());
     registerAdapter(EyewearTestModelAdapter());

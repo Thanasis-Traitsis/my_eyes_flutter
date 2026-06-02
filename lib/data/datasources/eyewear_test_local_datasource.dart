@@ -14,6 +14,7 @@ abstract class EyewearTestLocalDataSource {
     required int limit,
   });
 
+  int count();
   Future<void> save(EyewearTestModel model);
   Future<void> clearAll();
 }
@@ -53,6 +54,9 @@ class HiveEyewearTestLocalDataSource implements EyewearTestLocalDataSource {
     final all = await getTests(filters: filters);
     return all.skip(offset).take(limit).toList();
   }
+
+  @override
+  int count() => _box.length;
 
   @override
   Future<void> save(EyewearTestModel model) => _box.put(model.id, model);

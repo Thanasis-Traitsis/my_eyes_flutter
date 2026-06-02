@@ -24,26 +24,38 @@ class ProfileScreen extends StatelessWidget {
           ProfileInitial() ||
           ProfileLoading() => const Center(child: CircularProgressIndicator()),
           ProfileError(:final message) => Center(child: Text(message)),
-          ProfileLoaded(:final profile, :final latestPrescription) => Column(
-            spacing: AppSpacing.spacingM,
-            children: [
-              ProfileSummary(
-                username: profile.username,
-                prescription: latestPrescription,
-                avatarUrl: profile.avatarUrl,
-              ),
-              const ProfileInsight(),
-              const ProfileCalendarShortcut(),
-              ShortcutCard(
-                cardTitle: AppStrings.shortcutPrescriptionHistory,
-                icon: Icons.history_outlined,
-                onTap: () =>
-                    NavigationService.push(AppPages.prescriptionHistory.path),
-                iconColor: context.colors.primary,
-                iconBackgroundColor: context.colors.tintBlue,
-              ),
-            ],
-          ),
+          ProfileLoaded(
+            :final profile,
+            :final latestPrescription,
+            :final testCount,
+          ) =>
+            Column(
+              spacing: AppSpacing.spacingM,
+              children: [
+                ProfileSummary(
+                  username: profile.username,
+                  prescription: latestPrescription,
+                  avatarUrl: profile.avatarUrl,
+                ),
+                ProfileInsight(testCount: testCount),
+                const ProfileCalendarShortcut(),
+                ShortcutCard(
+                  cardTitle: AppStrings.shortcutPrescriptionHistory,
+                  icon: Icons.history_outlined,
+                  onTap: () =>
+                      NavigationService.push(AppPages.prescriptionHistory.path),
+                  iconColor: context.colors.primary,
+                  iconBackgroundColor: context.colors.tintBlue,
+                ),
+                ShortcutCard(
+                  cardTitle: AppStrings.profileShortcutSettings,
+                  icon: Icons.settings,
+                  onTap: () => NavigationService.push(AppPages.settings.path),
+                  iconColor: context.colors.primary,
+                  iconBackgroundColor: context.colors.tintBlue,
+                ),
+              ],
+            ),
         },
       ),
     );

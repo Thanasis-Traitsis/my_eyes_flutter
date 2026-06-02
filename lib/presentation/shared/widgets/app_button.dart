@@ -4,6 +4,7 @@ import 'package:my_eyes/core/constants/app_sizes.dart';
 import 'package:my_eyes/core/constants/app_spacing.dart';
 import 'package:my_eyes/core/constants/app_text_sizes.dart';
 import 'package:my_eyes/core/theme/app_theme.dart';
+import 'package:my_eyes/core/utils/theme_extensions.dart';
 
 enum AppButtonSize { small, regular, large }
 
@@ -17,6 +18,7 @@ class AppButton extends StatelessWidget {
     this.size = AppButtonSize.regular,
     this.icon,
     this.iconAlignment = IconAlignment.end,
+    this.isError = false,
   }) : _variant = _Variant.filled;
 
   const AppButton.outlined({
@@ -26,6 +28,7 @@ class AppButton extends StatelessWidget {
     this.size = AppButtonSize.regular,
     this.icon,
     this.iconAlignment = IconAlignment.end,
+    this.isError = false,
   }) : _variant = _Variant.outlined;
 
   const AppButton.textButton({
@@ -35,6 +38,7 @@ class AppButton extends StatelessWidget {
     this.size = AppButtonSize.regular,
     this.icon,
     this.iconAlignment = IconAlignment.end,
+    this.isError = false,
   }) : _variant = _Variant.textButton;
 
   final String text;
@@ -42,11 +46,12 @@ class AppButton extends StatelessWidget {
   final AppButtonSize size;
   final IconData? icon;
   final IconAlignment iconAlignment;
+  final bool isError;
   final _Variant _variant;
 
   @override
   Widget build(BuildContext context) {
-    final style = _style();
+    final style = _style(context);
     final label = Text(text.toUpperCase(), overflow: TextOverflow.ellipsis);
 
     if (icon case final iconData?) {
@@ -95,27 +100,52 @@ class AppButton extends StatelessWidget {
     };
   }
 
-  ButtonStyle _style() => ButtonStyle(
-    padding: WidgetStatePropertyAll(_padding),
-    textStyle: WidgetStatePropertyAll(
-      TextStyle(
-        fontFamily: AppTheme.appFontBody,
-        fontSize: _fontSize,
-        fontWeight: FontWeight.bold,
+  ButtonStyle _style(BuildContext context) {
+    final errorColor = Theme.of(context).colorScheme.error;
+
+    return ButtonStyle(
+      padding: WidgetStatePropertyAll(_padding),
+      textStyle: WidgetStatePropertyAll(
+        TextStyle(
+          fontFamily: AppTheme.appFontBody,
+          fontSize: _fontSize,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-    ),
-    shape: WidgetStatePropertyAll(
-      RoundedRectangleBorder(
-        borderRadius: size == AppButtonSize.large
-            ? AppBorders.smallBorderRadius
-            : AppBorders.largeBorderRadius,
+      overlayColor: isError
+          ? WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return errorColor.withValues(alpha: 0.12);
+              }
+              if (states.contains(WidgetState.hovered) ||
+                  states.contains(WidgetState.focused)) {
+                return errorColor.withValues(alpha: 0.08);
+              }
+              return null;
+            })
+          : null,
+      backgroundColor: isError
+          ? WidgetStatePropertyAll(context.colors.errorLight)
+          : null,
+      foregroundColor: isError ? WidgetStatePropertyAll(errorColor) : null,
+      side: isError && _variant == _Variant.textButton
+          ? WidgetStatePropertyAll(BorderSide(color: errorColor))
+          : null,
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: size == AppButtonSize.large
+              ? AppBorders.smallBorderRadius
+              : AppBorders.largeBorderRadius,
+        ),
       ),
-    ),
-    minimumSize: WidgetStatePropertyAll(
-      size == AppButtonSize.large ? const Size(double.infinity, 0) : Size.zero,
-    ),
-    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-  );
+      minimumSize: WidgetStatePropertyAll(
+        size == AppButtonSize.large
+            ? const Size(double.infinity, 0)
+            : Size.zero,
+      ),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    );
+  }
 
   EdgeInsets get _padding => switch (size) {
     AppButtonSize.small => const EdgeInsets.symmetric(

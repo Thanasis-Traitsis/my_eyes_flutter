@@ -1,4 +1,5 @@
 import 'package:hive_ce/hive.dart';
+import 'package:my_eyes/data/models/contact_lens_supply_model.dart';
 import 'package:my_eyes/data/models/prescription_model.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
@@ -16,6 +17,7 @@ class EyewearItemModel extends HiveObject {
     this.colorValue = 0xFF9E9EAF,
     this.prescription,
     this.pendingSync = true,
+    this.contactLensSupply,
   });
 
   @HiveField(0)
@@ -42,6 +44,9 @@ class EyewearItemModel extends HiveObject {
   @HiveField(7)
   int colorValue;
 
+  @HiveField(8)
+  ContactLensSupplyModel? contactLensSupply;
+
   EyewearItem toEntity() => EyewearItem(
     id: id,
     name: name,
@@ -50,6 +55,7 @@ class EyewearItemModel extends HiveObject {
     selectedOptionIndex: selectedOptionIndex,
     colorValue: colorValue,
     prescription: prescription?.toEntity(),
+    contactLensSupply: contactLensSupply?.toEntity(),
   );
 
   factory EyewearItemModel.fromEntity(EyewearItem item) => EyewearItemModel(
@@ -63,5 +69,8 @@ class EyewearItemModel extends HiveObject {
         ? PrescriptionModel.fromEntity(item.prescription!)
         : null,
     pendingSync: true,
+    contactLensSupply: item.contactLensSupply != null
+        ? ContactLensSupplyModel.fromEntity(item.contactLensSupply!)
+        : null,
   );
 }

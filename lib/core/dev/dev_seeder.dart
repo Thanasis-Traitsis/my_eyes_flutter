@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:my_eyes/core/constants/app_avatars.dart';
 import 'package:my_eyes/domain/entities/calendar_event.dart';
+import 'package:my_eyes/domain/entities/contact_lens_supply.dart';
 import 'package:my_eyes/domain/entities/eye_measurement.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/entities/eyewear_test.dart';
@@ -10,6 +11,7 @@ import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
 import 'package:my_eyes/domain/enums/calendar_event_type.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
+import 'package:my_eyes/domain/enums/lens_type.dart';
 import 'package:my_eyes/domain/repositories/calendar_event_repository.dart';
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
@@ -19,6 +21,7 @@ import 'package:my_eyes/domain/repositories/profile_repository.dart';
 class DevSeeder {
   static const _eyewear1Id = 'dev-eyewear-1';
   static const _eyewear2Id = 'dev-eyewear-2';
+  static const _eyewear3Id = 'dev-eyewear-3';
   static const _devPrescriptionId = 'dev-prescription-1';
 
   static Future<void> seed({
@@ -91,6 +94,20 @@ class DevSeeder {
         category: EyewearCategory.sunglasses,
         updatedAt: now,
         colorValue: 0xffBA5A31,
+      ),
+    );
+    await eyewearRepo.save(
+      EyewearItem(
+        id: _eyewear3Id,
+        name: 'Sport Lenses',
+        category: EyewearCategory.contactLenses,
+        contactLensSupply: ContactLensSupply(
+          lensType: LensType.monthly,
+          quantity: 6,
+          expirationDate: DateTime(2027, 1, 26),
+        ),
+        updatedAt: now,
+        colorValue: 0xffBA5A99,
       ),
     );
 

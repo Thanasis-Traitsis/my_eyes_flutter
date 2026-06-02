@@ -155,6 +155,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i281.ProfileCubit(
         gh<_i622.ProfileRepository>(),
         gh<_i852.PrescriptionRepository>(),
+        gh<_i692.EyewearTestRepository>(),
       ),
     );
     return this;

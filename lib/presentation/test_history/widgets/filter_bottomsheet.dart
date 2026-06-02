@@ -19,7 +19,7 @@ Future<Map<TestFilterKey, Set<String>>?> showFilterBottomSheet({
 
   return showModalBottomSheet<Map<TestFilterKey, Set<String>>>(
     context: context,
-    isScrollControlled: false,
+    isScrollControlled: true,
     builder: (_) => StatefulBuilder(
       builder: (sheetContext, setSheetState) => CustomBottomsheet(
         bottomsheetTitle: AppStrings.testHistoryFilterSheetTitle,

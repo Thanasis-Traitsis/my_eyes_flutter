@@ -20,6 +20,12 @@ final class EyewearLoaded extends EyewearState {
 
   final List<EyewearItem> items;
 
+  List<EyewearItem> get contactLenses =>
+      items.where((i) => i.category == EyewearCategory.contactLenses).toList();
+
+  int get glassesCount =>
+      items.where((i) => i.category != EyewearCategory.contactLenses).length;
+
   EyewearLoaded copyWith({List<EyewearItem>? items}) {
     return EyewearLoaded(items: items ?? this.items);
   }

@@ -1,86 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:my_eyes/core/constants/app_borders.dart';
-import 'package:my_eyes/core/constants/app_spacing.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
-import 'package:my_eyes/core/theme/custom_text_type.dart';
 import 'package:my_eyes/core/utils/theme_extensions.dart';
+import 'package:my_eyes/presentation/eyewear/cubit/eyewear_cubit.dart';
 import 'package:my_eyes/presentation/profile/widgets/insight_cards_container.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_container.dart';
-import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class ProfileInsight extends StatelessWidget {
-  const ProfileInsight({super.key, this.withLenses = true});
+  const ProfileInsight({super.key, required this.testCount});
 
-  final bool withLenses;
+  final int testCount;
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
-      icon: Icons.data_saver_off_rounded,
-      containerTitle: AppStrings.profileSectionInsight,
-      containerChild: withLenses
-          ? _buildWithLenses(context)
-          : InsightCardsContainer(withLenses: false),
-      iconColor: context.colors.primary,
-      iconBackgroundColor: context.colors.tintBlue,
-    );
-  }
+    return BlocBuilder<EyewearCubit, EyewearState>(
+      builder: (context, state) {
+        final eyewearLoaded = state is EyewearLoaded ? state : null;
+        final lenses = eyewearLoaded?.contactLenses.length ?? 0;
+        final glassesCount = eyewearLoaded?.glassesCount ?? 0;
 
-  Widget _buildWithLenses(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        spacing: AppSpacing.spacingM,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: .start,
-              spacing: AppSpacing.spacingS,
-              children: [
-                CustomText(text: "${AppStrings.profileLabelLensType}: Monthly"),
-                CustomText(
-                  text: "${AppStrings.profileLabelLensesRemaining}: 3",
-                ),
-                Expanded(
-                  child: Column(
-                    spacing: AppSpacing.spacingS,
-                    crossAxisAlignment: .start,
-                    mainAxisAlignment: .end,
-                    children: [
-                      CustomText(text: AppStrings.profileLabelCurrentLens),
-                      Container(
-                        width: double.infinity,
-                        padding: .all(AppSpacing.spacingM),
-                        decoration: BoxDecoration(
-                          color: context.colors.tintBlue,
-                          borderRadius: AppBorders.mediumBorderRadius,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: .start,
-                          mainAxisAlignment: .end,
-                          children: [
-                            CustomText(
-                              text: "14",
-                              textType: CustomTextType.bigHeading,
-                              color: context.colors.primary,
-                            ),
-                            CustomText(
-                              text: AppStrings.profileStatDaysLeft
-                                  .toUpperCase(),
-                              textType: CustomTextType.smallHeading,
-                              color: context.colors.primary,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+        return CustomContainer(
+          icon: Icons.data_saver_off_rounded,
+          containerTitle: AppStrings.profileSectionInsight,
+          containerChild: InsightCardsContainer(
+            testsCount: testCount,
+            glassesCount: glassesCount,
+            lensesCount: lenses,
           ),
-          IntrinsicWidth(child: InsightCardsContainer(withLenses: true)),
-        ],
-      ),
+          iconColor: context.colors.primary,
+          iconBackgroundColor: context.colors.tintBlue,
+        );
+      },
     );
   }
 }

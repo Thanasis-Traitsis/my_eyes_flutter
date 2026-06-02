@@ -12,6 +12,7 @@ abstract class EyewearTestRepository {
     required int limit,
   });
 
+  Future<int> getCount();
   Future<void> saveTest(EyewearTest test);
   Future<void> clearAllTests();
 }

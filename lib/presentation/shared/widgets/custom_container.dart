@@ -24,6 +24,7 @@ class CustomContainer extends StatelessWidget {
     this.iconColor,
     this.iconBackgroundColor,
     this.borderColor,
+    this.contentColor,
   });
 
   final String containerTitle;
@@ -40,6 +41,7 @@ class CustomContainer extends StatelessWidget {
   final Color? iconColor;
   final Color? iconBackgroundColor;
   final Color? borderColor;
+  final Color? contentColor;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class CustomContainer extends StatelessWidget {
                       child: CustomText(
                         text: containerTitle.toUpperCase(),
                         textType: CustomTextType.smallHeading,
+                        color: contentColor ?? context.colors.textPrimary,
                       ),
                     ),
                     if (buttonWidget != null) ...[

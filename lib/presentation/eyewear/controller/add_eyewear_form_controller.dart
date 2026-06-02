@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_eyes/domain/entities/contact_lens_supply.dart';
 import 'package:my_eyes/domain/entities/eye_measurement.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
+import 'package:my_eyes/domain/enums/lens_type.dart';
 
 class AddEyewearFormController {
   AddEyewearFormController([EyewearCategory? category]) {
     name = TextEditingController();
+    lensQuantity = TextEditingController();
     sphereRight = TextEditingController();
     cylinderRight = TextEditingController();
     axisRight = TextEditingController();
@@ -16,11 +19,17 @@ class AddEyewearFormController {
     selectedCategory = category ?? EyewearCategory.nearSightedGlasses;
     selectedOptionIndex = 0;
     selectedColor = const Color(0xFF9E9EAF);
+    selectedLensType = LensType.daily;
+    lensExpirationDate = null;
   }
 
   AddEyewearFormController.fromItem(EyewearItem item) {
     final rx = item.prescription;
+    final supply = item.contactLensSupply;
     name = TextEditingController(text: item.name);
+    lensQuantity = TextEditingController(
+      text: supply != null ? supply.quantity.toString() : '',
+    );
     sphereRight = TextEditingController(
       text: rx?.rightEye.sphere.toString() ?? '',
     );
@@ -38,9 +47,12 @@ class AddEyewearFormController {
     selectedCategory = item.category;
     selectedOptionIndex = item.selectedOptionIndex;
     selectedColor = item.color;
+    selectedLensType = supply?.lensType ?? LensType.daily;
+    lensExpirationDate = supply?.expirationDate;
   }
 
   late final TextEditingController name;
+  late final TextEditingController lensQuantity;
   late final TextEditingController sphereRight;
   late final TextEditingController cylinderRight;
   late final TextEditingController axisRight;
@@ -51,11 +63,14 @@ class AddEyewearFormController {
   late EyewearCategory selectedCategory;
   late int selectedOptionIndex;
   late Color selectedColor;
+  late LensType selectedLensType;
+  DateTime? lensExpirationDate;
 
   final Map<TextEditingController, bool> _validityMap = {};
 
   List<TextEditingController> get allControllers => [
     name,
+    lensQuantity,
     sphereRight,
     cylinderRight,
     axisRight,
@@ -81,6 +96,10 @@ class AddEyewearFormController {
 
   bool get hasPrescriptionData =>
       prescriptionControllers.any((c) => c.text.trim().isNotEmpty);
+
+  bool get hasLensSupplyData =>
+      selectedCategory == EyewearCategory.contactLenses &&
+      lensQuantity.text.trim().isNotEmpty;
 
   EyewearItem buildItem({EyewearItem? existing}) {
     final now = DateTime.now();
@@ -109,6 +128,15 @@ class AddEyewearFormController {
       );
     }
 
+    ContactLensSupply? contactLensSupply;
+    if (hasLensSupplyData) {
+      contactLensSupply = ContactLensSupply(
+        lensType: selectedLensType,
+        quantity: int.tryParse(lensQuantity.text.trim()) ?? 0,
+        expirationDate: lensExpirationDate,
+      );
+    }
+
     return EyewearItem(
       id: existing?.id ?? 'eyewear-${now.millisecondsSinceEpoch}',
       name: name.text.trim(),
@@ -117,11 +145,13 @@ class AddEyewearFormController {
       selectedOptionIndex: selectedOptionIndex,
       colorValue: selectedColor.toARGB32(),
       prescription: prescription,
+      contactLensSupply: contactLensSupply,
     );
   }
 
   void dispose() {
     name.dispose();
+    lensQuantity.dispose();
     sphereRight.dispose();
     cylinderRight.dispose();
     axisRight.dispose();

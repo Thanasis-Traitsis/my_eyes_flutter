@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:my_eyes/domain/entities/eye_measurement.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
+import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 import 'package:my_eyes/presentation/profile/cubit/profile_cubit.dart';
@@ -13,6 +14,8 @@ class MockProfileRepository extends Mock implements ProfileRepository {}
 class MockPrescriptionRepository extends Mock
     implements PrescriptionRepository {}
 
+class MockEyewearTestRepository extends Mock implements EyewearTestRepository {}
+
 class FakeUserProfile extends Fake implements UserProfile {}
 
 class FakePrescription extends Fake implements Prescription {}
@@ -20,6 +23,7 @@ class FakePrescription extends Fake implements Prescription {}
 void main() {
   late MockProfileRepository profileRepo;
   late MockPrescriptionRepository prescriptionRepo;
+  late MockEyewearTestRepository testRepo;
 
   setUpAll(() {
     registerFallbackValue(FakeUserProfile());
@@ -59,40 +63,54 @@ void main() {
   setUp(() {
     profileRepo = MockProfileRepository();
     prescriptionRepo = MockPrescriptionRepository();
+    testRepo = MockEyewearTestRepository();
   });
 
-  ProfileCubit buildCubit() => ProfileCubit(profileRepo, prescriptionRepo);
+  ProfileCubit buildCubit() =>
+      ProfileCubit(profileRepo, prescriptionRepo, testRepo);
 
   group('loadProfile', () {
     blocTest<ProfileCubit, ProfileState>(
-      'emits loading then loaded with profile and prescription',
+      'emits loading then loaded with profile, prescription and test count',
       build: () {
         when(() => profileRepo.getProfile()).thenAnswer((_) async => tProfile);
         when(
           () => prescriptionRepo.getPrescriptions(),
         ).thenAnswer((_) async => [tPrescription]);
+        when(() => testRepo.getCount()).thenAnswer((_) async => 7);
         return buildCubit();
       },
       act: (cubit) => cubit.loadProfile(),
       expect: () => [
         const ProfileLoading(),
-        ProfileLoaded(profile: tProfile, latestPrescription: tPrescription),
+        isA<ProfileLoaded>()
+            .having((s) => s.profile.id, 'profile.id', 'u1')
+            .having(
+              (s) => s.latestPrescription?.id,
+              'latestPrescription.id',
+              'p1',
+            )
+            .having((s) => s.testCount, 'testCount', 7),
       ],
+      verify: (_) => verify(() => testRepo.getCount()).called(1),
     );
 
     blocTest<ProfileCubit, ProfileState>(
-      'emits loaded with null prescription when none exist',
+      'emits loaded with null prescription and zero count when none exist',
       build: () {
         when(() => profileRepo.getProfile()).thenAnswer((_) async => tProfile);
         when(
           () => prescriptionRepo.getPrescriptions(),
         ).thenAnswer((_) async => []);
+        when(() => testRepo.getCount()).thenAnswer((_) async => 0);
         return buildCubit();
       },
       act: (cubit) => cubit.loadProfile(),
       expect: () => [
         const ProfileLoading(),
-        ProfileLoaded(profile: tProfile, latestPrescription: null),
+        isA<ProfileLoaded>()
+            .having((s) => s.latestPrescription, 'latestPrescription', isNull)
+            .having((s) => s.testCount, 'testCount', 0),
       ],
     );
 

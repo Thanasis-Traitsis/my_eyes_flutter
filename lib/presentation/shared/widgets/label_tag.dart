@@ -6,10 +6,16 @@ import 'package:my_eyes/core/utils/theme_extensions.dart';
 import 'package:my_eyes/presentation/shared/widgets/custom_text.dart';
 
 class LabelTag extends StatelessWidget {
-  const LabelTag({super.key, required this.label, this.greenTag = false});
+  const LabelTag({
+    super.key,
+    required this.label,
+    this.greenTag = false,
+    this.infoTag = false,
+  });
 
   final String label;
   final bool greenTag;
+  final bool infoTag;
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +25,29 @@ class LabelTag extends StatelessWidget {
         horizontal: AppSpacing.spacingM,
       ),
       decoration: BoxDecoration(
-        color: greenTag ? context.colors.tintMintDark : context.colors.tintBlue,
+        color: greenTag
+            ? context.colors.tintMintDark
+            : infoTag
+            ? context.colors.tintPeach
+            : context.colors.tintBlue,
         borderRadius: AppBorders.smallBorderRadius,
         border: Border.all(
-          color: greenTag ? context.colors.tintMint : context.colors.primary,
+          color: greenTag
+              ? context.colors.tintMint
+              : infoTag
+              ? context.colors.tintPeachDark
+              : context.colors.primary,
           width: AppBorders.smallBorderWidth,
         ),
       ),
       child: CustomText(
         text: label.toUpperCase(),
         textType: CustomTextType.extraSmallHeading,
-        color: greenTag ? context.colors.white : context.colors.primary,
+        color: greenTag
+            ? context.colors.white
+            : infoTag
+            ? context.colors.tintPeachDark
+            : context.colors.primary,
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:my_eyes/core/constants/app_strings.dart';
 import 'package:my_eyes/domain/entities/prescription.dart';
 import 'package:my_eyes/domain/entities/user_profile.dart';
+import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
 import 'package:my_eyes/domain/repositories/profile_repository.dart';
 
@@ -11,11 +12,15 @@ part 'profile_state.dart';
 
 @singleton
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this._profileRepository, this._prescriptionRepository)
-    : super(const ProfileInitial());
+  ProfileCubit(
+    this._profileRepository,
+    this._prescriptionRepository,
+    this._testRepository,
+  ) : super(const ProfileInitial());
 
   final ProfileRepository _profileRepository;
   final PrescriptionRepository _prescriptionRepository;
+  final EyewearTestRepository _testRepository;
 
   Future<void> loadProfile() async {
     emit(const ProfileLoading());
@@ -28,8 +33,15 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       final prescriptions = await _prescriptionRepository.getPrescriptions();
       final latest = prescriptions.isNotEmpty ? prescriptions.first : null;
+      final testCount = await _testRepository.getCount();
 
-      emit(ProfileLoaded(profile: profile, latestPrescription: latest));
+      emit(
+        ProfileLoaded(
+          profile: profile,
+          latestPrescription: latest,
+          testCount: testCount,
+        ),
+      );
     } catch (e) {
       emit(ProfileError(e.toString()));
     }
@@ -42,9 +54,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final stamped = prescription.copyWith(updatedAt: DateTime.now());
       await _prescriptionRepository.updatePrescription(stamped);
-      emit(
-        ProfileLoaded(profile: current.profile, latestPrescription: stamped),
-      );
+      emit(current.copyWith(latestPrescription: stamped));
     } catch (e) {
       emit(current.copyWith(saveError: e.toString()));
     }
@@ -56,12 +66,20 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     try {
       await _prescriptionRepository.savePrescription(prescription);
-      emit(
-        ProfileLoaded(
-          profile: current.profile,
-          latestPrescription: prescription,
-        ),
-      );
+      emit(current.copyWith(latestPrescription: prescription));
+    } catch (e) {
+      emit(current.copyWith(saveError: e.toString()));
+    }
+  }
+
+  Future<void> updateAvatar(String avatarUrl) async {
+    final current = state;
+    if (current is! ProfileLoaded) return;
+
+    final updatedProfile = current.profile.copyWith(avatarUrl: avatarUrl);
+    try {
+      await _profileRepository.updateProfile(updatedProfile);
+      emit(current.copyWith(profile: updatedProfile));
     } catch (e) {
       emit(current.copyWith(saveError: e.toString()));
     }
@@ -88,7 +106,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
 
       emit(
-        ProfileLoaded(
+        current.copyWith(
           profile: updatedProfile,
           latestPrescription: updatedPrescription ?? current.latestPrescription,
         ),

@@ -34,6 +34,9 @@ class EyewearTestRepositoryImpl implements EyewearTestRepository {
   }
 
   @override
+  Future<int> getCount() async => _localDataSource.count();
+
+  @override
   Future<void> saveTest(EyewearTest test) =>
       _localDataSource.save(EyewearTestModel.fromEntity(test));
 

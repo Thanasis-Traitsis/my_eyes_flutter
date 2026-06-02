@@ -81,7 +81,40 @@ class AppStrings {
   static const String testHistoryFilterClearAll = 'Clear All';
 
   static const String eyewearAddSectionDetails = 'Eyewear Details';
+  static const String eyewearAddSectionLensSupply = 'Lens Supply';
   static const String eyewearAddSectionPrescription = 'Prescription';
+  static const String eyewearEditActiveLens = 'edit active lens';
+  static const String eyewearLensSupplyFieldType = 'Lens Type';
+  static const String eyewearLensSupplyFieldQuantity = 'Quantity';
+  static const String eyewearLensSupplyFieldQuantityHint = 'e.g. 30';
+  static const String eyewearLensSupplyFieldQuantityUnit = 'lenses';
+  static const String eyewearLensSupplyFieldExpiry = 'Expiration Date';
+  static const String eyewearLensSupplyFieldExpiryHint = 'Select a date';
+  static const String eyewearLensStatusTitle = 'Lens Status';
+  static const String eyewearLensStatusActive = 'Active';
+  static const String eyewearLensStatusInactive = 'Inactive';
+  static const String eyewearLensStatusActivateButton = 'Activate Lens';
+  static const String eyewearLensStatusDaysRemaining = 'Days Remaining';
+  static const String eyewearLensActivateDialogTitle = 'Activate Lens';
+  static String eyewearLensActivateDialogDescription(String lensType) =>
+      'Start using this $lensType lens? Your remaining count will decrease by 1 and the $lensType countdown will begin.';
+  static const String eyewearLensActivateDialogWhenTitle =
+      'When did you start using them?';
+  static const String eyewearLensActivateOptionToday = 'Right now';
+  static const String eyewearLensActivateOptionYesterday = 'Yesterday';
+  static const String eyewearLensActivateOptionTwoDays = '2 days ago';
+  static const String eyewearLensActivateOptionCustom = 'Choose a date';
+  static const String eyewearLensActivateDialogConfirm = 'Activate';
+  static const String eyewearLensActivateDialogCancel = 'Cancel';
+  static const String eyewearLensUpdateDialogTitle = 'Update Start Date';
+  static String eyewearLensUpdateDialogDescription(String lensType) =>
+      'Change the start date for your $lensType lens. The countdown will recalculate from the new date.';
+  static const String eyewearLensUpdateDialogConfirm = 'Update';
+  static const String eyewearLensRemoveDialogTitle = 'Discard Active Lens';
+  static const String eyewearLensRemoveDialogBody =
+      'Mark this lens as discarded? It will be deactivated and your remaining count will stay the same.';
+  static const String eyewearLensRemoveDialogConfirm = 'Discard';
+  static const String eyewearLensRemoveDialogCancel = 'Cancel';
   static const String eyewearFieldName = 'Name';
   static const String eyewearFieldNameHint = 'e.g. Daily Frames';
   static const String eyewearFieldColor = 'Colour';
@@ -109,16 +142,23 @@ class AppStrings {
   static const String profileLabelNickname = 'Nickname';
   static const String profileLabelLensType = 'Lens Type';
   static const String profileLabelLensesRemaining = 'Lenses Remaining';
-  static const String profileLabelCurrentLens = 'Current Lens';
+  static const String profileLabelCurrentLens = 'Current Status:';
   static const String profileStatDaysLeft = 'Days Left';
   static const String profileStatTests = 'Tests';
   static const String profileStatGlasses = 'Glasses';
+  static const String profileStatLenses = 'Lenses';
   static const String profileButtonEdit = 'Edit';
   static const String profileButtonSave = 'Save';
   static const String profileLabelEmail = 'Email';
   static const String profileButtonEditImage = 'edit image';
   static const String profileNotFoundError = 'No profile found';
+  static const String profileAvatarPickerTitle = 'Choose Your Eye Buddy';
+  static const String profileAvatarPickerDescription =
+      'Pick the character that fits your style most 👀';
+  static const String profileAvatarPickerSave = 'Save';
+  static const String profileAvatarPickerCancel = 'Cancel';
   static const String profileEditSectionPersonalDetails = 'Personal Details';
+  static const String profileShortcutSettings = 'Settings';
   static const String profileEditSectionCurrentPrescription =
       'Current Prescription';
   static String profileShortcutCalendarEventsSubtitle(int events) =>
@@ -199,4 +239,9 @@ class AppStrings {
       'Are you sure you want to delete "$title"? This action cannot be undone.';
   static const String calendarEventDeleteDialogConfirm = 'Delete';
   static const String calendarEventDeleteDialogCancel = 'Cancel';
+  static String contactLensType(String type) => 'Lens Type: $type';
+  static String contactLensSupplyQuantity(int quantity) =>
+      'Quantity: $quantity lenses';
+  static const String contactLensButtonRemove = 'remove';
+  static const String contactLensButtonUpdate = 'update';
 }
