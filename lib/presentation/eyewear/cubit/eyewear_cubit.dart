@@ -1,17 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_eyes/data/services/notification_service.dart';
 import 'package:my_eyes/domain/entities/eyewear_item.dart';
+import 'package:my_eyes/domain/enums/app_notification_channel.dart';
 import 'package:my_eyes/domain/enums/eyewear_category.dart';
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart';
+import 'package:my_eyes/domain/services/lens_reminder_schedule.dart';
 
 part 'eyewear_state.dart';
 
 @singleton
 class EyewearCubit extends Cubit<EyewearState> {
-  EyewearCubit(this._repository) : super(const EyewearInitial());
+  EyewearCubit(this._repository, this._notifications, this._lensSchedule)
+    : super(const EyewearInitial());
 
   final EyewearRepository _repository;
+  final NotificationService _notifications;
+  final LensReminderSchedule _lensSchedule;
 
   Future<void> loadEyewear() async {
     emit(const EyewearLoading());
@@ -41,6 +47,29 @@ class EyewearCubit extends Cubit<EyewearState> {
     }
   }
 
+  Future<void> activateLens(
+    EyewearItem item, {
+    required DateTime activatedAt,
+  }) async {
+    final supply = item.contactLensSupply;
+    if (supply == null || supply.quantity <= 0) return;
+
+    final activated = item.copyWith(
+      contactLensSupply: supply.copyWith(
+        activatedAt: activatedAt,
+        quantity: supply.quantity - 1,
+      ),
+    );
+
+    try {
+      await _repository.update(activated);
+      await _scheduleRemindersFor(activated);
+      await loadEyewear();
+    } catch (e) {
+      emit(EyewearError(e.toString()));
+    }
+  }
+
   Future<void> deactivateLens(EyewearItem item) async {
     final supply = item.contactLensSupply;
     if (supply == null) return;
@@ -51,6 +80,7 @@ class EyewearCubit extends Cubit<EyewearState> {
 
     try {
       await _repository.update(deactivated);
+      await _cancelRemindersFor(item);
       await loadEyewear();
     } catch (e) {
       emit(EyewearError(e.toString()));
@@ -70,28 +100,8 @@ class EyewearCubit extends Cubit<EyewearState> {
 
     try {
       await _repository.update(updated);
-      await loadEyewear();
-    } catch (e) {
-      emit(EyewearError(e.toString()));
-    }
-  }
-
-  Future<void> activateLens(
-    EyewearItem item, {
-    required DateTime activatedAt,
-  }) async {
-    final supply = item.contactLensSupply;
-    if (supply == null || supply.quantity <= 0) return;
-
-    final activated = item.copyWith(
-      contactLensSupply: supply.copyWith(
-        activatedAt: activatedAt,
-        quantity: supply.quantity - 1,
-      ),
-    );
-
-    try {
-      await _repository.update(activated);
+      await _cancelRemindersFor(item);
+      await _scheduleRemindersFor(updated);
       await loadEyewear();
     } catch (e) {
       emit(EyewearError(e.toString()));
@@ -101,9 +111,37 @@ class EyewearCubit extends Cubit<EyewearState> {
   Future<void> deleteItem(EyewearItem item) async {
     try {
       await _repository.delete(item.id);
+      if (item.contactLensSupply?.isActive == true) {
+        await _cancelRemindersFor(item);
+      }
       await loadEyewear();
     } catch (e) {
       emit(EyewearError(e.toString()));
+    }
+  }
+
+  Future<void> _scheduleRemindersFor(EyewearItem item) async {
+    final specs = _lensSchedule.buildFor(item);
+    for (final spec in specs) {
+      await _notifications.scheduleReminder(
+        id: spec.id,
+        fireAt: spec.fireAt,
+        title: spec.title,
+        body: spec.body,
+        channel: AppNotificationChannel.lensReminders,
+        payload: item.id,
+      );
+    }
+  }
+
+  Future<void> _cancelRemindersFor(EyewearItem item) async {
+    final supply = item.contactLensSupply;
+    if (supply == null) return;
+
+    final baseId = item.id.hashCode.abs() % 100000;
+    final count = _lensSchedule.idsPerLens(supply.lensType);
+    for (var i = 0; i < count; i++) {
+      await _notifications.cancel(baseId + i);
     }
   }
 }

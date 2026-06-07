@@ -42,6 +42,7 @@ import 'package:my_eyes/data/repositories/prescription_repository_impl.dart'
     as _i683;
 import 'package:my_eyes/data/repositories/profile_repository_impl.dart'
     as _i183;
+import 'package:my_eyes/data/services/notification_service.dart' as _i1023;
 import 'package:my_eyes/domain/repositories/calendar_event_repository.dart'
     as _i268;
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart' as _i179;
@@ -50,6 +51,7 @@ import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart'
 import 'package:my_eyes/domain/repositories/prescription_repository.dart'
     as _i852;
 import 'package:my_eyes/domain/repositories/profile_repository.dart' as _i622;
+import 'package:my_eyes/domain/services/lens_reminder_schedule.dart' as _i57;
 import 'package:my_eyes/injection.dart' as _i122;
 import 'package:my_eyes/presentation/calendar/cubit/calendar_event_cubit.dart'
     as _i111;
@@ -65,6 +67,12 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
+    gh.singleton<_i1023.NotificationService>(
+      () => _i1023.NotificationService(),
+    );
+    gh.singleton<_i57.LensReminderSchedule>(
+      () => const _i57.LensReminderSchedule(),
+    );
     gh.singleton<_i895.Connectivity>(() => registerModule.connectivity);
     await gh.singletonAsync<_i460.SharedPreferences>(
       () => registerModule.sharedPreferences,
@@ -134,9 +142,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i738.Box<_i473.EyewearTestModel>>(),
       ),
     );
-    gh.singleton<_i760.EyewearCubit>(
-      () => _i760.EyewearCubit(gh<_i179.EyewearRepository>()),
-    );
     gh.singleton<_i111.CalendarEventCubit>(
       () => _i111.CalendarEventCubit(gh<_i268.CalendarEventRepository>()),
     );
@@ -147,6 +152,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i622.ProfileRepository>(
       () => _i183.ProfileRepositoryImpl(gh<_i776.ProfileLocalDataSource>()),
+    );
+    gh.singleton<_i760.EyewearCubit>(
+      () => _i760.EyewearCubit(
+        gh<_i179.EyewearRepository>(),
+        gh<_i1023.NotificationService>(),
+        gh<_i57.LensReminderSchedule>(),
+      ),
     );
     gh.singleton<_i645.ConnectivityCubit>(
       () => _i645.ConnectivityCubit(gh<_i586.ConnectivityService>()),

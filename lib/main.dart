@@ -8,6 +8,7 @@ import 'package:my_eyes/core/router/app_router.dart';
 import 'package:my_eyes/core/storage/hive_setup.dart';
 import 'package:my_eyes/core/theme/app_theme.dart';
 import 'package:my_eyes/core/theme/theme_cubit/theme_cubit.dart';
+import 'package:my_eyes/data/services/notification_service.dart';
 import 'package:my_eyes/domain/repositories/eyewear_repository.dart';
 import 'package:my_eyes/domain/repositories/eyewear_test_repository.dart';
 import 'package:my_eyes/domain/repositories/prescription_repository.dart';
@@ -22,6 +23,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   await configureDependencies();
+
+  await getIt<NotificationService>().init();
   await getIt<ThemeCubit>().loadTheme();
 
   if (kDebugMode) {

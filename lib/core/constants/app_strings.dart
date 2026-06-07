@@ -244,4 +244,15 @@ class AppStrings {
       'Quantity: $quantity lenses';
   static const String contactLensButtonRemove = 'remove';
   static const String contactLensButtonUpdate = 'update';
+
+  static const String notifLensDailyTitle = 'Daily Lens Reminder';
+  static String notifLensDailyBody(String name) =>
+      'Time to remove your $name lenses — they expire today.';
+  static String notifLensExpiryTitle(int days) =>
+      'Lens Expiry — $days Day${days == 1 ? '' : 's'}';
+  static String notifLensExpiryBody(String name, int days) =>
+      'Your $name lenses expire in $days day${days == 1 ? '' : 's'}.';
+  static const String notifLensExpiryTomorrowTitle = 'Lens Expiry Tomorrow';
+  static String notifLensExpiryTomorrowBody(String name) =>
+      'Your $name lenses expire tomorrow. Have a replacement ready.';
 }
